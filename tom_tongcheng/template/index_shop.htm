@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/yinru_shop_style.css?v={$cssJsVersion}" />
+<div class="index_shop">
+    <div class="clear5"></div>
+    <div class="index_shop_title">
+        <div class="index_shop_title_left"><em class="index_shop_title_icon"></em>{lang tom_tongcheng:index_shop_title}</div>
+        <div class="index_shop_title_right"><a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=index">{lang tom_tongcheng:index_shop_title_more}<i class="index_shop_title_right_arrow"></i></a></div>
+    </div>
+    <div class="clear5"></div>
+    <!--{if $tongchengConfig['index_shop_show'] == 1}-->
+    <div class="index_shop_list">
+        <div class="swiper-container swiper-container-shoplist" style="height:100%;">
+            <div class="swiper-wrapper">
+                <!--{loop $tcshopList $key $val}-->
+                <a class="swiper-slide index_shop_list_item" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=details&tcshop_id={$val['id']}">
+                    <div class="index_shop_list_item_img">
+                        <img style="border-radius: 5px;" src="{$val['picurl']}">
+                        <!--{if $val['vip_level'] == 1}-->
+                        <i class="vip"></i>
+                        <!--{/if}-->
+                        <!--{if $val['topstatus'] == 1}-->
+                        <span style="display: none;" class="index_shop_list_item_top" style="display: inline-block;width: 30px;height: 30px; position: absolute;color: #fff;right: 0;top:0;text-align: center;left: inherit;"></span>
+                        <!--{/if}-->
+                    </div>
+                    <div class="index_shop_list_item_txt">{$val['name']}</div>
+                </a>
+                <!--{/loop}-->
+                <a class="swiper-slide index_shop_list_item" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=index">
+                    <div class="index_shop_list_item_img" style="line-height: 90px; font-size: 1.2em;color: #ff5a00;">
+                        {lang tom_tongcheng:index_shop_list_more}
+                    </div>
+                    <div class="index_shop_list_item_txt"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!--{/if}-->
+    <!--{if $tongchengConfig['index_shop_show'] == 2}-->
+    <div class="shop_list" style="margin-top: 0px;">
+        <div class="list-item">
+            <!--{loop $tcshopList $key $val}-->
+            <div class="item-box clearfix" style="border-top: 1px solid #eee;">
+                <div class="item-pic">
+                    <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=details&tcshop_id={$val['id']}">
+                        <img src="{$val['picurl']}">
+                        <!--{if $val['vip_level'] == 1}--><i class="vip"></i><!--{/if}-->
+                    </a>
+                </div>
+                <div class="item-content">
+                    <div class="content">
+                        <h5>
+                            <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=details&tcshop_id={$val['id']}">
+                                <!--{if $val['topstatus'] == 1}--><span class="icon top"></span><!--{/if}-->
+                                {$val['name']}
+                                <!--{if $val['video_type'] == 1}-->
+                                <span class="icon video"></span>
+                                <!--{elseif $val['video_type'] == 2}-->
+                                <span class="icon video_720"></span>
+                                <!--{/if}-->
+                            </a>
+                        </h5>
+                        <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=details&tcshop_id={$val['id']}">
+                            <p class="xinxi" style="color: #FDA233;">{lang tom_tongcheng:index_shop_list_business_hours}{$val['business_hours']}</p>
+                            <p class="nr">{$val['address']}</p>
+                        </a>
+                    </div>
+                    <div class="details">
+                        <div class="tel"><a href="tel:{$val['tel']}"></a></div>
+                        <div class="dist">{$val['clicks']}{lang tom_tongcheng:index_shop_list_clicks1}</div>
+                    </div>
+                </div>
+            </div>
+            <!--{/loop}-->
+        </div>
+        <div class="list-msg" style="height: 30px;line-height: 30px;"><a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=index" style="color: #807f7f;">{lang tom_tongcheng:index_shop_list_more_btn}</a></div>
+    </div>
+    <!--{/if}-->
+    <div class="clear5"></div>
+</div>
+<div class="clear5"></div>
+<!--{if $tongchengConfig['index_shop_show'] == 1}-->
+<script type="text/javascript">
+$(document).ready(function(){
+    var swiper3 = new Swiper('.swiper-container-shoplist', {
+        spaceBetween: 15,
+        slidesPerView : 'auto',
+    });
+});
+</script>
+<!--{/if}-->

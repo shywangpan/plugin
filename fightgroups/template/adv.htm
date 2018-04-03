@@ -1,0 +1,123 @@
+<link rel="stylesheet" href="{HEJIN_PATH}public/bootstrap.min.css"  type="text/css"/>
+<ul class="nav-tabs">
+	<li ><a href="{eval echo createWebUrl('adv', array('act' => 'post'))}" {if $operation == 'post'}class="active" style="color:#FF0000;"{/if}>{lang fightgroups:a1}</a></li>
+	<li ><a href="{eval echo createWebUrl('adv', array('act' => 'display'))}" {if $operation == 'display'}class="active" style="color:#FF0000;"{/if}>{lang fightgroups:a2}</a></li>
+</ul>
+{if $operation == 'post'}
+<script type="text/javascript">
+var right_type=new Array(".gif",".jpg",".jpeg",".png"); 
+function checkImgType(fileURL) 
+{ 
+	var right_typeLen=right_type.length; 
+	var imgUrl=fileURL.toLowerCase(); 
+	var postfixLen=imgUrl.length; 
+	var len4=imgUrl.substring(postfixLen-4,postfixLen); 
+	var len5=imgUrl.substring(postfixLen-5,postfixLen); 
+	for (i=0;i <right_typeLen;i++) 
+		{ 
+			if((len4==right_type[i])||(len5==right_type[i])) 
+			{ 
+				return true; 
+			} 
+		} 
+}
+function changeSrc(filePicker) 
+{ 
+	if(!checkImgType(filePicker.value)) 
+	{ 
+		alert("{lang fightgroups:a3}"); 
+		return false; 
+	}
+	return true;
+}
+
+</script>
+<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="sid" value="{$adv['id']}" />
+		<div class="panel panel-default" style="margin-top:30px;">
+			<div class="panel-heading">
+				{lang fightgroups:a4}
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:a5}</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$adv['displayorder']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span>{lang fightgroups:a6}</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" id='advname' name="advname" class="form-control" value="{$adv['advname']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:a7}</label>
+					<div class="col-sm-9 col-xs-12">
+						{lang fightgroups:a8}<br>
+						{if $adv['thumb']}<img src="{$adv['thumb']}"  width="100" height="80"/>{/if}
+						<input type="file" id="pic" name="fileupload" onchange="changeSrc(this)"/>
+					</div>
+				</div>
+				 <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:a9}</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="link" class="form-control" value="{$adv['link']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:a10}</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='enabled' value='1' {if $adv['enabled']==1}checked{/if} /> {lang fightgroups:a11}
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='enabled' value='0' {if $adv['enabled']==0}checked{/if} /> {lang fightgroups:a12}
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+<div class="form-group col-sm-12">
+	<input type="submit" name="submit" value="{lang fightgroups:a13}" class="btn btn-primary col-lg-1" />
+	<input type="hidden" name="formhash" value="{FORMHASH}" />
+	</div>
+	</form>
+</div>
+
+
+{elseif $operation == 'display'}
+<div class="main panel panel-default">
+	<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:10%;">{lang fightgroups:a14}</th>
+					<th style="width:10%;">{lang fightgroups:a15}</th>					
+					<th style="width:25%;">{lang fightgroups:a16}</th>
+					<th style="width:35%;">{lang fightgroups:a17}</th>
+					<th style="width:10%;">{lang fightgroups:a18}</th>
+					<th class="text-right" style="width:10%;">{lang fightgroups:a19}</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $adv}
+				<tr>
+					<td>{$adv['id']}</td>
+					<td>{$adv['displayorder']}</td>
+					<td>{$adv['advname']}</td>
+					<td>{$adv['link']}</td>
+					<td>{if $adv['enabled'] == 0}<span class="label label-default">{lang fightgroups:a20}</span>{/if}
+						{if $adv['enabled'] == 1}<span class="label label-success">{lang fightgroups:a21}</span>{/if}</td>
+					<td class="text-right">
+						<a href="{eval echo createWebUrl('adv', array('act' => 'post', 'sid' => $adv['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top">{lang fightgroups:a22}</a>
+						<a href="{eval echo createWebUrl('adv', array('act' => 'delete', 'sid' => $adv['id']))}"class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top">{lang fightgroups:a23}</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+{/if}

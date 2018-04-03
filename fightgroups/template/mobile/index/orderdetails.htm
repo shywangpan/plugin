@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		
+		<title>{lang fightgroups:p18}</title>
+		
+		<!--{template fightgroups:index/header}-->
+		<link href="{HEJIN_PATH}public/css/style_826b4a.css" rel="stylesheet">
+		<LINK href="{HEJIN_PATH}public/css/style_366c9ef.css" rel="stylesheet">
+		<LINK href="{HEJIN_PATH}public/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	</head>
+
+	<body>
+		<div class="mod_container">
+			<div id="detailCon" class="wx_wrap" ms-visible="order.order_id != undefined">
+				<div class="state" ms-class="state_1: order.total_status == 2" ms-class-1="state_2: order.total_status == 3" ms-class-2="state_3: order.total_status == 4">
+					<div class="state_step">
+						<ul>
+							<li class="state_step_1"></li>
+							<li class="state_step_2"></li>
+							<li class="state_step_3"></li>
+						</ul>
+						<span class="state_arrow">
+
+                <i class="state_arrow_i"></i>
+
+                <i class="state_arrow_o"></i>
+
+                </span>
+					</div>
+					<div class="address">
+						<div class="address_row">
+							<div class="address_tit">{lang fightgroups:o47}</div>
+									<div class="address_cnt">
+										<b>
+								{if intval($order['status']) == 9}  
+									{lang fightgroups:o4}
+								{elseif intval($order['status']) == 3}  
+									{lang fightgroups:o8}
+								{elseif intval($order['status']) == 2}
+									{lang fightgroups:o1260}
+								{elseif intval($order['status']) == 1}
+									{lang fightgroups:o1261}
+								{elseif intval($order['status']) == 0}
+									{lang fightgroups:o1}
+								{elseif intval($order['status']) == 4}
+									{lang fightgroups:o52}
+								{elseif intval($order['status']) == -1}
+									{lang fightgroups:o53}
+								{/if}</b>
+									</div>
+						</div>
+						<div class="address_row">
+							<span class="address_tit">{lang fightgroups:o116101}</span>
+							<span class="oinfo_cnt">{$order['orderno']}</span>
+						</div>
+						<div class="address_row">
+							<span class="oinfo_tit">{lang fightgroups:o16}</span>
+							<span class="oinfo_cnt">{eval echo date('Y-m-d H:i', $order['createtime']);}</span>
+						</div>
+						<div class="address_row">
+							<div class="address_tit">{lang fightgroups:o116102}</div>
+							<div class="address_cnt">
+								<span class="address_price">{$order['price']}</span>
+								<span class="address_paytype">
+									{if $order['pay_type'] == 0}
+									({lang fightgroups:o42})
+									{/if}
+									{if $order['pay_type'] == 1}
+									({lang fightgroups:o42111})
+									{/if}
+									{if $order['pay_type'] == 2}
+									({lang fightgroups:o2})
+									{/if}
+									{if $order['pay_type'] == 3}
+									({lang fightgroups:o3})
+									{/if}
+								</span>
+							</div>
+						</div>
+						<div class="address_row">
+							<div class="address_tit">{lang fightgroups:p18}</div>
+							<div class="address_cnt">{$adds['province']} {$adds['city']} {$adds['county']} {$adds['detailed_address']}</div>
+						</div>
+						<div class="address_row">
+							<div class="address_tit">{lang fightgroups:p19}</div>
+							<div class="address_cnt">{$adds['cname']} {$adds['tel']}</div>
+						</div>
+						<div class="address_row" ms-visible="order.shipping_status>=1">
+							<div class="address_tit">{lang fightgroups:p20}</div>
+							<div class="address_cnt">
+								{if !empty($order['express'])}
+								{$order['express']}
+								{else}
+								{lang fightgroups:p21}	
+								{/if}
+							</div>
+						
+							<div class="address_tit">{lang fightgroups:p22}</div>
+							<div class="address_cnt">
+								{if !empty($order['expresssn'])}
+								{$order['expresssn']}
+								{else}
+								{lang fightgroups:p43}
+								{/if}	
+							</div>
+							{if !empty($order['expresssn'])}
+								<a  href="http://m.kuaidi100.com/index_all.html?type={$order['express']}&postid={$order['expresssn']}#input" class="btn btn-success pull-right btn-sm" >{lang fightgroups:p23}</a>
+							{/if}
+						</div>
+					</div>
+					<div class="state_btn" ms-visible="order.total_status == 0">
+						{if intval($order['status']) == 9}  
+										<a class="state_btn_3" href="" ms-click="orderBuy(order.order_id)">{lang fightgroups:p24}</a>
+										
+								{elseif intval($order['status']) == 3}  
+										<a class="state_btn_3" href="" ms-click="orderBuy(order.order_id)">{lang fightgroups:p25}</a>
+								{elseif intval($order['status']) == 2}
+										<a class="state_btn_3" href="" ms-click="orderBuy(order.order_id)">{lang fightgroups:p26}</a>
+								{elseif intval($order['status']) == 1}
+								
+								{elseif intval($order['status']) == 0}
+								<a class="state_btn_2" href="" ms-click="orderBuy(order.order_id)">{lang fightgroups:p27}</a>
+			
+								{/if}
+						
+						
+					</div>
+					<div class="state_btn" ms-visible="order.total_status == 3">
+			
+						{if intval($order['status']) == 2}  
+										<a id="confirm_receipt" class="state_btn_3" href="{eval echo createMobileUrl('confirmreceipt', array('orderno'=>$order['orderno'],'formhash' => FORMHASH));}" ms-click="orderReceive(order.order_id)">{lang fightgroups:p28}</a>
+								{else}  
+								
+								{/if}
+						
+					</div>
+					<div class="state_btn"> </div>
+				</div>
+				<div class="ptit">{lang fightgroups:p29}</div>
+				<div class="order" style=" margin-bottom: 20px;">
+					<div class="order_bd">
+						<div class="order_glist">
+							<div class="order_item" ms-repeat-item="order.order_goods">
+								<a href="{eval echo createMobileUrl('gooddetails', array('gid'=>$order['g_id']))}" class="order_goods" style="float:left;border-bottom:none;">
+									<div class="order_goods_img">
+										<img src="{eval echo ($good['gimg']);}">
+									</div>
+								</a>
+								<div class="order_goods_info">
+									<a class="order_goods" href="{eval echo createMobileUrl('gooddetails', array('gid'=>$order['g_id']))}">
+										<div class="order_goods_name">{$good['gname']} </div>
+										<div class="order_goods_attr">
+											<br>
+											<div class="order_goods_attr_item">{lang fightgroups:p30}
+												<div class="order_goods_price"><i>{lang fightgroups:p34}</i>{if intval($order['tuan_id']) == 0}  
+										{$good['oprice']}
+								{else}  
+										{$good['gprice']}
+								{/if}<i>{lang fightgroups:p31}</i>
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="order_total" style="  margin: 5px 0px 10px 0px;">
+							<span class="order_total_info">{lang fightgroups:p32}{$good['freight']}{lang fightgroups:p33}</span>
+							<span class="order_price">{lang fightgroups:p35}<b><i>{lang fightgroups:p36}</i>{$order['price']}</b></span>
+						</div>
+					</div>
+					<div style="height: 60px;">
+						{if $order['is_tuan']}
+                        <a class="mt_status_lk marg_right" href="{eval echo createMobileUrl('group', array('tuan_id'=>$order['tuan_id']));}" style="margin-right: 10px;">{lang fightgroups:p37}</a>
+                        {/if}
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div style="height: 30px;"></div>
+	
+		<FOOTER class="footer">
+			<NAV>
+				<UL>
+					<LI>
+						<A class="nav-controller" href="{eval echo createMobileUrl('index')}"><I 
+					  class="fa fa-home"></I>{lang fightgroups:p38}</A>
+					</LI>
+					<LI>
+						<A class="nav-controller" href="{eval echo createMobileUrl('mygroup',array('opt'=>0));}"><I class="fa fa-group"></I>{lang fightgroups:p39}</A>
+					</LI>
+					<LI>
+						<A  id="myorder" class="nav-controller" href="{eval echo createMobileUrl('myorder',array('opt' => '0'))}"><I class="fa fa-list"></I>{lang fightgroups:p40}</A>
+					</LI>
+					<LI>
+						<A class="nav-controller" href="{eval echo createMobileUrl('person');}">
+							<I class="fa fa-user"></I>{lang fightgroups:p41}</A>
+					</LI>
+				</UL>
+			</NAV>
+		</FOOTER>
+		<script type="text/javascript">
+			$(document).ready(function() {
+		
+		$("#confirm_receipt").click(function(){
+	  	  if(confirm("{lang fightgroups:p42}")){
+	  	  	return ture; 
+    }else{
+    	return false; 
+   }
+    return false;
+	});	
+	});
+		</script>
+	
+	</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script>
+
+
+  wx.config({
+			debug: false,
+			appId: '{$signPackage["appId"]}',
+			timestamp: {$signPackage["timestamp"]},
+			nonceStr: '{$signPackage["nonceStr"]}',
+			signature: '{$signPackage["signature"]}',
+			jsApiList: [
+			
+		  'onMenuShareTimeline'	
+			]
+		  });
+		  wx.ready(function () {
+		   wx.onMenuShareTimeline({
+		title: '{$plugininfo['share_title']}',
+		 desc: "{$plugininfo['share_desc']}",
+		link: "{HEJIN_URL}",
+		imgUrl: '',
+		success: function () { 
+		
+		},
+		cancel: function () { 
+		
+		}
+		});
+		  });
+</script>
+</html>

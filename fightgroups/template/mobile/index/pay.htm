@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head>
+<title>{lang fightgroups:p10}</title>
+<!--{template fightgroups:index/header}-->
+<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+<style type="text/css">
+body{padding: 0;margin:0;background-color:#eeeeee;font-family: '����';}
+.pay-main{background-color: #4cb131;padding-top: 20px;padding-left: 20px;padding-bottom: 20px;}
+.pay-main img{margin: 0 auto;display: block;}
+.pay-main .lines{margin: 0 auto;text-align: center;color:#cae8c2;font-size:12pt;margin-top: 10px;}
+.tips .img{margin: 20px;}
+.tips .img img{width:20px;}
+.tips span{vertical-align: top;color:#ababab;line-height:18px;padding-left: 10px;padding-top:0px;}
+.action{background:#4cb131;padding: 10px 0;color:#ffffff;text-align: center;font-size:14pt;border-radius: 10px 10px; margin: 15px;}
+.action:focus{background:#4cb131;}
+.action.disabled{background-color:#aeaeae;}
+.footer{position: absolute;bottom:0;left:0;right:0;text-align: center;padding-bottom: 20px;font-size:10pt;color:#aeaeae;}
+.footer .ct-if{margin-top:6px;font-size:8pt;}
+</style>
+</head>
+<body>
+<div class="conainer">
+<div class="pay-main">
+<img src="{HEJIN_PATH}public/image/pay_logo.png">
+<div class="lines"><span>{lang fightgroups:p11}</span></div>
+</div>
+<div class="tips">
+<div class="img">
+<img src="{HEJIN_PATH}public/image/pay_ok.png">
+<span>{lang fightgroups:p12}</span>
+</div>
+</div>
+<div id="action" class="action" onclick="onApiSuccess();">{lang fightgroups:p13}</div>
+<div class="footer"><div>{lang fightgroups:p14}</div><div class="ct-if">{lang fightgroups:p15}</div></div>
+</div>
+</body></html>
+<div class="pay-btn" id="wechat-panel" style="display:none;">
+	<form action="source/plugin/fightgroups/pay/index.php" method="post">
+		<input type="hidden" name="p[user]" value="$params['user']" />
+		<input type="hidden" name="p[fee]" value="$params['fee']" />
+		<input type="hidden" name="p[title]" value="$params['title']" />
+		<input type="hidden" name="p[ordersn]" value="$params['ordersn']" />
+		<input type="hidden" name="p[return]" value="$params['return']" />
+		<button class="btn btn-warning btn-block btn-lg" disabled="disabled" type="submit" id="wBtn" name="wBtn" value="wechat">{lang fightgroups:p16}</button>
+		<input type="hidden" name="formhash" value="{FORMHASH}" />
+	</form>
+</div>
+<script type="text/javascript">
+	document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+		$('#wBtn').removeAttr('disabled');
+		$('#wBtn').html('{lang fightgroups:p17}');
+	});
+	onApiSuccess = function(){
+		document.getElementById('wBtn').click();
+	};
+</script>

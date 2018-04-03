@@ -1,0 +1,64 @@
+<script>
+function h5Geolocation(){
+	if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(
+			function(position) {  
+				var lat = position.coords.latitude;
+				var lng = position.coords.longitude;
+				var point = new BMap.Point(lng, lat);
+				var convertor = new BMap.Convertor();
+				var pointArr = [];
+				pointArr.push(point);
+				convertor.translate(pointArr, 1, 5, function(data) {
+					if (data.status === 0) {
+                        $.get("{$ajaxUpdateLbsUrl}&latitude="+data.points[0].lat+"&longitude="+data.points[0].lng);
+                        <!--{if $_GET['mod'] == 'details' && $__ShowTchongbao == 1 && $tchongbaoInfo['only_show'] == 1 && $openLocaltionDistance == 1}-->
+                            $('#latitude').val(data.points[0].lat);
+                            $('#longitude').val(data.points[0].lng);
+                            locationRequest();
+                        <!--{/if}-->
+					} else {
+                        $.get("{$ajaxUpdateLbsUrl}&latitude="+lat+"&longitude="+lng);
+                        <!--{if $_GET['mod'] == 'details' && $__ShowTchongbao == 1 && $tchongbaoInfo['only_show'] == 1 && $openLocaltionDistance == 1}-->
+                            $('#latitude').val(lat);
+                            $('#longitude').val(lng);
+                            locationRequest();
+                        <!--{/if}-->
+					}
+                    <!--{if $_GET['mod'] == 'details'}-->
+                    setTimeout(function(){getDistance();},500);
+                    <!--{/if}-->
+				});
+			 },
+			function(error) {
+                $('#loadingToast').hide();
+                getLocationStatus = 2;
+				tusi("{lang tom_tongcheng:info_hb_err_moblie_location_err}"+error.code);
+			}
+		)
+	}else{
+		tusi('{lang tom_tongcheng:info_hb_err_moblie_no_location}');
+	}
+}
+
+function wapGeolocation(){
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            $.get("{$ajaxUpdateLbsUrl}&latitude="+r.point.lat+"&longitude="+r.point.lng);
+            <!--{if $_GET['mod'] == 'details'}-->
+            setTimeout(function(){getDistance();},500);
+                <!--{if $__ShowTchongbao == 1 && $tchongbaoInfo['only_show'] == 1 && $openLocaltionDistance == 1}-->
+                    $('#latitude').val(r.point.lat);
+                    $('#longitude').val(r.point.lng);
+                    locationRequest();
+                <!--{/if}-->
+            <!--{/if}-->
+		}else{
+            $('#loadingToast').hide();
+            getLocationStatus = 2;
+			tusi('{lang tom_tongcheng:info_hb_err_moblie_location_err}'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+}
+</script>

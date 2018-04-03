@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+    <title>{lang fightgroups:s97}</title>
+     <!--{template fightgroups:index/header}-->
+    <link href="http://353556.m.weimob.com/vshop/Assets/css/reset.css" rel="stylesheet">
+    <link href="{HEJIN_PATH}public/css/myfavorite.css?v=154" rel="stylesheet">
+    <script src="{HEJIN_PATH}public/js/jquery.min.js" language="javascript"></script>
+<body onselectstart="return true;" ondragstart="return false;">
+    <div data-role="container" class="container myfavorite">
+        <header data-role="header">
+        </header>
+        <section data-role="body" class="body">
+            <ul id="favorite_list" class="favorite_list">
+            	{loop $favorite $item}
+            	<li>
+            		<a href="{eval echo createMobileUrl('gooddetails', array('gid'=>$item['sid']));}"><span><img src="{eval echo ($item['goods']['gimg']);}"></span>
+            			<label><span class="table"><div class="line1"><span>{$item['goods']['gname']}</span></div><div class="line2"><span>{lang fightgroups:s98}{$item['goods']['gprice']}{lang fightgroups:s99}{$goods['oprice']}</span></div></span></label>
+            		</a>
+            			<label><a onclick="location='{eval echo createMobileUrl('orderconfirm',array('groupnum'=>1,'gid'=>$goods['id']));}'">{lang fightgroups:s100}</a><a onclick="location='{eval echo createMobileUrl('orderconfirm',array('groupnum'=>$goods['groupnum'],'gid'=>$goods['id']));}'">{lang fightgroups:s101}</a><a onclick="deleteFav({$item['sid']});">{lang fightgroups:s102}</a></label>
+            	</li>
+            	{/loop}
+            	{if empty($favorite)}
+            	<li><div style="text-align: center;">{lang fightgroups:s103}</div></li>
+            	{/if}
+            </ul>
+        </section>
+    </div>
+
+</body>
+<script>
+	function deleteFav(goodsid) {
+		$.post('{eval echo createMobileUrl('collect',array('opt'=>'remove'))}',{goodsid:goodsid},
+        function(m){
+            if(m==1){
+                alert('{lang fightgroups:s104}');
+                location.reload();
+            } else {
+                alert('{lang fightgroups:s105}');
+            }
+        },"html");
+	}
+</script>
+<!--{template fightgroups:index/footerbar}-->
+</html>

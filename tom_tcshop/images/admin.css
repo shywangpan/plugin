@@ -1,0 +1,33 @@
+@charset "GBK";
+/************** tab-ul ****************/
+
+.lbs_ok_msg{
+    margin-top: 10px;
+    height: 40px;
+    color: #34a200;
+    line-height: 40px;
+    font-size: 20px;
+}
+
+.lbs_error_msg{
+    margin-top: 10px;
+    height: 40px;
+    color: #f50404;
+    line-height: 40px;
+    font-size: 20px;
+}
+.lbs_btn{margin-top: 10px;    height: 40px;}
+.lbs_btn a{    
+    margin-right: 20px;
+    font-size: 16px;
+    color: #797575;
+    display: block;
+    float: left;
+    width: 150px;
+    height: 30px;
+    border: 1px solid #d0d0d0;
+    line-height: 30px;
+    text-align: center;
+    text-decoration: none;}
+.lbs_btn span{color: #F00;}
+

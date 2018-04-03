@@ -1,0 +1,83 @@
+<html>
+<head>
+
+<avalon ms-skip="" class="avalonHide">
+<style id="avalonStyle">
+.avalonHide{ display: none!important }
+</style>
+</avalon>
+    <title>{lang fightgroups:p1}</title>
+
+   
+      <!--{template fightgroups:index/header}-->
+    <LINK  href="{HEJIN_PATH}public/css/style_366c9ef.css" rel="stylesheet">    
+    <LINK  href="{HEJIN_PATH}public/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body avalonctrl="root">
+    <div class="container">
+        <section class="main-view">
+            <div class="my">
+                <div class="my_head">
+                    <div class="my_head_pic">
+                        <img id="uinLogo" class="my_head_img" width="130" height="130" alt="" src="{if empty($profile['avatar'])}{HEJIN_PATH}public/image/logo.jpg{else}{$profile['avatar']}{/if}">
+                    </div>
+                    <div class="my_head_info">
+                        <h4 id="nickname" class="my_head_name ">{$profile['nickname']}</h4>
+                    </div>
+                </div>
+                <ul class="my_transaction my_transaction2" style="{if empty($modules['feng_recharge'])}display: none;{/if}">
+				<li>
+					<a href="#" ptag="12478.4.1">
+						<div class="my_transaction_num" id="fav_shop_total_count">{$result['credit1']}</div>
+						<div class="my_transaction_txt">{lang fightgroups:p2}</div>
+					</a>
+				</li>
+				<li>
+					<a href="#" ptag="12478.7.1">
+						<div class="my_transaction_num" id="fav_item_total_count">{$result['credit2']}</div>
+						<div class="my_transaction_txt">{lang fightgroups:p3}</div>
+					</a>
+				</li>
+				</ul>
+            </div>
+            <div class="nav">
+                <ul class="nav_list">
+                    <li class="nav_item nav_order">
+                        <a  href="{eval echo createMobileUrl('myorder')}">
+                            <div class="nav_item_hd">{lang fightgroups:p4}</div>
+                        </a>
+                        <div class="nav_item_bd">
+                            <a  href="{eval echo createMobileUrl('myorder')}"><span class="nav_item_txt">{lang fightgroups:p5}ȫ��</span></a>
+                            <a  href="{eval echo createMobileUrl('myorder',array('opt' => '1'))}">
+                                <span class="nav_item_txt">{lang fightgroups:p6}<i class="nav_item_num" id="need_pay_count" style="display:none">0</i></span>
+                            </a>
+                            <a  href="{eval echo createMobileUrl('myorder',array('opt' => '2'))}">
+                                <span class="nav_item_txt">{lang fightgroups:p7}<i class="nav_item_num" id="need_recv_count" style="display:none">0</i></span>
+                            </a>
+                        </div>
+                    </li>
+                    <li class="nav_item nav_cheap" >
+                        <div class="nav_item_hd"><a href="{eval echo createMobileUrl('mygroup');}">{lang fightgroups:p8}  </a></div>
+                    </li>
+                    <li class="nav_item nav_cart" >
+                        <div class="nav_item_hd">
+                          <a href="{eval echo createMobileUrl('addmanage');}">{lang fightgroups:p9}</a>
+                        </div>
+                    </li>
+                   
+                    <li class="nav_item nav_red" >
+                        <div class="nav_item_hd">
+                          <a href="{eval echo createMobileUrl('favorite');}">{lang fightgroups:p10}</a>
+                        </div>
+                    </li>
+        
+                </ul>
+            </div>
+           
+        </section>
+     
+    </div>
+</body>
+
+<!--{template fightgroups:index/footer}-->
+</html>

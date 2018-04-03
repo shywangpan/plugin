@@ -1,0 +1,353 @@
+<!doctype html>
+<html>
+<head>
+    <title>{lang fightgroups:m1}</title>
+    <!--{template fightgroups:index/header}-->
+    <link rel="stylesheet" href="{HEJIN_PATH}public/css/style_366c9ef.css?v={TIMESTAMP}">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+   
+    <style type="text/css">
+        .mod_nav_lk a:visited{
+            color: black;
+        }
+
+        .line_bottom{
+            position: relative;
+            top: -3px;
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: red;
+        }
+    </style>
+
+   <script type="text/javascript">
+    $(document).ready(function(){
+      var op = "{$op}";
+      if(op=="0"){
+        $("#s1").addClass("line_bottom");
+      }else if(op=="1"){
+        $("#s2").addClass("line_bottom");
+      }else if(op=="2"){
+        $("#s3").addClass("line_bottom");
+      }else {
+        return false;
+      }
+    });
+    </script>
+
+
+     <script type="text/javascript">
+
+    $(document).ready(function(){
+
+      $(".mod_nav_lk #a1").click(function(){
+
+        var order_num = "{$orders_num_0[num]}";
+
+        if(order_num<=0){
+
+            $("#dealliststatus1").html("{lang fightgroups:m2}").css('text-align','center').css('display','none').slideDown();
+
+            $("#s1").addClass("line_bottom");
+
+            $("#s2").removeClass("line_bottom");
+
+            $("#s3").removeClass("line_bottom");
+
+            return false; 
+
+        }
+
+      });
+
+      $(".mod_nav_lk #a2").click(function(){
+
+        var order_num = "{$orders_num_1[num]}";
+
+        if(order_num<=0){
+
+            $("#dealliststatus1").html("{lang fightgroups:m3}").css('text-align','center').css('display','none').slideDown();
+
+            $("#s2").addClass("line_bottom");
+
+            $("#s1").removeClass("line_bottom");
+
+            $("#s3").removeClass("line_bottom");
+
+            return false; 
+
+        }
+
+      });
+
+      $(".mod_nav_lk #a3").click(function(){
+
+        var order_num = "{$orders_num_2[num]}";
+
+        if(order_num<=0){
+
+            $("#dealliststatus1").html("{lang fightgroups:m4}").css('text-align','center').css('display','none').slideDown();
+
+            $("#s3").addClass("line_bottom");
+
+            $("#s1").removeClass("line_bottom");
+
+            $("#s2").removeClass("line_bottom");
+
+            return false; 
+
+        }
+
+      });
+
+    });
+
+    </script>
+
+   
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+      $(".js_del").click(function(){
+
+          if(confirm("{lang fightgroups:m5}")){
+
+            return ture;
+
+    }else{
+
+        return false;
+
+   }
+
+    return false;
+
+    });
+
+    });
+    </script>
+
+  
+
+    
+
+</head>
+
+<body>
+
+  <div ms-controller="root">
+
+    <div class="mod_nav nav">
+
+        <div class="mod_nav_lk">
+
+            <a id="a1" href="{eval echo createMobileUrl('myorder',array('opt' => 0))}" class="mod_nav_item "><span class="nav_txt">{lang fightgroups:m6}<b class="nav_payment_num">{eval echo $orders_num_0[num]}</b></span><span id="s1"></span></a>
+
+            <a id="a2" href="{eval echo createMobileUrl('myorder',array('opt' => 1))}" class="mod_nav_item "><span class="nav_txt nav_payment">{lang fightgroups:m7}<b class="nav_payment_num">{eval echo $orders_num_1[num]}</b></span><span id="s2"></span></a>
+
+            <a id="a3" href="{eval echo createMobileUrl('myorder',array('opt' => 2))}" class="mod_nav_item "><span class="nav_txt nav_receiving">{lang fightgroups:m8}<b class="nav_receiving_num">{eval echo $orders_num_2[num]}</b></span><span id="s3"></span></a>
+
+        </div>
+
+    </div>
+
+    <div id="dealliststatus1">
+
+        {loop $orders $order}
+         {eval
+
+                    $sql3 = "SELECT * FROM ".tablename('tg_goods')." WHERE id=".$order['g_id'];
+
+
+
+                    $good3 = pdo_fetch($sql3);
+
+         }
+
+        <div class="order" ms-repeat-order="orders">
+            <div class="order_hd">
+                {eval echo date('Y-m-d H:i:s', $order['createtime']);}
+            </div>
+            <div class="order_bd">
+                <div class="order_glist">
+                   
+                    <a href="{eval echo createMobileUrl('gooddetails', array('gid'=>$good3['id']));}">
+
+                        <div class="order_goods" data-url="">
+
+                            <div class="order_goods_img">
+
+                                <img alt="" src="{eval echo ($good3['gimg']);}">
+
+                            </div>
+
+                            <div class="order_goods_info">
+
+                                <div class="order_goods_name">{$good3['gname']}</div>
+
+                                <div class="order_goods_attr">
+
+                                    <div class="order_goods_attr_item">
+
+                                        <div class="order_goods_price"><i>{lang fightgroups:s7}</i>{$order['price']}<i>{lang fightgroups:p31}</i></div>{lang fightgroups:p30}
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                    <div class="order_ft">
+
+                        <div class="order_total">
+
+                            <span class="order_total_info">{lang fightgroups:m9}{$good3['freight']}{lang fightgroups:m10}{$order['id']}</span>
+
+                            <span class="order_price">{lang fightgroups:m11}��<b>{lang fightgroups:s7}{$order['price']}</b></span>
+
+                        </div>
+
+                        <div class="order_opt">
+
+                            <span class="order_status">
+
+                                    {if ($order['status'])==0}  
+
+                                        {lang fightgroups:m1111} 
+
+                                    {elseif ($order['status'])==1}  
+
+                                        {lang fightgroups:m12}
+
+                                    {elseif ($order['status'])==2}  
+
+                                        {lang fightgroups:m13}
+                                    {elseif ($order['status'])==3}  
+
+                                        {lang fightgroups:m14}
+
+                                    {elseif ($order['status'])==9}
+
+                                        {lang fightgroups:m15}
+									{elseif ($order['status']) == 4}
+									{lang fightgroups:m16}
+									{elseif ($order['status']) == -1}
+									{lang fightgroups:m17}
+                                    {/if}
+
+                            </span>
+
+                            {if intval($order['status'])==0}  
+                            <div class="order_btn" ms-visible="order.total_status==0">
+
+                                
+
+                                                       
+                               <a class="order_btn_buy" ms-click="orderBuy(order.order_id)" href="{eval echo createMobileUrl('pay',array('orderid'=>$order['id']));}">{lang fightgroups:m18}</a>
+                              
+
+                                <input name="order_id" type="hidden" value="{$order['orderno']}" />
+
+                                <a class="js_del" href="{eval echo createMobileUrl('cancelmyorder', array('orderno'=>$order['orderno']));}">{lang fightgroups:m19}</a>
+
+                            </div>
+
+                            {/if}
+
+                            {if intval($order['status'])==1}
+
+                           <div class="order_btn" ms-visible="order.total_status==3">
+
+                               
+
+                                <input  name="order_id" type="hidden" ms-attr-value="{$order['id']}" />
+
+                                <a href="{eval echo createMobileUrl('orderdetails', array('orderid'=>$order['orderno']));}">{lang fightgroups:m20}</a>
+
+                            </div>
+
+                            {/if}
+
+                            {if intval($order['status'])==2} 
+                           <div class="order_btn" ms-visible="order.total_status==3">
+
+                               
+
+                                <input name="order_id" type="hidden" ms-attr-value="{$order['id']}" />
+
+                                <a  href="{eval echo createMobileUrl('orderdetails', array('orderid'=>$order['orderno']));}">{lang fightgroups:m21}</a>
+
+                            </div>
+
+                            {/if}
+
+                            {if intval($order['status'])==9}
+
+                           <div class="order_btn" ms-visible="order.total_status==3">
+
+                             
+
+                                <input name="order_id" type="hidden" ms-attr-value="{$order['id']}" />
+
+                                <a  href="{eval echo createMobileUrl('orderdetails', array('orderid'=>$order['orderno']));}">{lang fightgroups:m22}</a>
+
+                            </div>
+
+                            {/if}
+                            {if intval($order['status'])==4}
+
+                           <div class="order_btn" ms-visible="order.total_status==3">
+
+                           
+
+                                <input name="order_id" type="hidden" ms-attr-value="{$order['id']}" />
+
+                                <a  href="{eval echo createMobileUrl('orderdetails', array('orderid'=>$order['orderno']));}">{lang fightgroups:m22}</a>
+
+                            </div>
+
+                            {/if}
+                            {if intval($order['status'])==3}
+
+                           <div class="order_btn" ms-visible="order.total_status==3">
+
+
+                                <input name="order_id" type="hidden" ms-attr-value="{$order['id']}" />
+
+                                <a  href="{eval echo createMobileUrl('orderdetails', array('orderid'=>$order['orderno']));}">{lang fightgroups:m22}</a>
+
+                            </div>
+
+                            {/if}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {/loop}
+
+    </div>
+
+  </div>
+
+    <div style="height:58px;visibility:hidden "></div>
+
+    <!--{template fightgroups:index/footer}-->
+
+</body>
+
+</html>
+

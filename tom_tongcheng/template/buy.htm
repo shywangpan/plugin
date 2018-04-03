@@ -1,0 +1,174 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:buy_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<style>
+.item-buy ul{overflow:hidden;margin:0 -1.5%;padding:0 1em;margin-top:1em}
+.item-buy ul li{width:22%;color:#999;margin:0 1.5%;float:left;text-align:center;background:#f5f5f5;line-height:3em;border-radius:0.2em}
+.item-buy ul li span{display:block}
+.item-buy ul li span:first-child{border-bottom:2px solid #fff}
+.item-buy ul li.on{background:#3cb5f6;color:#fff}
+.buy-text{padding:1em}
+.buy-text .buy-tit{color:#000;font-size:1.2em;padding-left:1.2em;background:url(source/plugin/tom_tongcheng/images/icon49.png) no-repeat left center;background-size:auto 1em;margin-bottom:0.3em}
+.text-price{color:#ff6737}
+.bold{font-weight:bold}
+.text-delete{text-decoration:line-through;}
+</style>
+</head>
+<body>
+<!--{if $__HideHeader == 0 }-->
+<header class="header on ">
+    <section class="wrap">
+        <a class="sec-ico go-back" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=mylist">{lang tom_tongcheng:back}</a>
+        <h2>{lang tom_tongcheng:buy_title}</h2>
+    </section>
+</header>
+<!--{/if}-->
+<section class="mainer">
+    <section class="wrap">
+        <div class="campaign-main">
+             <section class="item" <!--{if $__HideHeader == 1 }-->style="margin-top: -1px;"<!--{/if}-->>
+                  <section class="campaign-item clear">
+                       <section class="img">
+                            <img src="source/plugin/tom_tongcheng/images/icon47.png" />
+                       </section>
+                       <section class="user-fav">
+                            <h4>{lang tom_tongcheng:buy_top_title}</h4>
+                            <p>{lang tom_tongcheng:buy_top_msg}</p>
+                       </section>
+                  </section>
+             </section>
+             <form name="payForm" id="payForm">
+                  <input type="hidden" name="formhash" value="{$formhash}">
+                  <input type="hidden" name="tongcheng_id" value="{$tongcheng_id}">
+                  <input type="hidden" name="days" id="days" value="{$day_num}">
+                  <section class="item item-buy">
+                       <section class="buy_list">
+                            <div class="clear10"></div>
+                            <div class="clear10"></div>
+                            <div class="clear10"></div>
+                            <!--{if $tongchengInfo['topstatus'] == 1}-->
+                            <div class="tcui-loadmore tcui-loadmore_line">
+                                <span class="tcui-loadmore__tips" style="color: #f70404;">{lang tom_tongcheng:buy_yiji_top_1}{$toptime} {lang tom_tongcheng:buy_yiji_top_2}</span>
+                            </div>
+                            <!--{/if}-->
+                            <div class="tcui-loadmore tcui-loadmore_line">
+                                 <span class="tcui-loadmore__tips">{lang tom_tongcheng:buy_choose_days}</span>
+                            </div>
+                            <div class="makeorder_from">
+                                <div class="makeorder_from_num_box">
+                                    <li class="reduce"><a href="javascript:void(0);" onclick="numReduce();">-</a></li>
+                                    <li class="in"><input id="buy_num" name="buy_num" type="text" value="{$day_num}" size="2" readonly="true">/{lang tom_tongcheng:buy_day}</li>
+                                    <li class="add"><a href="javascript:void(0);" onclick="numAdd();">+</a></li>
+                                </div>
+                            </div>
+                       </section>
+                       <section class="buy-text">
+                           <p>{lang tom_tongcheng:buy_show_msg}{$modelInfo['name']}&nbsp;,&nbsp;{$typeInfo['name']}<span style="float: right;color: #f00;font-size: 1.1em;" id="totalPrice">{lang tom_tongcheng:yuan_ico}{$pay_price_arr[$day_num]}</span></p>
+                       </section>
+                  </section>
+                  <section class="btn-group-block">
+                      <button type="button" class="id_top_btn">{lang tom_tongcheng:buy_btn}</button>
+                  </section>
+             </form>
+        </div>
+    </section>
+</section>
+{template tom_tongcheng:footer}
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+var submintPayStatus = 0;
+$(".id_top_btn").click( function (){
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    submintPayStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$payTopUrl}",
+        dataType : "json",
+        data: $('#payForm').serialize(),
+        success: function(data){
+            if(data.status == 200) {
+                tusi("{lang tom_tongcheng:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},500);
+            }else if(data.status == 302){
+                tusi("{lang tom_tongcheng:pay_error_302_1}{$tongchengConfig['min_top_num']}{lang tom_tongcheng:pay_error_302_2}");
+                
+            }else if(data.status == 303){
+                tusi("{lang tom_tongcheng:pay_error_303}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 304){
+                tusi("{lang tom_tongcheng:pay_error_304}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 307){
+                tusi("{lang tom_tongcheng:pay_error_307}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 400){
+                tusi("{lang tom_tongcheng:pay_error_top_400}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tongcheng:pay_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+var pay_price_arr=new Array(31);
+pay_price_arr[0]="";
+<!--{loop $pay_price_arr $key $val}-->
+pay_price_arr[{$key}]="{$val}";
+<!--{/loop}-->
+
+var min_top_num = "{$tongchengConfig['min_top_num']}";
+min_top_num = min_top_num * 1;
+var buy_num = "{$day_num}";
+buy_num = buy_num * 1;
+function numReduce(){
+    <!--{if $xianZhiShow == 1}-->
+    if(buy_num <= min_top_num){
+        tusi("{lang tom_tongcheng:pay_error_302_1}{$tongchengConfig['min_top_num']}{lang tom_tongcheng:pay_error_302_2}");
+        return false;
+    }
+    <!--{else}-->
+    if(buy_num <= 1){
+        return false;
+    }
+    <!--{/if}-->
+    
+    buy_num = buy_num - 1;
+    $('#buy_num').val(buy_num);
+    $('#days').val(buy_num);
+    total_price = pay_price_arr[buy_num];
+    $('#totalPrice').html('{lang tom_tongcheng:yuan_ico}'+total_price);
+    return false;
+}
+
+function numAdd(){
+    if(buy_num >= 30){
+        return false;
+    }
+    buy_num = buy_num + 1;
+    $('#buy_num').val(buy_num);
+    $('#days').val(buy_num);
+    total_price = pay_price_arr[buy_num];
+    $('#totalPrice').html('{lang tom_tongcheng:yuan_ico}'+total_price);
+    return false;
+}
+</script>
+</body>
+</html>

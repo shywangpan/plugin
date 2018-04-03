@@ -1,0 +1,100 @@
+<script>
+// 地图API START
+var isSaveClick = true;
+var gc = new BMap.Geocoder();
+function getaddresswx(lat, lng) {
+    var point = new BMap.Point(lng, lat);
+    var convertor = new BMap.Convertor();
+    var pointArr = [];
+    pointArr.push(point);
+    convertor.translate(pointArr, 1, 5, function(data) {
+        if (data.status === 0) {
+            getaddress(data.points[0].lat, data.points[0].lng);
+        } else {
+            getaddress(lat, lng);
+        }
+    });
+}
+function getaddress(lat, lng) {
+    $('#hidlat').val(lat);
+    $('#hidlng').val(lng);
+    if (isSaveClick) {
+        $('#locationtext').text("{lang tom_tcshop:ruzhu_dingweizhong}");
+        var point = new BMap.Point(lng, lat);
+        gc.getLocation(point, function (rs) {
+            var addComp = rs.addressComponents;
+            $('#locationtext').text('{lang tom_tcshop:ruzhu_dingwei}');
+            $('#address').val(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+        });
+    }
+    isSaveClick = true;
+}
+function getLocation() {
+    getaddress(res.latitude, res.longitude);
+}
+function LocationOK(x, y) {
+    getaddress(x, y);
+    $("#baidumap").hide();
+}
+function LocationCancel(x, y) {
+    $("#baidumap").hide();
+}
+
+$("#mylocation").click(function() {
+    $("#actionsheet_cancel").click();
+    wx.getLocation({
+        type: 'wgs84',
+        success: function(res) {
+            $('#hidlat').val(res.latitude);
+            $('#hidlng').val(res.longitude);
+            getaddresswx(res.latitude, res.longitude);
+        }
+    });
+});
+
+$("#maplocation").click(function() {
+    $("#baidumap").show();
+    $("#actionsheet_cancel").click();
+});
+
+$(function () {
+    var actionSheet = $('#actionSheet_wrap');
+    function hideActionSheet() {
+        if (actionSheet.hasClass('tcui-actionsheet_toggle')) {
+            actionSheet.removeClass('tcui-actionsheet_toggle');
+        }
+        return false;
+    }
+    $('#actionsheet_cancel').on('click', hideActionSheet);
+    $("#showActionSheet").on("click", function () {
+        if (tomBrowser.versions.WindowsWechat) {
+            return tusi("{lang tom_tcshop:ruzhu_only_mobile}");
+        }
+        wx.getLocation({
+            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            success: function(res) {
+                getaddresswxtobaidu(res.latitude, res.longitude);
+            }
+        });
+        actionSheet.addClass('tcui-actionsheet_toggle');
+        return false;
+    });
+});
+
+function getaddresswxtobaidu(lat, lng) {
+    var point = new BMap.Point(lng, lat);
+    var convertor = new BMap.Convertor();
+    var pointArr = [];
+    pointArr.push(point);
+    convertor.translate(pointArr, 1, 5, function(data) {
+        if (data.status === 0) {
+            lat = data.points[0].lat;
+            lng = data.points[0].lng;
+        }
+        $('#hidlat').val(lat); // 纬度，浮点数，范围为90 ~ -90
+        $('#hidlng').val(lng); // 经度，浮点数，范围为180 ~ -180。
+        $("#baidumap iframe").attr("src", 'plugin.php?id=tom_tcshop&site={$site_id}&mod=baidumap&lat=' + lat + "&lng=" + lng);
+    });
+}
+// 地图API END
+</script>

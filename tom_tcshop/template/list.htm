@@ -1,0 +1,216 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tcshop:list_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/shop_style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/list-nav.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body id="shop_list">
+<div class="alsh-all" style="padding-bottom:0;<!--{if $__HideHeader == 1 }-->padding-top: 3em;<!--{/if}-->" >
+    <div class="tc-list-top-filter-fixed">
+        <!--{if $__HideHeader == 0 }-->
+        <div class="Se_nav d-flex">
+            <div class="SeBack" style="width:50px;"><a onclick="history.back();" style="display:block;height:100%;"><i></i></a></div>
+            <div class="SeTitle flex">{lang tom_tcshop:list_title}</div>
+            <div class="SeMore temp-post-info" style="width:50px;"><a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=ruzhu&prand={$prand}">{lang tom_tcshop:list_ruzhu_title}</a></div>
+        </div>
+        <!--{/if}-->
+        <ul class="tc-list-top-filter">
+            <li>
+                <a class="id-area" href="javascript:void(0);">
+                    <i class="id-area-txt tc-list-top-filter-f"><!--{if $street_id > 0  }-->{$streetInfo['name']}<!--{elseif $area_id > 0}-->{$areaInfo['name']}<!--{else}-->{lang tom_tcshop:list_nav_address}<!--{/if}--></i><em class="tc-list-top-triangle"></em>
+                </a>
+            </li>
+            <li>
+                <a class="id-cate" href="javascript:void(0);">
+                    <i class="id-cate-txt tc-list-top-filter-f"><!--{if $cate_child_id > 0  }-->{$cateChildInfo['name']}<!--{elseif $cate_id > 0}-->{$cateInfo['name']}<!--{else}-->{lang tom_tcshop:list_nav_cate}<!--{/if}--></i><em class="tc-list-top-triangle"></em>
+                </a>
+            </li>
+            <li>
+                <a class="id-ordertype" href="javascript:void(0);">
+                    <i class="id-ordertype-txt tc-list-top-filter-f">
+                        <!--{if $ordertype == 'new' }-->{lang tom_tcshop:list_nav_new}<!--{elseif $ordertype == 'lbs'}-->{lang tom_tcshop:list_nav_lbs}<!--{else}-->{lang tom_tcshop:list_nav_paixu}<!--{/if}-->
+                    </i><em class="tc-list-top-triangle"></em>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="id-list-div tc-list-filter-area-fixed dn" <!--{if $__HideHeader == 1 }-->style="padding-top: 3em;"<!--{/if}-->>
+        <ul class="id-areadiv tc-list-filter tc-list-filter-area dn" style="float: left;">
+            <li class="item" data-id="0" data-name="{lang tom_tcshop:list_nav_all}">{lang tom_tcshop:list_nav_all}</li>
+            <!--{loop $areaList $key $val}-->
+            <li class="item" data-id="{$val['id']}" data-name="{$val['name']}">{$val['name']}</li>
+            <!--{/loop}-->
+        </ul>
+        <ul class="id-streetdiv tc-list-filter tc-list-filter-area dn width50" style="float: left;max-height: 400px;background-color: #eaeaea;">
+        </ul>
+        <ul class="id-catediv tc-list-filter tc-list-filter-area dn" style="float: left;">
+            <li class="item" data-id="0" data-name="{lang tom_tcshop:list_nav_all}">{lang tom_tcshop:list_nav_all}</li>
+            <!--{loop $cateList $key $val}-->
+            <li class="item" data-id="{$val['id']}" data-name="{$val['name']}">{$val['name']}</li>
+            <!--{/loop}-->
+        </ul>
+        <ul class="id-catechilddiv tc-list-filter tc-list-filter-area dn width50" style="float: left;background: #eaeaea;">
+        </ul>
+        <ul class="id-ordertypediv tc-list-filter tc-list-filter-area dn">
+            <li class="item" data-id="null" data-name="{lang tom_tcshop:list_paixu_null}">{lang tom_tcshop:list_paixu_null}</li>
+            <li class="item" data-id="new" data-name="{lang tom_tcshop:list_paixu_new}">{lang tom_tcshop:list_paixu_new}</li>
+            <li class="item" data-id="lbs" data-name="{lang tom_tcshop:list_paixu_lbs}">{lang tom_tcshop:list_paixu_lbs}</li>
+        </ul>
+    </div>
+</div>
+<section class="shop_list" style="margin-top: 0px;">
+    <div class="list-item" id="list-list"></div>
+    <div class="list-msg" id="load-html">{lang tom_tcshop:list_load_msg}</div>
+    <div class="list-msg" style="display: none;" id="no-load-html">{lang tom_tcshop:list_no_load_msg}</div>
+    <div class="list-msg" style="display: none;" id="no-list-html">{lang tom_tcshop:list_on_list_msg}</div>
+</section>
+{template tom_tcshop:footer}
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak={$tcshopConfig['baidu_js_ak']}"></script>
+<script>
+$(document).ready(function(){
+   $.get("{$ajaxCommonClicksUrl}");
+});
+    
+var pageIndex = 1;
+$(document).ready(function(){
+    loadList("{$cate_id}","{$cate_child_id}","{$city_id}","{$area_id}","{$street_id}",'{$keyword}','{$tabs}','{$ordertype}',pageIndex);
+});
+$(window).scroll(function () {
+    var scrollTop       = $(this).scrollTop();
+    var scrollHeight    = $(document).height();
+    var windowHeight    = $(this).height();
+    if ((scrollTop + windowHeight) >= (scrollHeight * 0.9)) {
+        loadList("{$cate_id}","{$cate_child_id}","{$city_id}","{$area_id}","{$street_id}",'{$keyword}','{$tabs}','{$ordertype}',pageIndex);
+    }
+});
+var loadListStatus = 0;
+function loadList(cateId,cateChildId,cityId,areaId,streetId,Keyword,tabs,orderType,Page) {
+    if(pageIndex > 50){
+        $("#no-more-html").show();
+    }
+    if(loadListStatus == 1){
+        return false;
+    }
+    loadListStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxLoadListUrl}",
+        data: { cate_id:cateId,cate_child_id:cateChildId,city_id:cityId,area_id:areaId,street_id:streetId,keyword:Keyword,tabs:tabs,ordertype:orderType,page:Page},
+        success: function(msg){
+            $("#load-html").hide();
+            if(pageIndex == 1){
+                $("#list-list").html('');
+            }
+            loadListStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 205){
+                if(pageIndex == 1){
+                    $("#no-list-html").show();
+                }else{
+                    $("#no-more-html").show();
+                }
+                return false;
+            }else{
+                pageIndex += 1;
+                $("#list-list").append(data);
+            }
+        }
+    });
+}
+</script>
+{template tom_tcshop:list_nav}
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'onMenuShareQQ',
+      'previewImage',
+      'openLocation', 
+      'getLocation'
+    ]
+});
+wx.ready(function () {
+    wx.getLocation({
+        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+        success: function(res) {
+            var point = new BMap.Point(res.longitude, res.latitude);
+            var convertor = new BMap.Convertor();
+            var pointArr = [];
+            pointArr.push(point);
+            convertor.translate(pointArr, 1, 5, function(data) {
+                if (data.status === 0) {
+                    $.get("{$ajaxUpdateLbsUrl}&latitude="+data.points[0].lat+"&longitude="+data.points[0].lng);
+                } else {
+                    $.get("{$ajaxUpdateLbsUrl}&latitude="+res.latitude+"&longitude="+res.longitude);
+                }
+            });
+        }
+    });
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () {
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareQQ({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+<!--{if $__IsWeixin == 0}-->
+{template tom_tcshop:baidu_location}
+<script>
+function getLocation(){
+    <!--{if $tongchengConfig['open_moblie_https_location'] == 1}-->
+    h5Geolocation();
+    <!--{else}-->
+    wapGeolocation();
+    <!--{/if}-->
+}
+getLocation();
+</script>
+<!--{/if}-->
+</body>
+</html>

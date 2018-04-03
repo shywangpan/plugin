@@ -1,0 +1,99 @@
+<link href="{HEJIN_PATH}public/css/common.css?v=135" rel="stylesheet">
+<link href="{HEJIN_PATH}public/css/widget_menu.css?v=135" rel="stylesheet">
+<footer data-role="footer">
+    <div data-role="copyright">
+    <div data-role="copyright" data-copyright="copyright1" class="copyright1">
+        <div class="widget_wrap">
+            <ul class="tbox">
+                <li>
+                    <p class="box">
+                        <a href="plugin.php?id=fightgroups">{lang fightgroups:f1}</a>
+                        <a href="{eval echo createMobileUrl('person');}">{lang fightgroups:f2}</a>
+                        <a href="{eval echo createMobileUrl('rules');}">{lang fightgroups:f3}</a>
+                    </p>
+                    <p>
+                        <a href="javascript:;">
+                        	
+                        	{lang fightgroups:f4}
+                        	
+                        </a>
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </div>
+    <div data-role="widget" data-widget="menu_4" class="menu_4">
+        <div class="widget_wrap">
+            <ul id="menu_4_ul" style="z-index:9999;">
+                <li>
+                    <a href="plugin.php?id=fightgroups" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe603;</span>
+                        <p>{lang fightgroups:f5}</p>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{eval echo createMobileUrl('mygroup');}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe602;</span>
+                        <p>{lang fightgroups:f6}</p>
+                    </a>
+                </li>
+                
+                <li class="li3">
+                    <a href="{eval echo createMobileUrl('person');}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe601;</span>
+                        <p>{lang fightgroups:f7}</p>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{eval echo createMobileUrl('myorder');}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe604;</span>
+                        <p>{lang fightgroups:f8}</p>
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{eval echo createMobileUrl('rules');}" data-fx="Modulefx">
+                        <span class="icon iconfont">&#xe600;</span>
+                        <p>{lang fightgroups:f9}</p>
+                    </a>
+                </li>
+                
+            </ul>
+           
+        </div>
+    </div>
+</footer>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script>
+
+
+  wx.config({
+			debug: false,
+			appId: '{$signPackage["appId"]}',
+			timestamp: {$signPackage["timestamp"]},
+			nonceStr: '{$signPackage["nonceStr"]}',
+			signature: '{$signPackage["signature"]}',
+			jsApiList: [
+			
+		  'onMenuShareTimeline'	
+			]
+		  });
+		  wx.ready(function () {
+		   wx.onMenuShareTimeline({
+		title: '{$plugininfo['share_title']}',
+		 desc: "{$plugininfo['share_desc']}",
+		link: "{HEJIN_URL}",
+		imgUrl: '{HEJIN_PATH}/public/logo.png',
+		success: function () { 
+		
+		},
+		cancel: function () { 
+		
+		}
+		});
+		  });
+</script>

@@ -1,0 +1,49 @@
+<script language="javascript" src="source/plugin/tom_tongcheng/images/localResizeIMG4/dist/lrz.bundle.js"></script>
+<script>
+$(document).on('change', '#filedata1', function() {
+    loading('{lang tom_tongcheng:uploading}');
+    lrz(this.files[0], {width:{$picYasuSize},quality:0.8,fieldName:"filedata1"})
+        .then(function (rst) {
+            return rst;
+        })
+        .then(function (rst) {
+            rst.formData.append('fileLen', rst.fileLen);
+            if ($("#photolist").find("li").length >= max_photo_num) {
+                loading(false);
+                tusi("{lang tom_tongcheng:fabu_step2_over_photo}");
+                return rst;
+            }
+            $.ajax({
+                url: '{$uploadUrl}',
+                data: rst.formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    if(data == '') {
+                        loading(false);
+                        tusi('{lang tom_tongcheng:upload_error}');
+                    }
+                    var dataarr = data.split('|');
+                    dataarr[0] = $.trim(dataarr[0]);
+                    if(dataarr[0] == 'OK') {
+                        loading(false);
+                        $("#photolist").append('<li class="li_'+li_i+'"><section class="img"><img src="'+dataarr[1]+'" /><input type="hidden" name="photo_'+li_i+'" value="'+dataarr[2]+'"/></section><div class=" close pic-delete-btn pointer" onclick="picremove('+li_i+');">&nbsp;X&nbsp;</div></li>');
+                        li_i++;
+                        count++;
+                    }else {
+                        loading(false);
+                        tusi('{lang tom_tongcheng:upload_error}');
+                    }
+                }
+            });
+            return rst;
+        })
+        .catch(function (err) {
+            loading(false);
+            //alert(err);
+        })
+        .always(function () {
+        });
+});
+</script>

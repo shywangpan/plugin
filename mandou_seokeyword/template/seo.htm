@@ -1,0 +1,66 @@
+<!--{block return}-->
+<style type="text/css">
+.seokspan{padding-left:20px;font-size: 14px;font-weight: 300;}
+</style>
+<script type="text/javascript">
+function clearErrorInfo(){
+	var seo_title = document.getElementById("seo_title").value;
+	if(seo_title == ""){
+		alert("{lang mandou_seokeyword:t1}");return false;
+	}
+	var seo_keyword = document.getElementById("seo_keyword").value;
+	if(seo_keyword == ""){
+		alert("{lang mandou_seokeyword:t2}");return false;
+	}
+	var seo_decripation = document.getElementById("seo_decripation").value;
+	if(seo_decripation == ""){
+		alert("{lang mandou_seokeyword:t3}");return false;
+	}
+}
+
+</script>
+<h3 class="flb">
+<em>{lang mandou_seokeyword:t4}</em>
+<span>
+<a href="javascript:;" class="flbc" onclick="hideWindow('setseo');return false;" title="">{lang mandou_seokeyword:t5}</a>
+</span>
+</h3>
+<form action="{$url}" method="post" enctype="multipart/form-data" onsubmit="return clearErrorInfo();">
+<table class="tfm" id="profilelist" cellspacing="0" cellpadding="0">
+<input value="{FORMHASH}" name="formhash" type="hidden">
+<tbody>
+<tr id="tr_realname">
+<th id="th_realname"><span class="seokspan">{lang mandou_seokeyword:t6}</span></th>
+<td id="td_realname">
+<input name="seo_title" id="seo_title" class="px"  value="{$result['seo_title']}"  type="text"><p class="d"></p></td>
+<td class="p">
+
+</td>
+</tr>
+<tr id="tr_realname">
+<th id="th_realname"><span class="seokspan">{lang mandou_seokeyword:t7}</span></th>
+<td id="td_realname">
+<textarea name="seo_keyword" id="seo_keyword"  class="pt" rows="3" cols="40" tabindex="1">{$result['seo_keyword']}</textarea><p class="d"></p></td>
+<td class="p">
+
+</td>
+</tr>
+<tr id="tr_realname">
+<th id="th_realname"><span class="seokspan">{lang mandou_seokeyword:t8}</span></th>
+<td id="td_realname">
+<textarea name="seo_decripation" id="seo_decripation"  class="pt" rows="3" cols="40" tabindex="1">{$result['seo_decripation']}</textarea><p class="d"></p></td>
+<td class="p">
+
+</td>
+</tr>
+<tr>
+<th>{lang mandou_seokeyword:t10}</th>
+<td colspan="2">
+<input name="profilesubmit" value="true" type="hidden">
+<button type="submit" name="seosubmit" id="seosubmit" value="true" class="pn pnc" ><strong>{lang mandou_seokeyword:t9}</strong></button>
+<span id="submit_result" class="rq"></span>
+</td>
+</tr>
+</tbody></table>
+</form>
+<!--{/block}-->

@@ -1,0 +1,702 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{$modelInfo['name']} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.css" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<style type="text/css">
+.red{color:red}
+</style>
+</head>
+<body>
+<header class="header header-index on in2">
+   <section class="wrap">
+       <section class="sec-ico go-back" onclick="history.back();">{lang tom_tongcheng:back}</section>
+        <h2>{lang tom_tongcheng:fabu_step2_title_1}{$typeInfo['name']}{lang tom_tongcheng:fabu_step2_title_2}</h2>
+        <section class="sec-ico btn slide-btn">
+            <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=article">{lang tom_tongcheng:fabu_xuzhi_title}</a>
+        </section>
+   </section>
+</header>
+<form class="mainer" name="payForm" id="payForm" >
+   <section class="wrap edit-form">
+        <!--{if $typeInfo['warning_msg']}-->
+        <div class="tcui-cells__title">
+             <section style="padding:10px;background: #eff9ff;line-height:1.5;letter-spacing: 1px;">
+                <p style="color:#f8a543">{$typeInfo['warning_msg']}</p>
+             </section>
+        </div>
+       <!--{/if}-->
+        <section class="edit-item">
+            <!--{if $__ShowTcshop == 1}-->
+            <!--{if $tcshopList}-->
+             <section class="input-control ">
+                  <span>{lang tom_tongcheng:fabu_step2_tcshop_id}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="tcshop_id" id="tcshop_id" class="tcui-select">
+                                <option value="0"> {lang tom_tongcheng:fabu_step2_tcshop_all_name}</option>
+                                <!--{loop $tcshopList $key $val}-->
+                                <option value="{$val['id']}"> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{/if}-->
+            <!--{/if}-->
+            <!--{if $tongchengConfig['open_fabu_title'] == 1}-->
+            <section class="input-control ">
+                <span>{lang tom_tongcheng:fabu_step2_title}</span>
+                <section class="user-fav">
+                    <section class="sec-input">
+                        <input type="text" name="title" id="title" placeholder="{lang tom_tongcheng:fabu_step2_title_msg}" value="" />
+                    </section>
+                    <div class="frt"></div>
+                </section>
+            </section>
+            <!--{/if}-->
+            <!--{if $cateList}-->
+             <section class="input-control ">
+                  <span>{$typeInfo['cate_title']}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="cate_id" id="cate_id" class="tcui-select">
+                                <option value="0">{lang tom_tongcheng:fabu_step2_choose}</option>
+                                <!--{loop $cateList $key $val}-->
+                                <option value="{$val['id']}"> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{/if}-->
+            <!--{if $attrList}-->
+            <!--{loop $attrList $key $val}-->
+                <section class="input-control ">
+                      <span>{$val['name']}</span>
+                      <input type="hidden" name="attrname_{$val['id']}" value="{$val['name']}">
+                      <input type="hidden" name="attrpaixu_{$val['id']}" value="{$val['paixu']}">
+                      <input type="hidden" name="attrunit_{$val['id']}" value="{$val['unit']}">
+                      <section class="user-fav">
+                           <section class="sec-input">
+                               <!--{if $val['type'] == 1}-->
+                               <input type="text" name="attr_{$val['id']}" id="attr_{$val['id']}" placeholder="{$val['name']}" value=""  />
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 2}-->
+                               <select name="attr_{$val['id']}" id="attr_{$val['id']}" class="tcui-select" >
+                                    <option value="0">{lang tom_tongcheng:fabu_step2_choose}{$val['name']}</option>
+                                    <!--{loop $val['list'] $kk $vv}-->
+                                    <option value="{$vv}">{$vv}</option>
+                                    <!--{/loop}-->
+                                </select>
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 3}-->
+                               <input class="tcui-input" type="datetime-local" name="attrdate_{$val['id']}" id="attrdate_{$val['id']}" value="" max="{$maxDateTime}" min="{$minDateTime}" />
+                               <input type="hidden" name="attrdatetmp_{$val['id']}" id="attrdatetmp_{$val['id']}" value="">
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 4}-->
+                               <div class="tcui-cells tcui-cells_checkbox" style="margin-top: 0px;line-height: 30px;">
+                                   <!--{loop $val['list'] $kk $vv}-->
+                                    <label class="tcui-cell-cell tcui-check__label clearfix" for="s_{$val['id']}_{$kk}">
+                                        <div class="tcui-cell__hd" style="float: left;">
+                                            <input type="checkbox" class="tcui-check" name="attr_{$val['id']}[]" value="{$vv}" id="s_{$val['id']}_{$kk}">
+                                            <i class="tcui-icon-checked"></i>
+                                        </div>
+                                        <div class="tcui-cell__bd" style="float: left;">
+                                            <p>{$vv}</p>
+                                        </div>
+                                    </label>
+                                   <!--{/loop}-->
+                                </div>
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 5}-->
+                               <input type="number" name="attr_{$val['id']}" id="attr_{$val['id']}" placeholder="{$val['name']}" value=""  />
+                               <!--{/if}-->
+                           </section>
+                           <div class="frt"><!--{if $val['unit']}-->{$val['unit']}<!--{elseif $val['type'] == 3}--><div class="right-arrow"></div><!--{/if}--></div>
+                      </section>
+                 </section>
+            <!--{/loop}-->
+            <!--{/if}-->
+            <section class="input-control " <!--{if $modelInfo['area_select'] == 0  }-->style="display: none;"<!--{/if}-->>
+                 <span>{lang tom_tongcheng:fabu_step2_city}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <div id="choseCity"><font color="#8e8e8e">{lang tom_tongcheng:fabu_step2_city_msg}</font></div>
+                           <input type="hidden" name="area_id" id="area_id" value="">
+                           <input type="hidden" name="street_id" id="street_id" value="">
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+             <section class="input-control clear bb0">
+                  <div style="line-height: 3em;">{$typeInfo['desc_title']}</div>
+                  <section class="textarea">
+                       <section class="sec-input">
+                            <textarea name="content" id="content" maxlength="10000" placeholder="{$typeInfo['desc_content']}"></textarea>
+                       </section>
+                  </section>
+             </section>
+            <!--{if $tagList}-->
+             <section class="input-control clear input-control-hide-title">
+                  <span>-</span>
+                  <section class="user-fav">
+                       <section class="sec-input small-line">
+                            <div data-max="5">
+                                 <!--{loop $tagList $key $val}-->
+                                 <input type="checkbox" id="check-fuli-{$val['id']}" name="tag[]" value="{$val['id']}" class="file-hide checkbox-label-item" />
+                                 <label for="check-fuli-{$val['id']}">{$val['name']}</label>
+                                 <input type="hidden" name="tagname_{$val['id']}" value="{$val['name']}">
+                                 <!--{/loop}-->
+                            </div>
+                       </section>
+                  </section>
+             </section>
+            <!--{/if}-->
+             <section class="input-control ">
+                  <ul>
+                      <div id="photolist" class="clearfix"></div>
+                       <li>
+                            <section class="img pic-upload-btn" id="picpic-btn">
+                                <!--{if $is_weixin == 0}-->
+                                <input type="file" name="filedata1" id="filedata1" class="post-upload-fileprew"  />
+                                <!--{/if}-->
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" />
+                            </section>
+                       </li>
+                       <li class="li_text"><span>{lang tom_tongcheng:fabu_step2_photo_1}{$tongchengConfig['max_photo_num']}{lang tom_tongcheng:fabu_step2_photo_2} </span></li>
+                  </ul>
+             </section>
+        </section>
+        <style type="text/css">
+		#ms .red{color:#990000}
+		</style>
+        <script type="text/javascript">
+        var  jt = 5;
+        var  jd = 10;
+        var  jm = 30;
+        $(document).ready(function(){
+         	
+         	
+        });
+        function ofs(value){
+        	var  jf = 0;
+        	var text = '置顶';
+        	var number = parseInt($("#sc").val());
+        	
+        	if(value == 1){
+        		jf = (jt*number);
+        		text += number+'小时需要 '+jf;
+        	}else if(value == 2){
+        		jf = (jd*number);
+        		text += number+'天需要 '+jf;
+        	}else if(value == 3){
+        		jf = (jm*number);
+        		text += number+'月需要 '+jf;
+        	}
+        	text += ' 金币 显示在<b class="red">首页</b>或者<b class="red">列表页</b>';
+        	zjms(text);
+        	//$("#jf").val(jf);
+        	$("#f3").show();
+        }
+        function  zjms(text){
+        	$("#zjms").show();
+        	$("#ms").html(text);
+        }
+        function  zjms2(text){
+        	$("#zjms2").show();
+        	$("#ms2").html(text);
+        }
+        function zds(s){
+        	if(s == 0){
+        		$('#zjms').hide();
+        		//$("#f1").hide();
+        		//$("#f2").hide();
+        		$("#f3").hide();
+        	}else{
+        		//$("#f1").show();
+        		//$("#f2").show();
+        		$("#f3").show();
+        		bs(1);
+        	}
+        	
+        }
+        function isPositiveInteger(s){//是否为正整数
+		     var re = /^[0-9]+$/ ;
+		     return re.test(s)
+		}
+        function bs(number){
+        	if(!isPositiveInteger(number)){
+        		$("#sc").val(0);
+        		return false;
+        	}
+        	number = parseInt(number);
+        	var jf = 0;
+        	if(number > 0){
+        		var b = $("input[name='fs']:checked").val();
+        		if(b !=0 ){
+        			b = parseInt(b);
+        			var text = '置顶';
+		        	if(b == 1){
+		        		jf = (jt * number);
+						jf = jf.toFixed(2);
+		        		text += number+'小时需要 '+jf;
+		        	}else if(b == 2){
+		        		jf = ({$typeInfo['top_price']} * number);
+						jf = jf.toFixed(2);
+						//alert(jf);
+		        		text += number+'天需要 '+jf;
+		        	}else if(b == 3){
+		        		jf = (jm * number);
+						jf = jf.toFixed(2);
+		        		text += number+'月需要 '+jf;
+		        	}
+		        	text += ' 元 显示在<b class="red">首页</b>或者<b class="red">列表页</b>';
+		        	zjms(text);
+		        	
+		        	$("#jf").val(jf);
+        		}
+        	}
+        	
+        }
+         function bs2(number){
+         	if((number == "") || (number == "0")){
+         		return false;
+         	}
+         	if(!isPositiveInteger(number)){
+        		$("#td").val(0);
+        		return false;
+        	}
+        	number = parseInt(number);
+        	var p = {$typeInfo['fabu_price']};
+			p = (p * number).toFixed(2);
+        	var text = '';
+        	if(number > 0){
+		        text += '排序显示 <b class="red">'+number+' 天</b>需要  <b class="red">'+p+'元</b> 到期后帖子自动下沉';
+		        zjms2(text);
+        	}
+        	zjms2(text);
+        }
+        </script>
+        
+       <section class="input-control ">
+             <span>排序显示</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                     <input type="number" name="td" id="td" placeholder="请填写数字" value="0" oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" onkeyup="bs2(this.value);" style="width:10%; border-bottom:1px solid #000000;text-align:center"/> 天
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        <section class="input-control" id="zjms2" style="display:none">
+             <span>&nbsp;</span>
+             <section class="user-fav">
+                  <section class="sec-input" id="ms2">
+                    排序显示 1 天需要  {$typeInfo['fabu_price']} 元  到期后帖子自动下沉
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+         <section class="input-control ">
+             <span>我要置顶</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                      <input type="radio" name="zd" id="zd" value="1" style="display:inline-block" onclick="zds(1);"/>置顶 
+                      <input type="radio" name="zd" id="zd" value="2" style="display:inline-block" onclick="zds(0);"/>不置顶
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+          
+        <input type="hidden" id="jf" name="jf" value=""/>
+          <section class="input-control " id="f2" style="display:none">
+             <span>方式</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                      <input type="radio" name="fs" id="fs" value="1" onclick="ofs(1);" style="display:inline-block"/>时  
+                      <input type="radio" name="fs" id="fs" checked="checked" value="2" onclick="ofs(2);" style="display:inline-block"/>天
+                      <input type="radio" name="fs" id="fs" value="3" onclick="ofs(3);" style="display:inline-block"/>月
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        
+        <section class="input-control " id="f3" style="display:none">
+             <span>时长</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                     <input type="number" name="sc" id="sc" placeholder="请填写数字" value="1"  oninput="this.value=this.value.replace(/\D/g,'').replace(/^0+(?=\d)/,'')" onkeyup="bs(this.value);" style="width:10%;border-bottom:1px solid #000000;text-align:center"/> 天
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        
+         <section class="input-control" id="zjms" style="display:none">
+             <span>&nbsp;</span>
+             <section class="user-fav">
+                  <section class="sec-input" id="ms">
+                    
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        
+        <section class="input-control ">
+             <span>{lang tom_tongcheng:fabu_step2_xm}</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                       <input type="text" name="xm" id="xm" placeholder="{lang tom_tongcheng:fabu_step2_xm_msg}" value="{$defaultXm}" />
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        
+        <section class="input-control ">
+             <span>{lang tom_tongcheng:fabu_step2_tel}</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                       <input type="text" name="tel" id="tel" placeholder="{lang tom_tongcheng:fabu_step2_tel_msg}" value="{$defaultTel}"  />
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        <section class="input-control">
+             <span class="slide-btn" data-target="advance-slide" data-html="1">{lang tom_tongcheng:fabu_step2_tiaok_title}</span>
+             <section>
+                 <input type="checkbox" name="xieyi" id="xieyi" value="1" checked/> <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=article">{lang tom_tongcheng:fabu_step2_agree_msg}</a> 
+             </section>
+        </section>
+        <!--{if $openMajiaStatus == 1}-->
+        <section class="input-majia tcui-cell tcui-cell_switch">
+            <div class="tcui-cell__bd">{lang tom_tongcheng:fabu_step2_open_majia}</div>
+            <div class="tcui-cell__ft">
+                <input class="tcui-switch" type="checkbox" id="open_majia" name="open_majia" value="1">
+            </div>
+        </section>
+        <!--{/if}-->
+   </section>
+   <section class="btn-group-block">
+       <!--{if $fabuPayStatus == 1}-->
+       <button type="button" id="id_fabu_btn" class="id_fabu_btn">发布</button>
+       <!--{elseif $fabuPayStatus == 2}-->
+       <button type="button" id="id_fabu_btn" class="id_fabu_btn">{lang tom_tongcheng:fabu_step2_score_btn}</button>
+       <br/>{lang tom_tongcheng:fabu_step2_score_my_title}<font color="#fd0d0d">{$__UserInfo['score']}</font>{lang tom_tongcheng:fabu_step2_score_use_title}<font color="#fd0d0d">{$useScore}</font>
+       <!--{else}-->
+       <button type="button" id="id_fabu_btn" class="id_fabu_btn">{lang tom_tongcheng:fabu_step2_fabu_btn}</button>
+       <!--{/if}-->
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <input type="hidden" name="model_id" value="{$typeInfo['model_id']}">
+        <input type="hidden" name="type_id" value="{$type_id}">
+        <input type="hidden" name="user_id" value="{$__UserInfo['id']}">
+        <input type="hidden" name="city_id" id="city_id" value="{$__CityInfo['id']}">
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+   </section>
+</form>
+<section class="dialog succ-dialog id-fabu-succ" style="display: none;">
+   <section class="dialog-wrap">
+        <section class="dialog-center">
+            <a href="javascript:void(0);" onclick="hideFabuSucc();" class="group-link close"></a>
+             <section class="dialog-body">
+                  <h1>{lang tom_tongcheng:fabu_step2_succ_title}</h1>
+                  <p><span>{lang tom_tongcheng:fabu_step2_succ_msg_1} </span><label>{lang tom_tongcheng:fabu_step2_succ_msg_2}</label><span> {lang tom_tongcheng:fabu_step2_succ_msg_3}</span></p>
+                  <section class="dialog-btns clear">
+                       <a href="#" class="share-link id-share-link">{lang tom_tongcheng:fabu_step2_succ_btn_1}</a>
+                       <!--{if $__ShowTchongbao == 1}-->
+                       <a href="#" class="hb-link id-hb-link">{lang tom_tongcheng:fabu_step2_hb_tuiguang}</a>
+                       <!--{/if}-->
+                  </section>
+             </section>
+        </section>
+   </section>
+</section>
+<!--{if $showPhoneDialog == 1  }-->
+<section class="dialog succ-dialog">
+   <section class="dialog-wrap">
+        <section class="dialog-center">
+             <section class="dialog-body">
+                  <h1>{lang tom_tongcheng:fabu_step2_phone_title}</h1>
+                  <p><span>{lang tom_tongcheng:fabu_step2_phone_msg}</span></p>
+                  <section class="dialog-btns clear">
+                      <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=phone&phone_back={$phone_back_url}" class="share-link" style="width: 90%;">{lang tom_tongcheng:fabu_step2_phone_btn}</a>
+                  </section>
+             </section>
+        </section>
+   </section>
+</section>
+<!--{/if}-->
+<script>var city = eval(decodeURIComponent('{$cityData}'));var selectedIndex = [0, 0];</script>
+<!--{if $isGbk}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.min.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.fabu.gbk.js"></script>
+<!--{else}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.min.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.fabu.utf8.js"></script>
+<!--{/if}-->
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js" type="text/javascript"></script>
+<script>
+var li_i = 1;
+var count = 0;
+var tongcheng_id    = "{$tongcheng_id}";
+var max_photo_num   = "{$tongchengConfig['max_photo_num']}";
+max_photo_num       = max_photo_num*1;
+var shareLinkUrl    = "{$shareLinkUrl}";
+var buyLinkUrl      = "{$buyLinkUrl}";
+var hbLinkUrl      = "{$hbLinkUrl}";
+
+$('#open_majia').change(function(){
+    if($('#open_majia').attr("checked")) {
+        $('#xm').val('');
+    }
+})
+
+var submintPayStatus = 0;
+$(".id_fabu_btn").click( function (){
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    var xm          = $("#xm").val();
+    var tel         = $("#tel").val();
+    
+    var td         = $("#td").val();
+    
+    
+    var content      = $("#content").val();
+    var area_id      = $("#area_id").val();
+    var street_id      = $("#street_id").val();
+    if(td == "0" || (td == "")){
+    	tusi('显示时长必须大于0天');
+        return false;
+    }
+    <!--{if $cateList}-->
+    var cate_id      = $("#cate_id").val();
+    if(cate_id == 0){
+        tusi('{lang tom_tongcheng:fabu_step2_must}{$typeInfo['cate_title']}');
+        return false;
+    }
+    <!--{/if}-->
+    
+    <!--{if $attrList}-->
+    <!--{loop $attrList $key $val}-->
+        <!--{if $val['is_must'] == 1}-->
+            <!--{if $val['type'] == 1 || $val['type'] == 5}-->
+            var attr_{$val['id']} = $('#attr_{$val["id"]}').val();
+            if(attr_{$val['id']} == ''){
+                tusi('{lang tom_tongcheng:fabu_step2_must}{$val["name"]}');
+                return false;
+            }
+            <!--{elseif $val['type'] == 2}-->
+            var attr_{$val['id']} = $('#attr_{$val["id"]}').val();
+            if(attr_{$val['id']} == 0){
+                tusi('{lang tom_tongcheng:fabu_step2_must}{$val["name"]}');
+                return false;
+            }
+            <!--{elseif $val['type'] == 3}-->
+            var attrdate_{$val['id']} = $('#attrdate_{$val["id"]}').val();
+            if(attrdate_{$val['id']} == ''){
+                tusi('{lang tom_tongcheng:fabu_step2_must}{$val["name"]}');
+                return false;
+            }
+            <!--{/if}-->
+        <!--{/if}-->
+    <!--{/loop}-->        
+    <!--{/if}-->
+    
+    if($('#xieyi').attr("checked")) {
+    }else{
+        tusi("{lang tom_tongcheng:fabu_step2_must_xieyi}");
+        return false;
+    }
+    <!--{if $tongchengConfig['open_fabu_title'] == 1}-->
+    var title          = $("#title").val();
+    if(title == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_title}");
+        return false;
+    }
+    <!--{/if}-->
+    <!--{if $modelInfo['area_select'] == 1  }-->
+    if(area_id == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_area}");
+        return false;
+    }
+    <!--{/if}-->
+    
+    if(xm == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_xm}");
+        return false;
+    }
+    <!--{if $tongchengConfig['fabu_phone_check'] == 1  }-->
+    if(tel == "" || !checkMobile(tel)){
+        tusi("{lang tom_tongcheng:fabu_step2_must_tel}");
+        return false;
+    }
+    <!--{else}-->
+    if(tel == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_tel}");
+        return false;
+    }
+    <!--{/if}-->
+    if(content == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must}{$typeInfo['desc_title']}");
+        return false;
+    }
+    
+    if(count > max_photo_num){
+        tusi("{lang tom_tongcheng:fabu_step2_over_photo}");
+        return false;
+    }
+    
+    loading('{lang tom_tongcheng:doing}');
+    submintPayStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$payUrl}",
+        dataType : "json",
+        data: $('#payForm').serialize(),
+        success: function(data){
+            loading(false);
+   
+            if(data.status == 200) {
+                <!--{if $fabuPayStatus == 1}-->
+                tusi("{lang tom_tongcheng:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},500);
+                <!--{else}-->
+                tongcheng_id = data.tongcheng_id;
+                submintPayStatus = 0;
+                showFabuSucc();
+                <!--{/if}-->
+            }else if(data.status == 320){
+                tusi("{lang tom_tongcheng:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},1888);
+            }
+            else if(data.status == 301){
+                tusi("{lang tom_tongcheng:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},500);
+            }else if(data.status == 303){
+                tusi("{lang tom_tongcheng:pay_error_303}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 304){
+                tusi("{lang tom_tongcheng:pay_error_304}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 305){
+                tusi("{$tongchengConfig['fabu_next_minute']}{lang tom_tongcheng:pay_error_305}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 306){
+                tusi("{lang tom_tongcheng:pay_error_306}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 307){
+                tusi("{lang tom_tongcheng:pay_error_307}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 404){
+                tusi("{lang tom_tongcheng:fabu_step2_error_404}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 500){
+                tusi("{lang tom_tongcheng:fabu_step2_error_500}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 501){
+                submintPayStatus = 0;
+                tusi("{lang tom_tongcheng:fabu_step2_error_501}");
+            }else if(data.status == 505){
+                submintPayStatus = 0;
+                tusi("{lang tom_tongcheng:fabu_step2_error_505}"+data.word);
+                //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tongcheng:fabu_step2_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+function showFabuSucc(){
+    <!--{if $tongchengConfig['open_yun'] == 2}-->
+    $.get("{$ossBatchUrl}");
+    <!--{/if}-->
+    <!--{if $tongchengConfig['open_yun'] == 3}-->
+    $.get("{$qiniuBatchUrl}");
+    <!--{/if}-->
+    $(".id-share-link").attr("href",shareLinkUrl+tongcheng_id); 
+    $(".id-buy-link").attr("href",buyLinkUrl+tongcheng_id); 
+    <!--{if $__ShowTchongbao == 1}-->
+    $(".id-hb-link").attr("href",hbLinkUrl+tongcheng_id); 
+    <!--{/if}-->
+    $(".id-fabu-succ").show();
+    return false;
+}
+
+function hideFabuSucc(){
+    //$(".id-fabu-succ").hide();
+    setTimeout(function(){window.location.href="{$myListAllUrl}";},1);
+    return false;
+}
+
+function checkMobile(s){
+    var regu =/^[1][3|8|4|5|7][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+
+$(document).ready(function() {
+    var a = (new Date).getFullYear();
+    $("input[type=date]").each(function() {
+        $(this).mobiscroll().date({
+            startYear: a - 60,
+            endYear: a + 10
+        })
+    }),
+    $("input[type=datetime-local]").mobiscroll().datetime({
+        startYear: a - 60,
+        endYear: a + 10
+    })
+});
+
+function picremove(i){
+    $(".li_"+i).remove();
+    count--;
+}
+
+$(document).on("click", ".checkbox-label-item",function() {
+    var t = $(this).parent(),
+    a = parseInt(t.data("max"), 10) || 0;
+    a > 0 && $(this).is(":checked") && t.find("input:checked").length > a && ($(this).prop("checked", !1), tusi("{lang tom_tongcheng:fabu_step2_only_choose_1}" + a + "{lang tom_tongcheng:fabu_step2_only_choose_2}"))
+});
+
+$(document).ready(function() {
+    <!--{if $pay_ok == 1 && $tongchengInfo['pay_status'] == 2}-->
+    showFabuSucc();
+    <!--{/if}-->
+});
+</script>
+<!--{if $is_weixin == 1}-->
+{template tom_tongcheng:wx_upload}
+<!--{else}-->
+{template tom_tongcheng:new_upload}
+<!--{/if}-->
+</body>
+</html>

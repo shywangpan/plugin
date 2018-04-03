@@ -1,0 +1,372 @@
+<link href="source/plugin/tom_tcshop/images/pinglun.css?v={$cssJsVersion}" rel="stylesheet" />
+<section class="info-item info-item-pinglun" style="background:#fff;">
+    <div class="info-item-comment">
+        <div class="comment-title">{lang tom_tcshop:info_comment_all}<span onClick="comment('comment_pinglun');">{lang tom_tcshop:info_comment_pinglun}</span>
+            <!--{if $open_edit_pinglun == 1 && $pinglunCount > 0}-->
+            <span>
+                <a id="close_remove" href="javascript:;" onClick="hide_pinglun_remove();">{lang tom_tcshop:info_comment_edit_close}</a>
+                <a id="show_remove" href="javascript:;" onClick="show_pinglun_remove();">{lang tom_tcshop:info_comment_edit}</a>
+            </span>
+            <!--{/if}-->
+        </div>
+        <div id="comment_pinglun"></div>
+        <!--{if $pinglunCount > 0}-->
+        <div id="comment-list"></div>
+        <div id="m1" class="no-comment-more"><a href="javascript:;" onClick="loadMore(2);">{lang tom_tcshop:info_comment_more}</a></div>
+        <div id="m2" class="no-comment-more"><a href="javascript:;">{lang tom_tcshop:info_no_comment_more}</a></div>
+        <div id="m3" class="no-comment-more"><img src="source/plugin/tom_tongcheng/images/loading.gif"><a href="javascript:;">{lang tom_tcshop:info_comment_loading}</a></div>
+        <!--{else}-->
+        <div class="no-comment"><a href="javascript:;">{lang tom_tcshop:info_no_comment}</a></div>
+        <!--{/if}-->
+        
+    </div>
+</section>
+<div class="swiper-container rebox" id="rebox">
+    <div class="swiper-wrapper " id="rebox-wrapper__box">
+    </div>
+    <div class="swiper-pagination rebox-pagination"></div>
+	<div class="swiper-close" id="rebox-close"></div>
+</div>
+<div class="js_dialog" id="pinglun_phone" style="display: none;">
+    <div class="tcui-mask"></div>
+    <div class="tcui-dialog">
+        <div class="tcui-dialog__hd"><strong class="tcui-dialog__title">{lang tom_tongcheng:must_phone_popup_title}</strong></div>
+        <div class="tcui-dialog__bd">{lang tom_tongcheng:must_phone_popup_content_pinglun}</div>
+        <div class="tcui-dialog__ft">
+            <a href="{$phoneUrl}" class="tcui-dialog__btn tcui-dialog__btn_default">{lang tom_tongcheng:must_phone_popup_go}</a>
+            <a href="javascript:;" class="tcui-dialog__btn tcui-dialog__btn_primary">{lang tom_tongcheng:must_phone_popup_cancel}</a>
+        </div>
+    </div>
+</div>
+<script type="text/input_comment" id="show_comment">
+<div  class='post-ping-kuang-bottom-content bz' style='z-index:0;'>
+	<form id="add_pinglun_form" onsubmit="return false">
+		<ul class='temp-describe-photo post-wrap-pic-select clearfix bz' id='imgList' style='height: auto; display:none'>
+			<li class='lastpost' id='btn-addimg'  style='cursor:pointer;width:55px;height:55px;max-height: auto;' >
+				<img class='addfile' src='source/plugin/tom_tongcheng/images/pinglun/pic.png'   style='width:55px;height:55px;' >
+				<input type="file" name="pinglunPic" id="pinglunPic" style='cursor:pointer;width:55px;height:55px;'>
+			</li>
+		</ul>
+
+		<div class='post-ping-kuang-textarea rel'>
+			<textarea style='resize:none;' id='txtContentAdd' name='txtContentAdd' class='rel' placeholder='{lang tom_tcshop:info_pinglun_user}'></textarea>
+            <input type="hidden" name="tcshop_id" id="tcshop_id">
+            <input type="hidden" name="pinglun_id" id="pinglun_id">
+            <input type="hidden" name="user_id" id="user_id">
+            <input type="hidden" name="formhash" value="{$formhash}">
+            
+		</div>
+	</form>
+	<div class='bt-list'>
+		<span id='send-repley-button' style='cursor:pointer;' class='post-ping-bt-send'>{lang tom_tcshop:info_pinglun_fabiao}</span>
+		<span id='cancle-reply-button' style='cursor:pointer;' class='post-ping-bt-cancel' >{lang tom_tcshop:info_pinglun_quxiao}</span>
+		<i class='bt-face' id='btn-qqface' style='cursor:pointer;'></i>
+		<i class='bt-img temp-upload-img' id='reply-upload-img-btn' style='cursor:pointer; display:none;' ></i>
+	</div>
+	
+	<div class='chat-view-face-group' id='div-qqfaces' style='height:185px; display:none;'>
+		<div class='chat-view-window-face' style="height:100%;">
+			<div id="qqfaceid" class="post-qq-face bz clearfix">
+				<!--{if $qqface}-->
+                <!--{loop $qqface $key $value}-->
+                <span class="fl">
+					<a href="javascript:;" class="qqface-img" title="{$key}" code="[{$key}]" style="{$value['background-position']}"></a>
+               	</span>
+                <!--{/loop}-->
+                <!--{/if}-->
+            </div>
+		</div>
+	</div>
+</div>
+
+</script>
+<!--<script language="javascript" src="source/plugin/tom_tongcheng/images/localResizeIMG4/dist/lrz.bundle.js"></script>-->
+<script type="text/javascript">
+$(document).on('click', '.tcui-dialog__btn_primary', function(){
+    $(this).parents('.js_dialog').fadeOut(200);
+})
+
+function comment(id){
+    $(".post-ping-kuang-bottom-content").remove();
+	var plHtm = $("#show_comment").html();
+	$('#'+id).html(plHtm);
+    $('#reply-upload-img-btn').show();
+    $('#tcshop_id').val({$tcshopInfo['id']});
+    $('#user_id').val({$__UserInfo['id']});
+    
+}
+
+function comment_reply(id, ssid, name){
+    $(".post-ping-kuang-bottom-content").remove();
+	var plHtm = $("#show_comment").html();
+	$('#'+id).html(plHtm);
+    $('#pinglun_id').val(ssid);
+    $('#tcshop_id').val({$tcshopInfo['id']});
+    $('#user_id').val({$__UserInfo['id']});
+    //$('#txtContentAdd').attr('placeholder','{lang tom_tcshop:info_pinglun_hueifu}'+name+'{lang tom_tcshop:info_pinglun_hueifu_1}')
+}
+
+$(document).on("click", "#cancle-reply-button", function () {
+	$(".post-ping-kuang-bottom-content").hide();
+});
+$(document).on("click", "#reply-upload-img-btn", function () {
+	$("#imgList").show();
+});
+$(document).on("click", "#btn-qqface", function () {
+	$("#div-qqfaces").toggle();
+});
+
+function removeId(id){
+	$("#"+id).remove();
+}
+
+$(document).on("click", "#txtContentAdd", function () {
+	$("#div-qqfaces").hide();
+});
+
+$(document).on("click", ".post-qq-face a", function () {
+	var facedata = $(this).attr("code");
+	$("#txtContentAdd").val($("#txtContentAdd").val() + facedata);
+});
+
+var submintPingLunStatus = 0;
+$(document).on("click", "#send-repley-button", function () {
+    
+    <!--{if $loginStatus == 0}-->
+    tusi("{lang tom_tcshop:must_weixin_msg}");
+        return false;
+    <!--{/if}-->
+
+    <!--{if $showMustPhoneBtn == 1}-->
+    $('#pinglun_phone').show();
+    return false;
+    <!--{/if}-->
+
+    var content = $("#txtContentAdd").val();
+    if(submintPingLunStatus == 1){
+        return false;
+    }
+    if(content == ""){
+        tusi("{lang tom_tcshop:info_pinglun_no_null}");
+        return false;
+    }
+    submintPingLunStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$addPinglunUrl}",
+        data: $('#add_pinglun_form').serialize(),
+        success: function(msg){
+            //submintPingLunStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 200){
+                tusi("{lang tom_tcshop:info_pinglun_ok}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data == 200200){
+                tusi("{lang tom_tcshop:info_pinglun_hueifu_ok}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 505){
+                submintPingLunStatus = 0;
+                tusi("{lang tom_tongcheng:fabu_step2_error_505}"+data.word);
+            }else{
+                tusi("{lang tom_tcshop:info_pinglun_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+function show_pinglun_remove(){
+    $('#show_remove').hide();
+    $('#close_remove').show();
+    $('.info-item-pinglun').before('<style id="show_remove_style">.remove{display:inline-block;}</style>');
+}
+
+function hide_pinglun_remove(){
+    $('#close_remove').hide();
+    $('#show_remove').show();
+    $('#show_remove_style').remove();
+}
+
+var pinglun_num = 0;
+<!--{if $open_edit_pinglun == 1}-->
+function removePinglun(ping_id){
+    
+    layer.open({
+        content: '{lang tom_tcshop:info_pinglun_remove_msg}'
+        ,btn: ['{lang tom_tcshop:info_pinglun_remove_ok}', '{lang tom_tcshop:info_pinglun_remove_no}']
+        ,yes: function(index){
+          $.ajax({
+                type: "GET",
+                url: "{$removePinglunUrl}",
+                data: {ping_id:ping_id},
+                success: function(msg){
+                    if(msg == '200'){
+                        pinglun_num++;
+                        $('#comment-item_'+ping_id).remove();
+                        tusi("{lang tom_tcshop:info_pinglun_remove}");
+                    }else{
+                        tusi("{lang tom_tcshop:info_pinglun_remove_error}");
+                    }
+                }
+            });
+          layer.close(index);
+        }
+    });
+}
+<!--{/if}-->
+
+<!--{if $open_edit_pinglun == 1}-->
+function removeReply(reply_id){
+    
+    layer.open({
+        content: '{lang tom_tcshop:info_pinglun_reply_remove_msg}'
+        ,btn: ['{lang tom_tcshop:info_pinglun_remove_ok}', '{lang tom_tcshop:info_pinglun_remove_no}']
+        ,yes: function(index){
+          $.ajax({
+                type: "GET",
+                url: "{$removeReplyUrl}",
+                data: {reply_id:reply_id},
+                success: function(msg){
+                    if(msg == '200'){
+                        $('#comment-item-content-text_'+reply_id).remove();
+                        tusi("{lang tom_tcshop:info_pinglun_reply_remove}");
+                    }else{
+                        tusi("{lang tom_tcshop:info_pinglun_remove_error}");
+                    }
+                }
+            });
+          layer.close(index);
+        }
+    });
+    
+}
+<!--{/if}-->
+
+var pageIndex = 1;
+var submintLoadStatus = 0;
+function loadMore(type){
+    if(type == 1){
+        pageIndex = 1;
+    }
+    if(submintLoadStatus == 1){
+        return false;
+    }
+    $('#m1').hide();
+    $('#m3').show();
+    submintLoadStatus = 1;
+    $.ajax({
+		type: "GET",
+		url: "{$showPinglunUrl}",
+		data: {loadPage:pageIndex,pinglun_num:pinglun_num},
+		success: function(msg){
+        submintLoadStatus = 0;
+			var data = eval('('+msg+')');
+            if(data == 201){
+                if(pageIndex != 1){
+                    //tusi("{lang tom_tcshop:info_pinglun_no_more}");
+                }
+                $('#m3').hide();
+                $('#m2').show();
+            }else{
+                $("#comment-list").append(data);
+                $('#m3').hide();
+                $('#m1').show();
+                pageIndex++;
+                
+            }
+		}
+	})
+}
+
+var swiper = null;
+function showPicList(picListStr){
+
+    var pictureHtm = '';
+    var picarr = picListStr.split('|');
+
+    if(picarr.length > 0){
+        for(var i=0; i<picarr.length; i++){
+            pictureHtm += '<div class="swiper-slide "><img src="'+picarr[i]+'"/></div>';
+        }
+    }
+
+    $('#rebox-wrapper__box').html(pictureHtm);
+    $('#rebox').removeClass('bocunceinOut').addClass('bocuncein').show();
+    swiper = new Swiper('#rebox', {
+        pagination: '.swiper-pagination',
+        paginationType: 'fraction',	
+        loop: true,	
+        preventLinksPropagation : false,
+        zoom : true,
+        zoomToggle :false,
+        lazyLoading : true,
+    });
+    //swiper.slideTo($(this).parent().find('img').index($(this))+1, 0);
+    return false;
+}
+$(document).on('click', '#rebox', function () {
+    $('#rebox').removeClass('bocuncein').addClass('bocunceinOut');
+    setTimeout(function(){$('#rebox').hide();swiper.destroy();}, 400);
+    return false;
+});
+
+</script>
+<script language="javascript" src="source/plugin/tom_tongcheng/images/localResizeIMG4/dist/lrz.bundle.js"></script>
+<script>
+var picurl_count = 0;
+var pinglun_pic_num = "{$tcshopConfig['pinglun_pic_num']}";
+pinglun_pic_num = pinglun_pic_num * 1;
+
+$(document).on('change', '#pinglunPic', function() {
+    if(picurl_count >= pinglun_pic_num){
+        tusi('{lang tom_tcshop:upload_max_num}');
+        return false;
+    }
+    loading('{lang tom_tcshop:uploading}');
+    lrz(this.files[0], {width:640,quality:0.8,fieldName:"pinglunPic"})
+        .then(function (rst) {
+            return rst;
+        })
+        .then(function (rst) {
+            rst.formData.append('fileLen', rst.fileLen);
+            $.ajax({
+                url: '{$pinglunPloadUrl}',
+                data: rst.formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    if(data == '') {
+                        loading(false);
+                        tusi('{lang tom_tcshop:upload_fail}');
+                    }
+                    var dataarr = data.split('|');
+                    dataarr[0] = $.trim(dataarr[0]);
+                    if(dataarr[0] == 'OK') {
+                        loading(false);
+                        $("#btn-addimg").before('<li class="lastpost" ><img class="addfile" src="'+dataarr[1]+'" /><input type="hidden" name="picurl[]" value="'+dataarr[2]+'"/><i onclick="removePic();"></i></li>');
+                        picurl_count++;
+                    }else {
+                        loading(false);
+                        tusi('{lang tom_tcshop:upload_error}');
+                    }
+                }
+            });
+            return rst;
+        })
+        .catch(function (err) {
+            loading(false);
+            //alert(err);
+        })
+        .always(function () {
+        });
+});
+
+function removePic(){
+    $(document).on('click', '.lastpost i', function(){
+        $(this).parents('.lastpost').remove();
+        picurl_count--;
+    });
+}
+</script>
+

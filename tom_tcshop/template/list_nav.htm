@@ -1,0 +1,194 @@
+<script>
+
+var list_city_id            = "{$city_id}";
+var list_area_id            = "{$area_id}";
+var list_street_id          = "{$street_id}";
+var list_cate_id            = "{$cate_id}";
+var list_cate_child_id      = "{$cate_child_id}";
+var list_keyword            = '{$keyword}';
+var list_ordertype          = '{$ordertype}';
+
+function set_city_id(cityId){
+    list_street_id      = ""+0;
+    list_area_id        = ""+0;
+    list_city_id        = ""+cityId;
+}
+function set_area_id(areaId){
+    list_street_id      = ""+0;
+    list_area_id        = ""+areaId;
+}
+function set_street_id(streetId){
+    list_street_id      = ""+streetId;
+}
+function set_cate_id(cateId){
+    list_keyword        = "";
+    list_cate_child_id  = ""+0;
+    list_cate_id        = ""+cateId;
+}
+function set_cate_child_id(cateChildId){
+    list_keyword        = "";
+    list_cate_child_id  = ""+cateChildId;
+}
+function set_ordertype(orderType){
+    list_ordertype      = ""+orderType;
+    if(list_ordertype == 'lbs'){
+        list_street_id  = ""+0;
+        list_area_id    = ""+0;
+        list_city_id    = ""+0;
+    }
+}
+
+function open_list(){
+    pageIndex = 1;
+    var url = 'plugin.php?id=tom_tcshop&site={$site_id}&mod=list'+'&city_id='+list_city_id+'&area_id='+list_area_id+'&street_id='+list_street_id+'&cate_id='+list_cate_id+'&cate_child_id='+list_cate_child_id+'&keyword='+list_keyword+'&ordertype='+list_ordertype;
+    window.location = url;
+}
+
+$(document).on("click", ".id-area",function() {
+    $(".tc-list-top-filter>li>a").removeClass("active");
+    $(".id-list-div").children().addClass("dn");
+    $(".id-list-div").removeClass("dn");
+    $(".id-areadiv").removeClass("dn");
+    $(".id-area").addClass("active");
+    return;
+});
+
+$(".id-areadiv").on("click", ".item", function (event) {
+    var t = $(this);
+    var areaId = t.data("id"),areaName = t.data("name");
+    $(".id-area-txt").html(areaName);
+    set_area_id(areaId);
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxGetStreetUrl}",
+        data: { area_id:areaId},
+        success: function(msg){
+            var data = eval('('+msg+')');
+            if(data == 100){
+                open_list();
+            }else{
+                $(".id-streetdiv").html(data);
+                $(".id-areadiv").addClass("width50");
+                $(".id-streetdiv").removeClass("dn");
+            }
+            
+        }
+    });
+    $(this).addClass("click").siblings().removeClass("click");
+    event.stopPropagation();
+    return;
+});
+
+$(".id-streetdiv").on("click", ".item", function (event) {
+    var t = $(this);
+    var streetId = t.data("id"),areaName = t.data("name");
+    $(".id-area-txt").html(areaName);
+    set_street_id(streetId);
+    open_list();
+    $(this).addClass("click").siblings().removeClass("click");
+    event.stopPropagation();
+    return;
+});
+
+$(document).on("click", ".id-model",function() {
+    $(".tc-list-top-filter>li>a").removeClass("active");
+    $(".id-list-div").children().addClass("dn");
+    $(".id-list-div").removeClass("dn");
+    $(".id-modeldiv").removeClass("dn");
+    $(".id-model").addClass("active");
+    return;
+});
+
+$(document).on("click", ".id-cate",function() {
+    $(".tc-list-top-filter>li>a").removeClass("active");
+    $(".id-list-div").children().addClass("dn");
+    $(".id-list-div").removeClass("dn");
+    $(".id-catediv ").removeClass("dn");
+    $(".id-cate").addClass("active");
+    return;
+});
+
+$(".id-catediv").on("click", ".item", function (event) {
+    var t = $(this);
+    var cateId = t.data("id"),cateName = t.data("name");
+    $(".id-cate-txt").html(cateName);
+    set_cate_id(cateId);
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxGetCateChildUrl}",
+        data: { cate_id:cateId},
+        success: function(msg){
+            var data = eval('('+msg+')');
+            if(data == 100){
+                open_list();
+            }else{
+                $(".id-catechilddiv").html(data);
+                $(".id-catediv").addClass("width50");
+                $(".id-catechilddiv").removeClass("dn");
+            }
+            
+        }
+    });
+    $(this).addClass("click").siblings().removeClass("click");
+    event.stopPropagation();
+    return;
+});
+
+$(".id-catechilddiv").on("click", ".item", function (event) {
+    var t = $(this);
+    var cateChildId = t.data("id"),cateChildName = t.data("name");
+    $(".id-cate-txt").html(cateChildName);
+    set_cate_child_id(cateChildId);
+    open_list();
+    $(this).addClass("click").siblings().removeClass("click");
+    event.stopPropagation();
+    return;
+});
+
+$(document).on("click", ".id-ordertype",function() {
+    $(".tc-list-top-filter>li>a").removeClass("active");
+    $(".id-list-div").children().addClass("dn");
+    $(".id-list-div").removeClass("dn");
+    $(".id-ordertypediv").removeClass("dn");
+    $(".id-ordertype").addClass("active");
+    return;
+});
+
+$(".id-ordertypediv").on("click", ".item", function (event) {
+    var t = $(this);
+    var ordertypeId = t.data("id"),ordertypeName = t.data("name");
+    $(".id-ordertype-txt").html(ordertypeName);
+    set_ordertype(ordertypeId);
+    open_list();
+    $(this).addClass("click").siblings().removeClass("click");
+    event.stopPropagation();
+    return;
+});
+
+$(".tc-list-filter-area-fixed").click(function () {
+    $(this).addClass("dn");
+    $(".id-areadiv").removeClass("width50");
+    $(".id-catediv").removeClass("width50");
+    $(".tc-list-top-filter>li>a").removeClass("active");
+    $(".id-list-div").children().addClass("dn");
+});
+
+function cancelscroll()
+{
+    $("body").css({
+        'overflow': 'auto',
+        'position': 'static',
+        'top': 'auto'
+    });
+}
+function noscroll()
+{
+    var scrollTop = $("body").scrollTop();
+    $("body").css({
+        'width':'100%',
+        'overflow': 'hidden',
+        'position': 'fixed',
+        'top': scrollTop * -1
+    });
+}
+</script>

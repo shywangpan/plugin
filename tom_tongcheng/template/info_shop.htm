@@ -1,0 +1,46 @@
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/yinru_shop_style.css?v={$cssJsVersion}" />
+<section class="details-info" style="margin-bottom: 5px;">
+    <div class="shop_list" style="margin-top: 0px;">
+        <div class="shop_list-title" style="background-color: #FFF;font-size: 1.1em;">TA{lang tom_tongcheng:info_shop_list_title}</div>
+        <div class="list-item" id="shop-list"></div>
+        <div class="list-msg" style="display: none;background-color: #FFF;" id="shop-load-html">{lang tom_tongcheng:info_shop_list_load_msg}</div>
+        <div class="list-msg" style="display: none;background-color: #FFF;" id="no-shop-list-html">{lang tom_tongcheng:info_shop_list_no_list}</div>
+    </div>
+</section>
+<script type="text/javascript">
+var loadShopPage = 1;
+function indexLoadShopList(){
+    loadShopPage = 1;
+    loadShopList(1);
+}
+
+var loadShopListStatus = 0;
+function loadShopList(Page) {
+    if(loadShopListStatus == 1){
+        return false;
+    }
+    loadShopListStatus = 1;
+    $("#shop-list").html('');
+    $("#shop-load-html").show();
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxLoadShopListUrl}",
+        data: {page:Page},
+        success: function(msg){
+            var data = eval('('+msg+')');
+            $("#shop-load-html").hide();
+            if(data == 205){
+                loadShopListStatus = 1;
+                $("#no-shop-list-html").show();
+                return false;
+            }else{
+                loadShopPage += 1;
+                $("#shop-list").html(data);
+            }
+        }
+    });
+}
+$(document).ready(function(){
+   indexLoadShopList();
+});
+</script>

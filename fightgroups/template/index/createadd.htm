@@ -1,0 +1,368 @@
+<html>
+<head>
+ <!--{template fightgroups:index/header}-->
+<avalon ms-skip="" class="avalonHide">
+<style id="avalonStyle">
+.avalonHide{ display: none!important }
+</style>
+</avalon>
+<title>{lang fightgroups:s62}</title>
+
+ 
+<LINK href="{HEJIN_PATH}public/css/style_366c9ef.css" rel="stylesheet"> 
+<LINK href="{HEJIN_PATH}public/css/my.css" rel="stylesheet">  
+<LINK  href="{HEJIN_PATH}public/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="{HEJIN_PATH}public/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	cascdeInit('{$addres['province']}','{$addres['city']}','{$addres['county']}');
+});
+
+var xmlDoc;
+var TopnodeList;
+var citys;
+var countyNodes;
+var nodeindex = 0;
+var childnodeindex = 0;
+
+function cascdeInit(v1,v2,v3) {
+    xmlDoc = loadXmlFile('source/plugin/fightgroups/template/amyarea_{$charset}.xml');
+    var dropElement1 = document.getElementById("sel-provance");
+    var dropElement2 = document.getElementById("sel-city");
+    var dropElement3 = document.getElementById("sel-area");
+    RemoveDropDownList(dropElement1);
+    RemoveDropDownList(dropElement2);
+    RemoveDropDownList(dropElement3);
+    if (window.ActiveXObject) {
+        TopnodeList = xmlDoc.selectSingleNode("address").childNodes;
+    }
+    else {
+        TopnodeList = xmlDoc.childNodes[0].getElementsByTagName("province");      
+    }
+    if (TopnodeList.length > 0) {
+ 
+        var county;
+        var province;
+        var city;
+        for (var i = 0; i < TopnodeList.length; i++) {
+      
+            county = TopnodeList[i];          
+            var option = document.createElement("option");
+            option.value = county.getAttribute("name");
+            option.text = county.getAttribute("name");
+            if (v1 == option.value) {
+                option.selected = true;
+                nodeindex = i;
+            }
+            dropElement1.add(option);
+        }
+        if (TopnodeList.length > 0) {
+
+            citys = TopnodeList[nodeindex].getElementsByTagName("city")
+            for (var i = 0; i < citys.length; i++) {
+                var id = dropElement1.options[nodeindex].value;
+
+                province = TopnodeList[nodeindex].getElementsByTagName("city");
+                var option = document.createElement("option");
+                option.value = province[i] .getAttribute("name");
+                option.text = province[i].getAttribute("name");
+                if (v2 == option.value) {
+                    option.selected = true;
+                    childnodeindex = i;
+                }
+                dropElement2.add(option);
+            }
+			selectcounty(v3);
+        }
+    }
+}
+
+
+function selectCity() {
+    var dropElement1 = document.getElementById("sel-provance");
+    var name = dropElement1.options[dropElement1.selectedIndex].value;     
+    countyNodes = TopnodeList[dropElement1.selectedIndex];      
+    var province = document.getElementById("sel-city");
+    var city = document.getElementById("sel-area");
+    RemoveDropDownList(province);
+    RemoveDropDownList(city);
+    var citynodes;
+    var countycodes;
+    if (window.ActiveXObject) {
+        citynodes = xmlDoc.selectSingleNode('//address/province [@name="' + name + '"]').childNodes;
+    } else {
+        citynodes = countyNodes.getElementsByTagName("city")
+    }
+    if (window.ActiveXObject) {
+        countycodes = citynodes[0].childNodes;
+    } else {
+        countycodes = citynodes[0].getElementsByTagName("county")
+    }
+  
+    if (citynodes.length > 0) {
+       
+        for (var i = 0; i < citynodes.length; i++) {
+            var provinceNode = citynodes[i];
+            var option = document.createElement("option");
+            option.value = provinceNode.getAttribute("name");
+            option.text = provinceNode.getAttribute("name");
+            province.add(option);
+        }
+        if (countycodes.length > 0) {
+        
+            for (var i = 0; i < countycodes.length; i++) {
+                var dropElement2 = document.getElementById("sel-city");
+                var dropElement3 = document.getElementById("sel-area");
+              
+                
+                //alert(cityNode.childNodes.length); 
+                var option = document.createElement("option");
+                option.value = countycodes[i].getAttribute("name");
+                option.text = countycodes[i].getAttribute("name");
+                dropElement3.add(option);
+            }
+        }
+    }
+}
+
+function selectcounty(v3) {
+    var dropElement1 = document.getElementById("sel-provance");
+    var dropElement2 = document.getElementById("sel-city");
+    var name = dropElement2.options[dropElement2.selectedIndex].value;
+    var city = document.getElementById("sel-area");  
+    var countys = TopnodeList[dropElement1.selectedIndex].getElementsByTagName("city")[dropElement2.selectedIndex].getElementsByTagName("county")
+    RemoveDropDownList(city);
+    for (var i = 0; i < countys.length; i++) {
+        var countyNode = countys[i];
+        var option = document.createElement("option");
+        option.value = countyNode.getAttribute("name");
+        option.text = countyNode.getAttribute("name");
+        if(v3==option.value){
+        	option.selected=true;
+        }
+        city.add(option);
+    }
+}
+function RemoveDropDownList(obj) {
+    if (obj) {
+        var len = obj.options.length;
+        if (len > 0) {  
+            for (var i = len; i >= 0; i--) {
+                obj.remove(i);
+            }
+        }
+    }
+}
+
+function loadXmlFile(xmlFile) {
+    var xmlDom = null;
+    if (window.ActiveXObject) {
+        xmlDom = new ActiveXObject("Microsoft.XMLDOM");
+        xmlDom.async = false;
+        xmlDom.load(xmlFile) || xmlDom.loadXML(xmlFile);
+    } else if (document.implementation && document.implementation.createDocument) {
+        var xmlhttp = new window.XMLHttpRequest();
+        xmlhttp.open("GET", xmlFile, false);
+        xmlhttp.send(null);
+        xmlDom = xmlhttp.responseXML;
+    } else {
+        xmlDom = null;
+    }
+    return xmlDom;
+}
+</script>
+</head> 
+<body>
+<div class="mod_container">
+  <div class="wx_bar">
+    <div class="wx_bar_back">         
+     </div>
+    <div ><b>{lang fightgroups:s63}</b></div>
+
+  </div>
+  <div class="wx_wrap">
+    <div class="address_new"><INPUT id="address_regionId" type="hidden">             
+      <INPUT id="adid" type="hidden">                 
+      <p>
+        <LABEL for="name"><SPAN class="tit">{lang fightgroups:s64}</SPAN>                         
+        <INPUT name="name" id="name" type="text" placeholder="{lang fightgroups:s65}" value="{$addres['cname']}">              
+        
+        </LABEL>                 
+      </p>
+      <p>
+        <LABEL for="mobile"><SPAN class="tit">{lang fightgroups:s66}</SPAN>                         
+              
+        <input required="" id="mobile" placeholder="{lang fightgroups:s67}" name="mobile" maxlength="11" minlength="11" class="block input" tabindex="2" type="tel" value="{$addres['tel']}" nkeyup="this.value=this.value.replace(/\D/gi,&quot;&quot;)" onblur="value=value.replace(/\D/gi,&quot;&quot;);if(value.length&lt;11){alert(&quot;{lang fightgroups:s68}&quot;);this.focus();}">
+        </LABEL> 
+      </p>
+
+      <p>
+        <LABEL for="provinceId">
+        <SPAN class="tit">{lang fightgroups:s70}</SPAN>                         
+        <SELECT name="provinceId" id="sel-provance" value="{$addres['province']}"  onchange="selectCity();">
+         <option value="" selected="selected">{$addres['province']}</option>
+        </SELECT> 
+        
+        </LABEL>      
+      </p>
+      <p>
+        <LABEL for="cityId">
+        <SPAN class="tit">{lang fightgroups:s71}</SPAN>                         
+        <select class="select" id="sel-city" name="city" tabindex="4" required="required" onchange="selectcounty()">
+              <option value="" selected="selected">{$addres['city']}</option>
+            </select>
+                          
+        </LABEL>                 
+      </p>
+      <p id="areaSelP">
+        <LABEL for="areaId"><SPAN class="tit">{lang fightgroups:s72}</SPAN>                
+                <select class="select" id="sel-area" name="area" tabindex="5" required="required">
+              <option value="" selected="selected">{$addres['county']}</option>
+            </select>
+          </LABEL>  
+      </p>
+      <p><LABEL for="adinfo">
+        <SPAN class="tit">{lang fightgroups:s73}</SPAN>                         
+        <INPUT name="adinfo" id="address" type="text" placeholder="{lang fightgroups:s73}" value="{$addres['detailed_address']}">        
+                              
+         </LABEL>   
+       </p>
+      <p class="action">
+        <BUTTON class="submit" id="add">{lang fightgroups:s74}</BUTTON>
+        <BUTTON class="submit" id="moren" style="background-color: #FFCC33;">{lang fightgroups:s75}</BUTTON>
+        <BUTTON class="submit" id="deletes" style="background-color: red;">{lang fightgroups:s76}</BUTTON>           
+      </p>
+    </div>
+  </div>
+</div>
+<div style="height:100px;"></div>
+
+       
+        <!--{template fightgroups:index/footerbar}-->
+    
+<input type="hidden" id='addresschange' name='addres' value='{$addresschange}'>
+<input type="hidden" id='con' name='conf' value='{$con}'>
+<input type="hidden" id='g_id' name='g' value='{$all['g_id']}'>
+<input type="hidden" id='groupnum' name='group' value='{$all['groupnum']}'>
+
+
+<script>
+
+ 
+      $("#add").bind("click", function() {
+        var addresschange = $("#addresschange").val();
+        var con = $("#con").val();
+        var g_id = $("#g_id").val();
+        var groupnum = $("#groupnum").val();
+        var lxr_val=$("#name").val(); 
+        if(!lxr_val){
+            alert("{lang fightgroups:s77};");
+            return false;
+          };
+        lxr_val = ((lxr_val));
+        var mobile_val=$("#mobile").val(); 
+        if(!mobile_val){
+            alert("{lang fightgroups:s78};");
+            return false;
+          };
+        var province_val=$("#sel-provance").val(); 
+        if(!province_val){
+            alert("{lang fightgroups:s79};");
+            return false;
+          };
+         province_val = ((province_val));  
+        var city_val=$("#sel-city").val(); 
+        if(!city_val){
+            alert("{lang fightgroups:s80};");
+            return false;
+          };
+        city_val = ((city_val));    
+        var area_val=$("#sel-area").val(); 
+        if(!area_val){
+            alert("{lang fightgroups:s81};");
+            return false;
+          };
+        area_val = ((area_val));   
+        var address_val=$("#address").val(); 
+        if(!address_val){
+            alert("{lang fightgroups:s82};");
+            return false;       
+          };
+        address_val = ((address_val));   
+        var message=confirm('{lang fightgroups:s83}');
+        if (message) {
+			$.ajax({
+				url:'{eval echo createMobileUrl('createadd',array('opt' =>'post','aid'=>$addres['id'],'formhash' => FORMHASH))}',
+				data:{lxr_val:lxr_val,mobile_val:mobile_val,province_val:province_val,city_val:city_val,address_val:address_val,area_val:area_val},
+			    type:'post',
+			    contentType:'application/x-www-form-urlencoded; charset={$charset}',
+			    dataType: "html", 
+			    success:function(m){
+			    	  if(m==1){
+                
+	                  if(con == 1){
+	                    alert('{lang fightgroups:s84}');
+	                    location.href='{eval echo createMobileUrl('orderconfirm',array('groupnum'=> $groupnum,'gid'=>$all['g_id'],'cao'=>'cao','tuan_id'=>$tuan_id));}';
+	                  } 
+	                  if(addresschange == 1){
+	                    alert('{lang fightgroups:s85}');
+	                     location.href='{eval echo createMobileUrl('orderconfirm',array('groupnum'=> $all['groupnum'],'gid'=>$all['g_id'],'tuan_id'=>$tuan_id));}';
+	                  }
+	                  if(con != 1 && addresschange != 1){ 
+	                    alert('{lang fightgroups:s84}');                 
+	                    location.href='{eval echo createMobileUrl('addmanage');}';
+	                  } 
+	                } else {
+	                    alert('{lang fightgroups:s85}');
+	                }
+			    }
+			});
+        }
+			
+      });
+ $("#deletes").bind("click", function() {
+     $.post('{eval echo createMobileUrl('createadd',array('opt' =>'deletes','aid'=>$addres['id'],'formhash' => FORMHASH))}',function(m){
+                if(m==1){
+                alert('{lang fightgroups:s86}');
+                location.href='{eval echo createMobileUrl('addmanage');}';
+                } 
+                if(m==0){
+                  alert('{lang fightgroups:s86}');
+                }
+                if(m==2){
+                    alert('{lang fightgroups:s87}');
+                }
+             },"html");
+          
+
+  });
+ $("#moren").bind("click", function() { 
+        var addresschange = $("#addresschange").val();
+        var g_id = $("#g_id").val();
+        var groupnum = $("#groupnum").val();
+     $.post('{eval echo createMobileUrl('createadd',array('opt' =>'moren','aid'=>$addres['id'],'formhash' => FORMHASH))}',function(m){
+                if(m==1){
+                alert('{lang fightgroups:s88}'); 
+                  if(addresschange == 1){
+                     location.href='{eval echo createMobileUrl('orderconfirm',array('groupnum'=> $all['groupnum'],'gid'=>$all['g_id'],'tuan_id'=>$tuan_id));}';                   
+                  }
+                  if(addresschange != 1){
+                    location.href='{eval echo createMobileUrl('addmanage');}';
+                  }
+                // location.href='{eval echo createMobileUrl('addmanage');}';
+                }
+                if(m==2){
+                    alert('{lang fightgroups:s89}');
+                }
+                if(m==0){
+                   alert('{lang fightgroups:s90}'); 
+                }
+             },"html");
+          
+
+  });
+    </script>
+ </BODY>
+ </HTML>
+ 

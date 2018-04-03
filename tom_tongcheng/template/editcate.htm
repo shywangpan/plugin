@@ -1,0 +1,193 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:editcate_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.css" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/layer_mobile/layer.js?v={$cssJsVersion}"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body>
+<header class="header header-index on in2">
+   <section class="wrap">
+       <a href="{$backUrl}"><section class="sec-ico go-back">{lang tom_tongcheng:back}</section></a>
+        <h2>{lang tom_tongcheng:editcate_title}</h2>
+        <section class="sec-ico btn slide-btn">
+            <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=article">{lang tom_tongcheng:fabu_xuzhi_title}</a>
+        </section>
+   </section>
+</header>
+<form class="mainer" name="saveForm" id="saveForm" >
+   <section class="wrap edit-form">
+        <section class="edit-item">
+            <section class="input-control">
+                  <span>{lang tom_tongcheng:editcate_model_title}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="model_id" id="model_id" class="tcui-select" onchange="refreshmodel();">
+                                <option value="0">{lang tom_tongcheng:editcate_model_msg}</option>
+                                <!--{loop $modelList $key $val}-->
+                                <option value="{$val['id']}" <!--{if $val['id']==$model_id }-->selected<!--{/if}-->> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{if $typeList }-->
+            <section class="input-control ">
+                  <span>{lang tom_tongcheng:editcate_type_title}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="type_id" id="type_id" class="tcui-select" onchange="refreshtype();">
+                                <option value="0">{lang tom_tongcheng:editcate_type_msg}</option>
+                                <!--{loop $typeList $key $val}-->
+                                <option value="{$val['id']}" <!--{if $val['id']==$type_id }-->selected<!--{/if}-->> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{/if}-->
+            <!--{if $cateList }-->
+            <section class="input-control ">
+                  <span>{$typeInfo['cate_title']}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="cate_id" id="cate_id" class="tcui-select">
+                                <!--{loop $cateList $key $val}-->
+                                <option value="{$val['id']}"> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{/if}-->
+        </section>
+   </section>
+   <section class="btn-group-block">
+        <!--{if $type_id > 0 }-->
+        <button type="button" id="id_save_btn" class="id_save_btn">{lang tom_tongcheng:edit_save_btn}</button>
+        <!--{else}-->
+        <button type="button" style="background-color: #ffdac3;">{lang tom_tongcheng:edit_save_btn}</button>
+        <!--{/if}-->
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <input type="hidden" name="tongcheng_id" value="{$tongcheng_id}">
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+   </section>
+    <div class="tcui-cells__title">
+         <section style="padding:10px;background: #eff9ff;line-height:1.5;letter-spacing: 1px;">
+             <p style="color:#f8a543"><b>{lang tom_tongcheng:editcate_msg0}</b></p>
+            <p style="color:#f8a543">{lang tom_tongcheng:editcate_msg1}</p>
+            <p style="color:#f8a543">{lang tom_tongcheng:editcate_msg2}</p>
+            <p style="color:#f8a543">{lang tom_tongcheng:editcate_msg3}</p>
+            <p style="color:#f8a543">{lang tom_tongcheng:editcate_msg4}</p>
+         </section>
+    </div>
+</form>
+<script>
+    
+function refreshmodel() {
+	location.href = 'plugin.php?id=tom_tongcheng&site={$site_id}&mod=editcate&tongcheng_id={$tongcheng_id}&fromlist={$_GET['fromlist']}'+"&model_id="+$('#model_id').val();
+}
+
+function refreshtype() {
+	location.href = 'plugin.php?id=tom_tongcheng&site={$site_id}&mod=editcate&tongcheng_id={$tongcheng_id}&fromlist={$_GET['fromlist']}'+"&model_id="+$('#model_id').val()+"&type_id="+$('#type_id').val();
+}
+
+var submintSaveStatus = 0;
+$(".id_save_btn").click( function (){
+    if(submintSaveStatus == 1){
+        return false;
+    }
+    layer.open({
+        content: '{lang tom_tongcheng:editcate_makesure_msg}'
+        ,btn: ['{lang tom_tongcheng:editcate_makesure_ok}', '{lang tom_tongcheng:editcate_makesure_no}']
+        ,yes: function(index){
+            submintSaveStatus = 1;
+            $.ajax({
+                type: "POST",
+                url: "{$saveUrl}",
+                dataType : "json",
+                data: $('#saveForm').serialize(),
+                success: function(data){
+                    submintSaveStatus = 0;
+                    if(data.status == 200) {
+                        tusi("{lang tom_tongcheng:edit_success}");
+                        setTimeout(function(){window.location.href="{$backUrl}";},1888);
+                    }else if(data.status == 301){
+                        tusi_h("{lang tom_tongcheng:editcate_error301}");
+                        //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+                    }else if(data.status == 302){
+                        tusi_h("{lang tom_tongcheng:editcate_error302}");
+                        //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+                    }else{
+                        tusi("{lang tom_tongcheng:edit_error}");
+                        //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+                    }
+                }
+            });
+            layer.close(index);
+        }
+      });
+});
+</script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

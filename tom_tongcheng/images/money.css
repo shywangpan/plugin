@@ -1,0 +1,110 @@
+/* CSS Document */
+*{outline:none;-webkit-tap-highlight-color:rgba(255,0,0,0);vertical-align:baseline;font-style:normal;margin:0;padding:0;}
+body{margin:0;padding:0;font-size:14px;font-family:'Helvetica Neue',Roboto,'microsoft yahei';color:#404040;background-color:#f2f2f2;}
+img{border:0}
+a,a:visited{color:#53585a;text-decoration:none;}
+.blank{width:100%;height:15px;}
+
+
+.balanceMain{width:100%;background-color:#FFF;display:table;}
+.balanceMain .balanceBanner{width:92%;margin:0 auto;height:40px;line-height:40px;}
+.balanceMain .balanceBanner .detail{position:relative;float:right;width:36%;text-align:right;font-size:14px;padding-right:4%;color:#888;}
+.balanceMain .balanceBanner .detail .arrow{position:absolute;right:0;top:13px;width:10px;color:#CFCFCF;height:14px;font-size:14px;line-height:14px;}
+.balanceMain .balance{width:92%;margin:0 auto;height:50px;line-height:50px;text-align:center;color:#910012;font-size:40px;font-weight:bold;}
+.balanceMain .balanceFrozen{width:92%;margin:0 auto;height:30px;line-height:30px;text-align:center;color:#576b95;margin-bottom:10px;font-size:16px;}
+.balanceMain .balanceStaticsBanner{width:100%;height:60px;}
+.balanceMain .balanceStaticsBanner .balanceStatics{float:left;width:33%;height:40px;text-align:center;margin:10px 0;}
+.balanceMain .balanceStaticsBanner .balanceStatics span{display:block;width:100%;height:20px;line-height:20px;}
+.balanceMain .balanceStaticsBanner .balanceStatics span.title{font-size:14px;}
+.balanceMain .balanceStaticsBanner .balanceStatics span.money{color:#910012;font-size:18px;font-weight:bold;}
+.balanceMenu{width:100%;margin-top:10px;background-color:#FFF;display:table;}
+.balanceMenu .menuItem{width:95%;margin-left:5%;height:46px;position:relative;}
+.balanceMenu .menuItem .menuItemIcon{float:left;width:43px;height:46px;color:#00B7EE;font-size:17px;margin-left:-3px;display:flex;display:-webkit-flex;align-items:center;-webkit-align-items:center;}
+.balanceMenu .menuItem .menuItemText{margin-left:40px;height:46px;line-height:46px;font-size:16px;}
+.balanceMenu .menuItem .coinNum,.balanceMenu .menuItem .bailMoney,.balanceMenu .menuItem .couponNum{height:46px;line-height:46px;color:#888;float:right;margin-right:10%;font-size:14px;}
+.balanceMenu .menuItem .arrow{position:absolute;top:0;right:0;color:#CFCFCF;width:12px;font-size:14px;margin-right:4%;line-height:46px;}
+.border.horizonBottom:after{left:0;bottom:0;}
+.border.horizonTop:after,.border.horizonBottom:after{width:100%;height:1px;transform:scaleY(0.5);-webkit-transform:scaleY(0.5);}
+.border:after{position:absolute;content:'';background-color:#D9D9D9;}
+.supportBanner{width:100%;text-align:center;height:49px;line-height:49px;font-size:12px;border-top:1px solid #eaeae8;background-color:#F8F8F8;margin-top:10px;color:#888;visibility:hidden;}
+.supportBanner a{color:#F2B896}  
+.weui_switch{-webkit-appearance:none;-moz-appearance:none;appearance:none;position:relative;width:52px;height:32px;border:1px solid #dfdfdf;outline:0;border-radius:16px;box-sizing:border-box;background:#dfdfdf;}
+.weui_switch:checked{border-color:#ed414a;background-color:#ed414a;}
+.weui_switch:after,.weui_switch:before{content:" ";position:absolute;top:0;left:0;height:30px;border-radius:15px;-webkit-transition:-webkit-transform .3s;transition:-webkit-transform .3s;transition:transform .3s;transition:transform .3s,-webkit-transform .3s;}
+.weui_switch:before{width:50px;background-color:#fdfdfd;box-sizing:border-box;}
+.weui_switch:after{width:30px;background-color:#fff;box-sizing:border-box;box-shadow:0 1px 3px rgba(0,0,0,.4);}
+.weui_switch:checked:before{-webkit-transform:scale(0);transform:scale(0);}
+.weui_switch:checked:after{-webkit-transform:translateX(20px);transform:translateX(20px);}
+
+
+.recordMain{width:100%;background-color:#FFF;display:table;}
+.recordMain.noData{background-color:none;text-align:center;padding-top:40px;font-size:14px;display:none;}
+.recordMain.noData img{width:80px;height:80px;margin-bottom:13px;}
+.recordMain .balanceItem{position:relative;height:40px;border-bottom:1px solid #e7e7e7;position:relative;padding:12px 0;}
+.recordMain .balanceItem .type,.recordMain .balanceItem .time{width:90%;height:25px;margin-left:18px;float:left;line-height:25px;}
+.recordMain .balanceItem .type{font-size:14px;color:#000;}
+.recordMain .balanceItem .time{height:15px;line-height:15px;color:#7e7e7e;margin-top:5px;}
+.recordMain .balanceItem .amount{position:absolute;width:28%;line-height:40px;text-align:right;right:8px;font-size:20px;color: #fb0000;}
+.recordMain .balanceItem .amount span{padding-right:5px;}
+.recordMain .balanceItem .amount.positive{color:#06BC07;}
+.recordMain .balanceItem .amount.negtive{color:#F19333;}
+.recordMain .balanceItem .amount.withdrawWait{color:#7e7e7e;}
+.recordMain .balanceItem .status{position:absolute;bottom:5px;right:18px;font-size:12px;color:#7e7e7e;}
+.totalAmount{height:60px;width:100%;line-height:60px;text-align:right;font-size:14px;position:fixed;bottom:0;border-top:1px solid #cfd1d4;color:#5e5e5e;background-color:#efeff4;}
+.totalAmount .menu{float:left;margin-left:18px;position:relative;}
+.totalAmount .menu .menuBtn{background-image:url(balanceMenu.png);background-repeat:no-repeat;background-position:left center;background-size:16px;padding-left:18px;text-align:left;}
+.totalAmount .menu .menuList{position:relative;bottom:277px;background-color:#FFF;border:1px solid #cfd1d4;display:none;border-radius:2px;}
+.totalAmount .menu .menuList ul{padding:0 10px;}
+.totalAmount .menu .menuList ul li{height:40px;border-bottom:0.5px solid #cfd1d4;line-height:40px;text-align:center;margin:0 5px;padding:0 5px;}
+.totalAmount .menu .menuList ul li:last-child{border:none;}
+.totalAmount .menu .menuList em{display:block;border-width:10px;position:absolute;bottom:-20px;left:10px;border-style:solid dashed dashed;border-color:#cfd1d4 transparent transparent;font-size:0;line-height:0;}
+.totalAmount .menu .menuList span{display:block;border-width:10px;position:absolute;bottom:-18.5px;left:10px;border-style:solid dashed dashed;border-color:#FFF transparent transparent;font-size:0;line-height:0;}
+.totalAmount .balance{float:right;}
+.totalAmount .balance .amount{color:#780018;float:right;font-size:18px;text-indent:10px;margin-right:18px;font-weight:bold;}
+.supportBanner{width:100%;text-align:center;height:49px;line-height:49px;font-size:12px;border-top:1px solid #eaeae8;background-color:#F8F8F8;margin-top:10px;color:#888;visibility:hidden;}
+.supportBanner a{color:#F2B896}
+
+
+.recharge-form{-webkit-user-select:none;user-select:none;padding-bottom: 60px;}
+.recharge-form .pay-money{margin:10px 0 20px;padding:10px;background:#fff;color:#333;font-size:16px;position:relative}
+.recharge-form .pay-money em{color:#666;font-size:12px;}
+.recharge-form .pay-text .input{border:none;background:0 0;color:#999;-webkit-appearance:none;position:absolute;width:60%;left:110px;top:0;bottom:0;padding-right:10px;display:table;font-size:1.0em;text-align:left;}
+.recharge-form .pay-text{padding:10px;background:#fff;color:#333;font-size:16px;position:relative}
+.pay-order-nonehongbao{margin:10px 0 20px;padding:10px;background:#fff;color:#333;font-size:16px;position:relative}
+.pay-order-nonehongbao .right{float:right;color:#ed414a;font-size:14px;}
+.pay-order-hongbao{margin:10px 0 20px;padding:10px;background:#fff;color:#999;font-size:16px;position:relative}
+.right img.icon_arrow_right{width:auto;height:15px;margin-left:3px;vertical-align:-1.5px;}
+.pay-order-hongbao .right{float:right;font-size:14px;}
+.recharge-form .pay-money .pull-right{float:right;}
+.pull-right img.icon_arrow_right{width:auto;height:15px;vertical-align:-0.2px;}
+.recharge-form .pay-money .input{border:none;background:0 0;color:#ed414a;-webkit-appearance:none;position:absolute;width:90%;left:0;top:0;bottom:0;padding-right:30px;display:table;font-size:1.5em;text-align:right;}
+.recharge-form .pay-money select{border:none;background:0 0;color:#ff6000;-webkit-appearance:none;position:absolute;width:30%;right:0;top:0;bottom:0;direction:rtl;}
+.recharge-form .pay-money option{direction:ltr;}
+.recharge-form .pay-money .input:focus{outline:0;background:0 0}
+.recharge-form .pay-way{background:#fff;margin-bottom:30px}
+.recharge-form .pay-way .title{padding:10px;color:#666;border-bottom:1px solid #f2f2f2;border-top:1px solid #f2f2f2}
+.recharge-form .pay-way li{position:relative;padding:10px 15px 10px 10px;border-bottom:1px solid #f2f2f2;height:auto;overflow:hidden;}
+.recharge-form .pay-way .pay-way-icon{float:left;width:30px;margin-top:5px;margin-right:10px}
+.recharge-form .pay-way .pay-way-explain{float:left}
+.recharge-form .pay-way .pay-way-explain h3{font-weight:400;margin:0;font-size:1.1em;}
+.recharge-form .pay-way .pay-way-explain p{margin:0;color:#666;font-size:11px}
+.recharge-form .pay-way .more{padding:10px;text-align:center;border-bottom:1px solid #f2f2f2;color:#666;font-size:15px}
+.recharge-form .pay-way .more .icon-arrow-down{font-size:12px;position:relative;top:0;left:4px}
+.recharge-form .recharge-btn{padding:0 10px}
+.recharge-form .icon-arrow-right{position:relative;top:2px}
+.recharge-back-btn{width:190px;display:inline-block;margin-top:15px}
+.ui-btn{display:block;width:100%;padding:10px 0;background:#ea1010;border:none;border-radius:3px;text-align:center;color:#fff;font-size:1.1em;font-weight:600; height:42px;}
+.ui-btn.active{background:#ed414a;}
+.vico{width:20px;height:20px;position:absolute;right:15px;top:50%;z-index:1;margin-top:-10px;border-radius:50%;background:#FFF;border:1px solid #ccc;-webkit-box-sizing:border-box;-webkit-transition:all .3s ease-in-out;display:none}
+.pay-way .vico{display:block}
+.pay-way .selected .green{background:#ed414a;border-color:#ed414a}
+.pay-way .selected .vico{background-image:url(vote-check.png);-webkit-background-size:20px 20px;background-size:20px 20px}
+.borderD2 { border-bottom:1px solid #d2d2d2;transform:scaleY(0.5); -webkit-transform:scaleY(0.5);}
+.ui-btn.doing {  background:#c9c7c8;   }
+.rechargeMain{width:100%;display:table;margin-bottom:15px;}
+.rechargeMain .rechargeItem{height:48px;background-color:#FFF;line-height:48px;font-size:14px;}
+.rechargeMain .rechargeItem .title{float:left;width:25%;text-align:center;}
+.rechargeMain .rechargeItem .numInput{float:left;width:75%;height:48px;color:#CCC;box-sizing:border-box;}
+.rechargeMain .rechargeItem .numInput span.notEmpty{color:#04BE02;font-size:16px;}
+.rechargeMain .rechargeItem .numInput span.hover{border-right:2px solid red;}
+.rechargeMain .tip{width:96%;margin:0 auto;height:24px;line-height:24px;font-size:12px;color:#BFBEC4;text-align:right;}

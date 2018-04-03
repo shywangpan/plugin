@@ -1,0 +1,121 @@
+<section class="foot-sec"></section>
+<footer class="footer">
+   <section class="wrap">
+        <section class="footer-bar">
+             <ul>
+                  <li <!--{if $_GET['mod'] == 'index' }-->class="on"<!--{/if}-->>
+                      <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=index&prand={$prand}">
+                          <font class="iconfont">
+                          <!--{if $_GET['mod'] == 'index' }-->
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_index_hover.png" style="width: 25px;">
+                          <!--{else}-->
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_index.png" style="width: 25px;">
+                          <!--{/if}-->
+                          </font>
+                          <section class="text1">{lang tom_tongcheng:footer_nav_index}</section>
+                      </a>
+                  </li>
+                  <!--{if $__ShowTcshop == 1 }-->
+                  <li>
+                      <a href="plugin.php?id=tom_tcshop&amp;site=1&amp;mod=index&amp;prand={$prand}">
+                          <font class="iconfont">
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_shop.png" style="width: 25px;">
+                          </font>
+                          <section class="text1">ºÃµê</section>
+                      </a>
+                  </li>
+
+			
+                  <!--{else}-->
+                  <li <!--{if $_GET['mod'] == 'search' }-->class="on"<!--{/if}-->>
+                      <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=search&prand={$prand}">
+                          <font class="iconfont">
+                          <!--{if $_GET['mod'] == 'search' }-->
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_search_hover.png" style="width: 25px;">
+                          <!--{else}-->
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_search.png" style="width: 25px;">
+                          <!--{/if}-->
+                          </font>
+                          <section class="text1">{lang tom_tongcheng:footer_nav_search}</section>
+                      </a>
+                  </li>
+                  <!--{/if}-->
+                  <li>
+                      <!--{if $_GET['mod'] == 'list' }-->
+                      <a href="{$fabuUrl}">
+                      <!--{else}-->
+                      <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=fabu&prand={$prand}">
+                      <!--{/if}-->
+                        <section class="img"></section>
+                        <section class="text1">{lang tom_tongcheng:footer_nav_fabu}</section>
+                      </a>
+                  </li>
+                  <!--{if $tongchengConfig['footer_nav_mod'] == 1 }-->
+                  <li>
+                      <a href="{$footer_nav_content_link}">
+                        <font class="iconfont">
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_zdy.png" style="width: 25px;">
+                        </font>
+                        <section class="text1">{$footer_nav_content_name}</section>
+                      </a>
+                  </li>
+                  <!--{/if}-->
+                  <!--{if $tongchengConfig['footer_nav_mod'] == 2 }-->
+                  <li <!--{if $_GET['mod'] == 'message' }-->class="on"<!--{/if}-->>
+                      <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=message&prand={$prand}">
+                         <font class="iconfont">
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_zdy.png" style="width: 25px;">
+                        </font>
+                        <section class="text1">ÏûÏ¢</section>
+                      </a>
+                  </li>
+                  <!--{/if}-->
+                  <!--{if $tongchengConfig['footer_nav_mod'] == 3 }-->
+                  <li>
+                      <a href="plugin.php?id=tom_tchongbao&site={$site_id}&mod=index&prand={$prand}">
+                        <font class="iconfont">
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_hongbao.png" style="width: 25px;">
+                        </font>
+                        <section class="text1">{lang tom_tongcheng:footer_nav_hongbao}</section>
+                      </a>
+                  </li>
+                  <!--{/if}-->
+                  <!--{if $tongchengConfig['footer_nav_mod'] == 4 }-->
+                  <li>
+                      <a href="plugin.php?id=tom_tcqianggou&site={$site_id}&mod=index&prand={$prand}">
+                        <font class="iconfont">
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_qianggou.png" style="width: 25px;">
+                        </font>
+                        <section class="text1">{lang tom_tongcheng:footer_nav_qianggou}</section>
+                      </a>
+                  </li>
+                  <!--{/if}-->
+                  <!--{if $tongchengConfig['footer_nav_mod'] == 5 }-->
+                  <li>
+                      <a href="plugin.php?id=tom_tcptuan&site={$site_id}&mod=index&prand={$prand}">
+                        <font class="iconfont">
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_ptuan.png" style="width: 25px;">
+                        </font>
+                        <section class="text1">{lang tom_tongcheng:footer_nav_ptuan}</section>
+                      </a>
+                  </li>
+                  <!--{/if}-->
+                  <li <!--{if $_GET['mod'] == 'personal' }-->class="on"<!--{/if}-->>
+                      <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=personal&prand={$prand}">
+                          <font class="iconfont">
+                          <!--{if $tongchengConfig['footer_nav_mod'] != 2 }-->
+                            <!--{if $pmNewNum > 0 }--><i>{$pmNewNum}</i><!--{/if}-->
+                          <!--{/if}-->
+                          <!--{if $_GET['mod'] == 'personal' }-->
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_personal_hover.png" style="width: 25px;">
+                          <!--{else}-->
+                          <img src="source/plugin/tom_tongcheng/images/footer_nav_personal.png" style="width: 25px;">
+                          <!--{/if}-->
+                          </font>
+                          <section class="text1">{lang tom_tongcheng:footer_nav_personal}</section>
+                      </a>
+                  </li>
+             </ul>
+        </section>
+   </section>
+</footer>

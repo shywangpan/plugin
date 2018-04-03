@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="{HEJIN_PATH}public/bootstrap.min.css"  type="text/css"/>
+
+
+	<div class="panel panel-default">
+		<div class="panel-heading">{lang fightgroups:member1}</div>
+		<div class="panel-body">
+			<div class="table-responsive panel-body">
+				<table class="table table-hover" style="min-width: 300px;">
+					<thead class="navbar-inner">
+						<tr>
+							<th style="width:50px;">{lang fightgroups:member2}</th>
+							<th style="width:220px;">{lang fightgroups:member3}</th>
+							<th style="width:120px;">{lang fightgroups:member4}</th>
+							<th style="width:120px;">{lang fightgroups:member5}</th>
+							<th style="width:120px;">{lang fightgroups:member6}</th>
+							<th style="width:300px;">{lang fightgroups:member7}</th>
+							<th style="width:100px;">{lang fightgroups:member8}</th>
+						</tr>
+					</thead>
+						{loop $members $memberid $member}
+					
+						<tr>
+							<td>{$member['id']}</td>
+							<td>{$member['from_user']}</td>
+							<td>{$member['nickname']}</td>
+							<td>{$member['address']['cname']}</td>
+							<td>{$member['address']['tel']}</td>
+							<td>{$member['address']['province']}{$member['address']['city']}{$member['address']['county']}{$member['address']['detailed_address']}
+							</td>
+						    <td >
+							<a href="{eval echo createWebUrl('member', array('sid' => $member['id'], 'op' => 'delete' , 'formhash' => FORMHASH))}"
+								class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:c27}
+							</a>
+						</td>
+						</tr>
+						{/loop}
+						{if empty($members)}
+						<tr>
+							<td colspan="8">
+								{lang fightgroups:member9}
+							</td>
+						</tr>
+						{/if}
+					</tbody>
+				</table>
+				{$multi}
+			</div>
+		</div>
+	</div>
+</div>

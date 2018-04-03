@@ -1,0 +1,479 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tcshop:edit_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/shop_style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<style>
+.tcui-actionsheet__cell:before{border:0}
+.tcui-actionsheet__cell{border-bottom:1px solid #EFEFF4;padding:20px 0}
+</style>
+<script>
+var tomBrowser = {
+    versions: function () {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return { /*移动终端浏览器版本信息*/
+            trident: u.indexOf('Trident') > -1, /*IE内核*/
+            presto: u.indexOf('Presto') > -1, /*opera内核*/
+            webKit: u.indexOf('AppleWebKit') > -1, /*苹果、谷歌内核*/
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, /*火狐内核*/
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), /*是否为移动终端*/
+            ios: !!u.match(/i[^;]+;( U;)? CPU.+Mac OS X/), /*ios终端*/
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, /*android终端或者uc浏览器*/
+            iPhone: u.indexOf('iPhone') > -1 || (u.indexOf('Mac') > -1 && u.indexOf('Macintosh') < 0), /*是否为iPhone或者QQHD浏览器*/
+            iPad: u.indexOf('iPad') > -1, /*是否iPad*/
+            webApp: u.indexOf('Safari') == -1, /*是否web应该程序，没有头部与底部*/
+            WindowsWechat: u.indexOf('WindowsWechat') > 0 /*是否web应该程序，没有头部与底部*/
+        };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+}
+</script>
+</head>
+<body>
+<header class="header header-index on in2">
+   <section class="wrap">
+        <!--{if $__HideHeader == 0 }-->
+        <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=mylist"><section class="sec-ico go-back">{lang tom_tcshop:back}</section></a>
+        <!--{/if}-->
+        <h2>{lang tom_tcshop:edit_title}</h2>
+   </section>
+</header>
+<form class="mainer" name="saveForm" id="saveForm" >
+   <section class="wrap edit-form">
+        <section class="edit-item">
+            <section class="input-control">
+                 <span>{lang tom_tcshop:ruzhu_name}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="name" name="name" value="{$tcshopInfo['name']}"  />
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+             <section class="input-control ">
+                  <span>{lang tom_tcshop:ruzhu_cate}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                           <div id="choseCate"><font color="#8e8e8e">{$cateInfo['name']} {$cateChildInfo['name']}</font></div>
+                           <input type="hidden" name="cate_id" id="cate_id" value="{$tcshopInfo['cate_id']}">
+                           <input type="hidden" name="cate_child_id" id="cate_child_id" value="{$tcshopInfo['cate_child_id']}">
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{if $tcshopConfig['open_ruzhu_area'] == 1  }-->
+            <section class="input-control " >
+                 <span>{lang tom_tcshop:ruzhu_city}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <div id="choseCity"><!--{if $areaName  }-->{$areaName} {$streetName}<!--{else}--><font color="#8e8e8e">{lang tom_tcshop:ruzhu_city_msg}</font><!--{/if}--></div>
+                           <input type="hidden" name="area_id" id="area_id" value="{$tcshopInfo['area_id']}">
+                           <input type="hidden" name="street_id" id="street_id" value="{$tcshopInfo['street_id']}">
+                      </section>
+                      <div class="frt"><div class="right-arrow"></div></div>
+                 </section>
+            </section>
+            <!--{/if}-->
+            <section class="input-control ">
+                 <span>{lang tom_tcshop:ruzhu_address}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="address" name="address" value="{$tcshopInfo['address']}"  />
+                           <input type="hidden" name="lng" id="hidlng" value="{$tcshopInfo['longitude']}" />
+                           <input type="hidden" name="lat" id="hidlat" value="{$tcshopInfo['latitude']}" />
+                      </section>
+                     <div id="showActionSheet" class="frt"><img src="source/plugin/tom_tcshop/images/lbs_ico.png" style="width: 20px;" /><i id="locationtext" style="color: #F60;">{lang tom_tcshop:ruzhu_address_dw}</i></div>
+                 </section>
+            </section>
+            <section class="input-control ">
+                 <span>{lang tom_tcshop:ruzhu_business_hours}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="business_hours" name="business_hours" value="{$tcshopInfo['business_hours']}" placeholder="{lang tom_tcshop:ruzhu_business_hours_msg}"/>
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+            <section class="input-control ">
+                 <span>{lang tom_tcshop:ruzhu_tel}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="tel" name="tel" value="{$tcshopInfo['tel']}"  />
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+            <!--{if $tcshopConfig['open_must_shopkeeper_tel'] == 1}-->
+            <section class="input-control ">
+                 <span>{lang tom_tcshop:ruzhu_shopkeeper_tel}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="shopkeeper_tel" name="shopkeeper_tel" placeholder="{lang tom_tcshop:ruzhu_shopkeeper_tel_msg}" value="{$tcshopInfo['shopkeeper_tel']}"  />
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+            <!--{/if}-->
+            <section class="input-control">
+                 <span>{lang tom_tcshop:ruzhu_tabs}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="tabs" name="tabs" value="{$tcshopInfo['tabs']}" placeholder="{lang tom_tcshop:ruzhu_tabs_msg}" />
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+            <section class="input-control ">
+                  <span>{lang tom_tcshop:ruzhu_content}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                           <!--{if $tcshopInfo['admin_edit'] == 0}-->
+                           <a style="width: 100%;height: 100%;display: block;" onClick="save('admin_edit');" href="javascript:;">{lang tom_tcshop:ruzhu_content_msg}</a>
+                           <!--{else}-->
+                           <a style="width: 100%;height: 100%;display: block;" onClick="save('admin_edit');" href="javascript:;"><font color="#fd0d0d">{lang tom_tcshop:ruzhu_content_admin_edit}</font></a>
+                           <!--{/if}-->
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+             <section class="input-control ">
+                 <div style="line-height: 3em;">{lang tom_tcshop:ruzhu_picurl}<font color="#8e8e8e">{lang tom_tcshop:ruzhu_picurl_msg}</font></div>
+                  <ul>
+                       <li>
+                            <section class="img pic-upload-btn">
+                                <input type="file" name="filedata1" id="filedata1" class="post-upload-fileprew"  />
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" />
+                            </section>
+                       </li>
+                       <div id="picurl">
+                           <!--{if $tcshopInfo['picurl']}-->
+                           <li><section class="img"><img src="{$picurl}" /><input type="hidden" name="picurl" value="{$tcshopInfo['picurl']}"/></section></li>
+                           <!--{/if}-->
+                       </div>
+                  </ul>
+             </section>
+            <section class="input-control ">
+                <div style="line-height: 2em;margin-top: 0.5em;">{lang tom_tcshop:ruzhu_photo}<font color="#8e8e8e">{lang tom_tcshop:ruzhu_photo_msg1}</font></div>
+                <div style="line-height: 1em;margin-bottom: 0.5em;"><font color="#f5833b;">{lang tom_tcshop:edit_photo_msg2}</font></div>
+                  <ul>
+                      <div id="photolist">
+                           <!--{loop $tcshopPhotoList $key $val}-->
+                          <li class="li_{$val['li_i']}">
+                              <section class="img">
+                                  <img src="{$val['src']}" />
+                                  <input type="hidden" name="photo_{$val['li_i']}" value="{$val['picurl']}"/>
+                                  <input type="hidden" name="photothumb_{$val['li_i']}" value="{$val['thumb']}"/>
+                              </section>
+                              <div class=" close pic-delete-btn pointer" onclick="picremove({$val['li_i']});">&nbsp;X&nbsp;</div>
+                          </li>
+                          <!--{/loop}-->
+                      </div>
+                       <li>
+                            <section class="img pic-upload-btn">
+                                <!--{if $__IsWeixin == 1 && $tongchengConfig['open_many_pic_upload'] == 1}-->
+                                <div id="filedata2" class="post-upload-fileprew"></div>
+                                <!--{else}-->
+                                <input type="file" name="filedata2" id="filedata2" class="post-upload-fileprew"/>
+                                <!--{/if}-->
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" />
+                            </section>
+                       </li>
+                  </ul>
+             </section>
+            <section class="input-control ">
+                 <div style="line-height: 3em;">{lang tom_tcshop:ruzhu_kefu_qrcode}<font color="#8e8e8e">{lang tom_tcshop:ruzhu_kefu_qrcode_msg}</font></div>
+                  <ul>
+                       <li>
+                            <section class="img pic-upload-btn">
+                                <input type="file" name="filedata3" id="filedata3" class="post-upload-fileprew"  />
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" />
+                            </section>
+                       </li>
+                       <div id="kefu_qrcode">
+                           <!--{if $tcshopInfo['kefu_qrcode']}-->
+                           <li><section class="img"><img src="{$kefu_qrcode}" /><input type="hidden" name="kefu_qrcode" value="{$tcshopInfo['kefu_qrcode']}"/></section></li>
+                           <!--{/if}-->
+                       </div>
+                  </ul>
+             </section>
+            <!--{if $tcshopConfig['open_must_business_licence'] == 1}-->
+            <section class="input-control ">
+                 <div style="line-height: 3em;">{lang tom_tcshop:ruzhu_business_licence}<font color="#8e8e8e">{lang tom_tcshop:ruzhu_business_licence_msg}</font></div>
+                  <ul>
+                       <li>
+                            <section class="img pic-upload-btn">
+                                <!--{if $notEditBusinessLicence == 1}-->
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" onClick="tusi('{lang tom_tcshop:ruzhu_not_business_licence_msg}');" />
+                                <!--{else}-->
+                                <input type="file" name="filedata4" id="filedata4" class="post-upload-fileprew"  />
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" />
+                                <!--{/if}-->
+                            </section>
+                       </li>
+                       <div id="business_licence">
+                           <!--{if $tcshopInfo['business_licence']}-->
+                           <li><section class="img"><img src="{$business_licence}" /><input type="hidden" name="business_licence" value="{$tcshopInfo['business_licence']}"/></section></li>
+                           <!--{/if}-->
+                       </div>
+                  </ul>
+             </section>
+            <!--{/if}-->
+            <!--{if $tcshopInfo['vip_level'] == 1}-->
+            <section class="input-control ">
+                 <span>{lang tom_tcshop:edit_video_url}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="video_url" name="video_url" placeholder="{lang tom_tcshop:edit_video_url_msg}" value="{$tcshopInfo['video_url']}"  />
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+            <section class="input-control ">
+                 <span>{lang tom_tcshop:edit_zan_txt}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <input type="text" id="zan_txt" name="zan_txt" placeholder="{lang tom_tcshop:edit_zan_txt_msg}" value="{$tcshopInfo['zan_txt']}"  />
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+            <section class="input-control clear bb0">
+                  <div style="line-height: 3em;">{lang tom_tcshop:edit_gonggao}</div>
+                  <section class="textarea">
+                       <section class="sec-input">
+                            <textarea id="gonggao" name="gonggao" placeholder="{lang tom_tcshop:edit_gonggao_msg}" maxlength="1000">{$tcshopInfo['gonggao']}</textarea>
+                       </section>
+                  </section>
+             </section>
+            <!--{/if}-->
+        </section>
+   </section>
+   <section class="btn-group-block">
+        <button type="button" id="id_save_btn" onClick="save('save');" class="id_save_btn">{lang tom_tcshop:edit_btn}</button>
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <input type="hidden" name="tcshop_id" value="{$tcshop_id}">
+        <input type="hidden" id="type" name="type" value="">
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+   </section>
+</form>
+<div id="baidumap" style="position: fixed;bottom: 0px; height:100%; width:100%;z-index:9999;display:none">
+    <iframe style="border:0px;width:100%;height:100%"></iframe>
+</div>
+<div class="tcui-actionsheet" id="actionSheet_wrap">
+    <header class="header on in2">
+        <section class="wrap"><h2>{lang tom_tcshop:ruzhu_choose_address}</h2></section>
+    </header>
+    <div class="tcui-actionsheet__menu">
+        <a class="tcui-actionsheet__cell" href="javascript:void(0);" id="mylocation">{lang tom_tcshop:ruzhu_choose_mylocation}</a>
+        <a class="tcui-actionsheet__cell" href="javascript:void(0);" id="maplocation">{lang tom_tcshop:ruzhu_choose_maplocation}</a>
+    </div>
+    <div class="clear"></div>
+    <div class="tcui-actionsheet__action">
+        <div class="tcui-actionsheet__cell" id="actionsheet_cancel">{lang tom_tcshop:ruzhu_choose_close}</div>
+    </div>
+</div>
+<script>var cate = eval(decodeURIComponent('{$cateData}'));var selectedIndex_Cate = [0, 0];</script>
+<script>var city = eval(decodeURIComponent('{$cityData}'));var selectedIndex_City = [0, 0];</script>
+<!--{if $isGbk}-->
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/picker/picker.min.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/picker/picker.city.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/picker/picker.cate.gbk.js"></script>
+<!--{else}-->
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/picker/picker.min.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/picker/picker.city.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/picker/picker.cate.utf8.js"></script>
+<!--{/if}-->
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak={$tcshopConfig['baidu_js_ak']}"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js" type="text/javascript"></script>
+<script>
+$(document).ready(function(){
+   $.get("{$ajaxCommonClicksUrl}");
+});
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'previewImage',
+      'openLocation', 
+      'getLocation',
+      'previewImage',
+      'chooseImage',
+      'uploadImage',
+      'downloadImage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () {
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+<script>
+var li_i = {$photoCount};
+li_i++;
+var count = 0;
+
+<!--{if $tcshopInfo['picurl']}-->
+var picurl_count = 1;
+<!--{else}-->
+var picurl_count = 0;
+<!--{/if}-->
+    
+var photo_count = {$photoCount};
+
+<!--{if $tcshopInfo['kefu_qrcode']}-->
+var qrcode_count = 1;
+<!--{else}-->
+var qrcode_count = 0;
+<!--{/if}-->
+    
+<!--{if $tcshopInfo['business_licence']}-->
+var business_licence_count = 1;
+<!--{else}-->
+var business_licence_count = 0;
+<!--{/if}-->
+
+var submintPayStatus = 0;
+function save(type){
+    $('#type').val(type);
+    if(type == 'save'){
+        var business_hours      = $("#business_hours").val();
+        if(business_hours == ""){
+            tusi("{lang tom_tcshop:ruzhu_business_hours_must}");
+            return false;
+        }
+        
+        <!--{if $tcshopConfig['open_must_shopkeeper_tel'] == 1}-->
+        var shopkeeper_tel      = $("#shopkeeper_tel").val();
+
+        if(shopkeeper_tel == "" || !checkMobile(shopkeeper_tel)){
+            tusi("{lang tom_tcshop:ruzhu_shopkeeper_tel_must}");
+            return false;
+        }
+        <!--{/if}-->
+
+        if(picurl_count == 0){
+            tusi("{lang tom_tcshop:ruzhu_picurl_must}");
+            return false;
+        }
+
+        if(photo_count == 0){
+            tusi("{lang tom_tcshop:ruzhu_photo_must}");
+            return false;
+        }
+
+        if(qrcode_count == 0){
+            tusi("{lang tom_tcshop:ruzhu_kefu_qrcode_must}");
+            return false;
+        }
+
+        <!--{if $tcshopConfig['open_must_business_licence'] == 1}-->
+        if(business_licence_count == 0){
+            tusi("{lang tom_tcshop:ruzhu_business_licence_must}");
+            return false;
+        }
+        <!--{/if}-->
+    }
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    loading('{lang tom_tcshop:doing}');
+    submintPayStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$saveUrl}",
+        dataType : "json",
+        data: $('#saveForm').serialize(),
+        success: function(data){
+            loading(false);
+            if(data.status == 200) {
+                submintPayStatus = 0;
+                <!--{if $tongchengConfig['open_yun'] == 2}-->
+                $.get("{$ossBatchUrl}");
+                <!--{elseif $tongchengConfig['open_yun'] == 3}-->
+                $.get("{$qiniuBatchUrl}");
+                <!--{/if}-->
+            
+                if(type == 'save'){
+                    tusi("{lang tom_tcshop:edit_success}");
+                    setTimeout(function(){window.location.href='plugin.php?id=tom_tcshop&site={$site_id}&mod=mylist';},1888);
+                }else if(type == 'admin_edit'){
+                    window.location.href='plugin.php?id=tom_tcshop&site={$site_id}&mod=editContent&tcshop_id={$tcshop_id}&fromlist={$_GET["fromlist"]}';
+                }
+            }else{
+                tusi("{lang tom_tcshop:edit_error}");
+                //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+}
+
+function checkMobile(s){
+	var regu =/^[1][3|8|4|5|7|9][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
+{template tom_tcshop:upload}
+
+<!--{if $__IsWeixin == 1}-->
+    <!--{if $tongchengConfig['open_many_pic_upload'] == 1}-->
+    {template tom_tcshop:wx_upload}
+    <!--{/if}-->
+    <!--{if $tcshopConfig['open_tx_map_location'] == 1}-->
+    {template tom_tcshop:tx_map}
+    <!--{else}-->
+    {template tom_tcshop:wx_map}
+    <!--{/if}-->
+<!--{else}-->
+{template tom_tcshop:baidu_map}
+<!--{/if}-->
+</body>
+</html>

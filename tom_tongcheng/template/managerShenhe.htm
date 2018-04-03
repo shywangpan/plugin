@@ -1,0 +1,88 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:managerShenhe_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.css" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body>
+<header class="header header-index on in2">
+   <section class="wrap">
+       <section class="sec-ico go-back" onclick="history.back();">{lang tom_tongcheng:back}</section>
+        <h2>{lang tom_tongcheng:managerShenhe_title}</h2>
+   </section>
+</header>
+<form class="mainer" name="shForm" id="shForm" >
+   <section class="wrap edit-form">
+       <div class="tcui-cells__title">
+             <section style="padding:10px;background: #FFF;line-height:1.5;letter-spacing: 1px;">
+                <p>{$content}</p>
+             </section>
+        </div>
+        <section class="edit-item">
+             <section class="input-control clear bb0">
+                  <div style="line-height: 3em;">{lang tom_tongcheng:managerShenhe_content}</div>
+                  <section class="textarea">
+                       <section class="sec-input">
+                           <textarea style="margin-bottom: 10px;" name="content" id="content" maxlength="1000" placeholder="{lang tom_tongcheng:managerShenhe_content_msg}"></textarea>
+                       </section>
+                  </section>
+             </section>
+        </section>
+   </section>
+   <section class="btn-group-block">
+       <button type="button" id="id_shenhe_btn" class="id_shenhe_btn">{lang tom_tongcheng:managerShenhe_btn}</button>
+        <input type="hidden" name="tongcheng_id" value="{$tongcheng_id}">
+        <input type="hidden" name="shenhe_status" value="3">
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+   </section>
+</form>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+var submintShStatus = 0;
+$(".id_shenhe_btn").click( function (){
+    if(submintShStatus == 1){
+        return false;
+    }
+    
+    var content      = $("#content").val();
+    
+    if(content == ""){
+        tusi("{lang tom_tongcheng:managerShenhe_content_must}");
+        return false;
+    }
+    
+    submintShStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$ajaxShenheUrl}",
+        data: $('#shForm').serialize(),
+        success: function(data){
+            submintShStatus = 0;
+            if(data == '200'){
+                tusi("{lang tom_tongcheng:managerShenhe_succ}");
+                setTimeout(function(){window.location.href='plugin.php?id=tom_tongcheng&site={$site_id}&mod=managerList';},1888);
+            }else{
+                tusi("{lang tom_tongcheng:managerShenhe_error}");
+                return false;
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>

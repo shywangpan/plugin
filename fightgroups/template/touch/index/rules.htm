@@ -1,0 +1,41 @@
+<html><head>
+    <title>{lang fightgroups:s106}</title>
+    <!--{template fightgroups:index/header}-->
+    <link href="{HEJIN_PATH}public/css/rules.css" rel="stylesheet" combofile="qqpai/tuan/index_v2.shtml">
+</head><body>
+    <div class="help">
+        <div id="common" class="help_tit" style="display: block;" data-unuse="1">{lang fightgroups:s107}</div>
+        <div id="common_step" style="display: block;" class="help_step" data-unuse="1">
+            <span class="help_i">1</span>
+            <span class="help_t">{lang fightgroups:s108}</span>
+            <i></i>
+            <span class="help_i">2</span>
+            <span class="help_t">{lang fightgroups:s109}</span>
+            <i></i>
+            <span class="help_i">3</span>
+            <span class="help_t">{lang fightgroups:s110}</span>
+            <i></i>
+            <span class="help_i">4</span>
+            <span class="help_t">{lang fightgroups:s111}</span>
+        </div>
+    </div>
+    <div style="display: block;" id="common_rule" class="rule">
+    	{if empty($share_data['content'])}
+    		<p class="rule_row"><span class="rule_num">{lang fightgroups:n1}</span>{lang fightgroups:s112}</p>
+        <p class="rule_row"><span class="rule_num">{lang fightgroups:n2}</span>{lang fightgroups:s113}</p>
+        <p class="rule_row"><span class="rule_num">{lang fightgroups:n3}</span>{lang fightgroups:s114}</p>
+        <p class="rule_row"><span class="rule_num">{lang fightgroups:n4}</span>{lang fightgroups:s115}</p>
+        <p class="rule_row"><span class="rule_num">{lang fightgroups:n5}</span>{lang fightgroups:s116}</p>
+        <p class="rule_row"><span class="rule_num">{lang fightgroups:n6}</span>{lang fightgroups:s117}</p>
+        {else}
+        {$share_data['content']}
+    	{/if}
+        
+    </div>
+	
+
+</body>
+
+
+<!--{template fightgroups:index/footer}-->
+</html>

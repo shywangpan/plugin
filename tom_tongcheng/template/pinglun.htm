@@ -1,0 +1,294 @@
+<link href="source/plugin/tom_tongcheng/images/pinglun.css?v={$cssJsVersion}" rel="stylesheet" />
+<section class="info-item info-item-pinglun">
+    <div class="info-item-comment">
+        <div class="comment-title">{lang tom_tongcheng:info_comment_all}<span onClick="comment('comment_pinglun');">{lang tom_tongcheng:info_comment_pinglun}</span>
+            <!--{if $open_edit_pinglun == 1 && $pinglunList}-->
+            <span>
+                <a id="close_remove" href="javascript:;" onClick="hide_pinglun_remove();">{lang tom_tongcheng:info_comment_edit_close}</a>
+                <a id="show_remove" href="javascript:;" onClick="show_pinglun_remove();">{lang tom_tongcheng:info_comment_edit}</a>
+            </span>
+            <!--{/if}-->
+        </div>
+        <div id="comment_pinglun"></div>
+        <!--{if $pinglunList}-->
+        <div id="comment-list">
+            <!--{loop $pinglunList $key $value}-->
+            <div class="comment-item clearfix" id="comment-item_{$value['id']}">
+                <div class="comment-item-avatar"><img src="{$value['userInfo']['picurl']}"></div>
+                <div class="comment-item-content">
+                    <h5>{$value['userInfo']['nickname']}
+                        <!--{if $tongchengInfo['user_id'] == $value['user_id']}-->
+                        <span class="floor_main">{lang tom_tongcheng:info_pinglun_floor_main}</span>
+                        <!--{/if}-->
+                        &nbsp;<span>{date($value['ping_time'])}</span><span class="right" onClick="comment_reply('comment_pinglun_{$value['id']}', {$value['id']}, '{$value['userInfo']['nickname']}');">{lang tom_tongcheng:info_pinglun_hueifu}</span>
+                        <span class="right remove" onClick="removePinglun({$value['id']});">{lang tom_tongcheng:info_comment_del}</span>
+                    </h5>
+                    <div class="comment-item-content-text" onClick="comment_reply('comment_pinglun_{$value['id']}', {$value['id']}, '{$value['userInfo']['nickname']}');">{$value['content']}</div>
+                    <div id="comment_pinglun_{$value['id']}" class="comment-item-content-text"></div>
+                    {$value['reply_list']}
+                </div>
+            </div>
+            <!--{/loop}-->
+        </div>
+        <div id="m1" class="no-comment-more"><a href="javascript:;" onClick="loadMore();">{lang tom_tongcheng:info_comment_more}</a></div>
+        <div id="m2" class="no-comment-more"><a href="javascript:;">{lang tom_tongcheng:info_no_comment_more}</a></div>
+        <div id="m3" class="no-comment-more"><img src="source/plugin/tom_tongcheng/images/loading.gif"><a href="javascript:;">{lang tom_tongcheng:info_comment_loading}</a></div>
+        <!--{else}-->
+        <div class="no-comment"><a href="javascript:;">{lang tom_tongcheng:info_no_comment}</a></div>
+        <!--{/if}-->
+        
+    </div>
+</section>
+<div class="js_dialog" id="pinglun_phone" style="display: none;">
+    <div class="tcui-mask"></div>
+    <div class="tcui-dialog">
+        <div class="tcui-dialog__hd"><strong class="tcui-dialog__title">{lang tom_tongcheng:must_phone_popup_title}</strong></div>
+        <div class="tcui-dialog__bd">{lang tom_tongcheng:must_phone_popup_content_pinglun}</div>
+        <div class="tcui-dialog__ft">
+            <a href="{$phoneUrl}" class="tcui-dialog__btn tcui-dialog__btn_default">{lang tom_tongcheng:must_phone_popup_go}</a>
+            <a href="javascript:;" class="tcui-dialog__btn tcui-dialog__btn_primary">{lang tom_tongcheng:must_phone_popup_cancel}</a>
+        </div>
+    </div>
+</div>
+<script type="text/input_comment" id="show_comment">
+<div  class='post-ping-kuang-bottom-content bz' style='z-index:0;'>
+	<form id="add_pinglun_form" onsubmit="return false">
+		<ul class='temp-describe-photo post-wrap-pic-select clearfix bz' id='imgList' style='height: auto; display:none'>
+			<li class='lastpost' id="" style='cursor:pointer;width:55px;height:55px;max-height: auto;' >
+				<img class='addfile' src='source/plugin/tom_tongcheng/images/pinglun/pic.png'   style='width:55px;height:55px;' >
+				<input type="hidden" name="pic_list[]" id="">
+				<i onclick="removeId(id);"></i>
+			</li>
+			<li class='lastpost' id='btn-addimg'  style='cursor:pointer;width:55px;height:55px;max-height: auto;' >
+				<img class='addfile' src='source/plugin/tom_tongcheng/images/pinglun/pic.png'   style='width:55px;height:55px;' >
+				<input type="file" name="Filedata1" id="filedata1" style='cursor:pointer;width:55px;height:55px;'>
+			</li>
+		</ul>
+
+		<div class='post-ping-kuang-textarea rel'>
+			<textarea style='resize:none;' id='txtContentAdd' name='txtContentAdd' class='rel' placeholder='{lang tom_tongcheng:info_pinglun_user}'></textarea>
+            <input type="hidden" name="tongcheng_id" id="tongcheng_id">
+            <input type="hidden" name="pinglun_id" id="pinglun_id">
+            <input type="hidden" name="user_id" id="user_id">
+            <input type="hidden" name="formhash" value="{$formhash}">
+            
+		</div>
+	</form>
+	<div class='bt-list'>
+		<span id='send-repley-button' style='cursor:pointer;' class='post-ping-bt-send'>{lang tom_tongcheng:info_pinglun_fabiao}</span>
+		<span id='cancle-reply-button' style='cursor:pointer;' class='post-ping-bt-cancel' >{lang tom_tongcheng:info_pinglun_quxiao}</span>
+		<i class='bt-face' id='btn-qqface' style='cursor:pointer;'></i>
+		<i class='bt-img temp-upload-img' id='reply-upload-img-btn' style='cursor:pointer; display:none;' ></i>
+	</div>
+	
+	<div class='chat-view-face-group' id='div-qqfaces' style='height:185px; display:none;'>
+		<div class='chat-view-window-face' style="height:100%;">
+			<div id="qqfaceid" class="post-qq-face bz clearfix">
+				<!--{if $qqface}-->
+                <!--{loop $qqface $key $value}-->
+                <span class="fl">
+					<a href="javascript:;" class="qqface-img" title="{$key}" code="[{$key}]" style="{$value['background-position']}"></a>
+               	</span>
+                <!--{/loop}-->
+                <!--{/if}-->
+            </div>
+		</div>
+	</div>
+</div>
+
+</script>
+<!--<script language="javascript" src="source/plugin/tom_tongcheng/images/localResizeIMG4/dist/lrz.bundle.js"></script>-->
+<script type="text/javascript">
+$(document).on('click', '.tcui-dialog__btn_primary', function(){
+    $(this).parents('.js_dialog').fadeOut(200);
+})
+    
+function comment(id){
+    $(".post-ping-kuang-bottom-content").remove();
+	var plHtm = $("#show_comment").html();
+	$('#'+id).html(plHtm);
+    $('#tongcheng_id').val({$tongchengInfo['id']});
+    $('#user_id').val({$__UserInfo['id']});
+    
+}
+
+function comment_reply(id, ssid, name){
+    $(".post-ping-kuang-bottom-content").remove();
+	var plHtm = $("#show_comment").html();
+	$('#'+id).html(plHtm);
+    $('#pinglun_id').val(ssid);
+    $('#tongcheng_id').val({$tongchengInfo['id']});
+    $('#user_id').val({$__UserInfo['id']});
+    //$('#txtContentAdd').attr('placeholder','{lang tom_tongcheng:info_pinglun_hueifu}'+name+'{lang tom_tongcheng:info_pinglun_hueifu_1}')
+}
+
+$(document).on("click", "#cancle-reply-button", function () {
+	$(".post-ping-kuang-bottom-content").hide();
+});
+$(document).on("click", "#reply-upload-img-btn", function () {
+	$("#imgList").show();
+});
+$(document).on("click", "#btn-qqface", function () {
+	$("#div-qqfaces").toggle();
+});
+
+function removeId(id){
+	$("#"+id).remove();
+}
+
+$(document).on("click", "#txtContentAdd", function () {
+	$("#div-qqfaces").hide();
+});
+
+$(document).on("click", ".post-qq-face a", function () {
+	var facedata = $(this).attr("code");
+	$("#txtContentAdd").val($("#txtContentAdd").val() + facedata);
+});
+
+var submintPingLunStatus = 0;
+$(document).on("click", "#send-repley-button", function () {
+    
+    <!--{if $showMustPhoneBtn == 1}-->
+    $('#pinglun_phone').show();
+    return false;
+    <!--{/if}-->
+
+    <!--{if $loginStatus == 0}-->
+    tusi("{lang tom_tongcheng:must_weixin_msg}");
+        return false;
+    <!--{/if}-->
+
+    var content = $("#txtContentAdd").val();
+    if(submintPingLunStatus == 1){
+        return false;
+    }
+    if(content == ""){
+        tusi("{lang tom_tongcheng:info_pinglun_no_null}");
+        return false;
+    }
+    submintPingLunStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$addPinglunUrl}",
+        dataType : "json",
+        data: $('#add_pinglun_form').serialize(),
+        success: function(data){
+            //submintPingLunStatus = 0;
+            //var data = eval('('+msg+')');
+            if(data.status == 200){
+                tusi("{lang tom_tongcheng:info_pinglun_ok}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 200200){
+                tusi("{lang tom_tongcheng:info_pinglun_hueifu_ok}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 505){
+                submintPingLunStatus = 0;
+                tusi("{lang tom_tongcheng:fabu_step2_error_505}"+data.word);
+            }else{
+                tusi("{lang tom_tongcheng:info_pinglun_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+function show_pinglun_remove(){
+    $('#show_remove').hide();
+    $('#close_remove').show();
+    $('.info-item-pinglun').before('<style id="show_remove_style">.remove{display:inline-block;}</style>');
+}
+
+function hide_pinglun_remove(){
+    $('#close_remove').hide();
+    $('#show_remove').show();
+    $('#show_remove_style').remove();
+}
+
+var pinglun_num = 0;
+<!--{if $open_edit_pinglun == 1}-->
+function removePinglun(ping_id){
+    
+    layer.open({
+        content: '{lang tom_tongcheng:info_pinglun_remove_msg}'
+        ,btn: ['{lang tom_tongcheng:info_pinglun_remove_ok}', '{lang tom_tongcheng:info_pinglun_remove_no}']
+        ,yes: function(index){
+          $.ajax({
+                type: "GET",
+                url: "{$removePinglunUrl}",
+                data: {ping_id:ping_id},
+                success: function(msg){
+                    if(msg == '200'){
+                        pinglun_num++;
+                        $('#comment-item_'+ping_id).remove();
+                        tusi("{lang tom_tongcheng:info_pinglun_remove}");
+                    }else{
+                        tusi("{lang tom_tongcheng:info_pinglun_remove_error}");
+                    }
+                }
+            });
+          layer.close(index);
+        }
+    });
+}
+<!--{/if}-->
+
+<!--{if $open_edit_pinglun == 1}-->
+function removeReply(reply_id){
+    
+    layer.open({
+        content: '{lang tom_tongcheng:info_pinglun_reply_remove_msg}'
+        ,btn: ['{lang tom_tongcheng:info_pinglun_remove_ok}', '{lang tom_tongcheng:info_pinglun_remove_no}']
+        ,yes: function(index){
+          $.ajax({
+                type: "GET",
+                url: "{$removeReplyUrl}",
+                data: {reply_id:reply_id},
+                success: function(msg){
+                    if(msg == '200'){
+                        $('#comment-item-content-text_'+reply_id).remove();
+                        tusi("{lang tom_tongcheng:info_pinglun_reply_remove}");
+                    }else{
+                        tusi("{lang tom_tongcheng:info_pinglun_remove_error}");
+                    }
+                }
+            });
+          layer.close(index);
+        }
+    });
+    
+}
+<!--{/if}-->
+
+var pageIndex = 2;
+var submintLoadStatus = 0;
+function loadMore(){
+    if(submintLoadStatus == 1){
+        return false;
+    }
+    $('#m1').hide();
+    $('#m3').show();
+    submintLoadStatus = 1;
+    $.ajax({
+		type: "GET",
+		url: "{$showPinglunUrl}",
+		data: {loadPage:pageIndex,pinglun_num:pinglun_num},
+		success: function(msg){
+        submintLoadStatus = 0;
+			var data = eval('('+msg+')');
+            if(data == 201){
+                tusi("{lang tom_tongcheng:info_pinglun_no_more}");
+                $('#m3').hide();
+                $('#m2').show();
+            }else{
+                $("#comment-list").append(data);
+                $('#m3').hide();
+                $('#m1').show();
+                pageIndex++;
+                
+            }
+		}
+	})
+}
+
+</script>
+

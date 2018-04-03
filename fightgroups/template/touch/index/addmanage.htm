@@ -1,0 +1,85 @@
+<html>
+<head>
+<avalon ms-skip="" class="avalonHide">
+<style id="avalonStyle">
+.avalonHide{ display: none!important }
+</style>
+</avalon>
+<title>{lang fightgroups:s91}</title>
+	 <!--{template fightgroups:index/header}-->
+  <link href="{HEJIN_PATH}public/css/style_366c9ef.css" rel="stylesheet"> 
+  <link href="{HEJIN_PATH}public/css/my.css" rel="stylesheet">  
+  <link  href="{HEJIN_PATH}public/css/font-awesome-4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="{HEJIN_PATH}public/js/jquery.min.js"></script>
+  <style>
+  .address_list .edit::after,.address_list ul::before{background-image:url(http://static.paipaiimg.com/fd/qqpai/base/img/sprites_v3.png);background-repeat:no-repeat;background-size:100px 100px}
+  </style>
+</head> 
+<body>
+<div class="wx_bar">
+  <div class="wx_bar_back"><a id="listPageback" href="javascript:void(0);"></a></div>
+  <div class="wx_bar_act"><a class="wx_bar_new" id="_new" style="display: none;" href="javascript:void(0);"></a>         </div>
+</div>
+<div class="wx_wrap">
+  <div class="address_list" id="addressList" style="opacity: 1; -webkit-transform: scale(1, 1); -webkit-transform-origin: 0px 0px;">
+  {if !empty($address)}
+  <div>
+    <div class="address">
+    {loop $address $addres}
+    {if $addres['status'] == 1}
+        <ul style="background-color: rgb(232, 227, 227);" id="moren{$addres['id']}" >
+        <i class="fa fa-check-circle" style="background-position: -20px -50px; left: 15px; top: 53%; width: 25px; height: 50px; margin-top: -7px; position: absolute;color : red; font-size: 18px;" id='circle1'></i>
+          <li><font color="black">{$addres['detailed_address']}</font></li>
+          <li><strong><font color="black">{$addres['cname']}</font></strong>&nbsp&nbsp&nbsp<font color="black">{$addres['tel']}</font></li>
+          <li style="display: none;">{$addres['id']}</li>
+          <a href="{eval echo createMobileUrl('createadd',array('opt'=>'display','aid'=>$addres['id'],'groupnum'=>$all['groupnum'],'g_id'=>$all['g_id']));}">
+          <li class="edit" ms-click="edit">{lang fightgroups:s92}</li>
+					</a>
+          </ul>
+      {else}
+      <ul id="moren{$addres['id']}" >
+      
+        <i class="fa fa-circle-o" style="background-position: -20px -50px; left: 15px; top: 53%; width: 25px; height: 50px; margin-top: -7px; position: absolute; color : black ;font-size: 18px;" id='circle2'></i>
+          <li><font color="black">{$addres['detailed_address']}</font></li>
+          <li><strong><font color="black">{$addres['cname']}</font></strong>&nbsp&nbsp&nbsp<font color="black">{$addres['tel']}</font></li>
+          <li style="display: none;" id="addresschange">{$addres['id']}</li>
+          <a href="{eval echo createMobileUrl('createadd',array('opt'=>'display','aid'=>$addres['id'],'groupnum'=>$all['groupnum'],'g_id'=>$all['g_id']));}">
+          <li class="edit" ms-click="edit">{lang fightgroups:s92}</li>
+          </a>
+      </ul>
+    {/if}
+    <script>
+{if $all}
+	 $("#moren{$addres['id']}").bind("click", function() { 
+     $.post('{eval echo createMobileUrl('createadd',array('opt'=>'moren','aid'=>$addres['id']))}',function(m){
+                if(m==1){
+                  location.href='{eval echo createMobileUrl('orderconfirm',array('groupnum'=> $all['groupnum'],'gid'=>$all['g_id']));}';                   
+                }
+                if(m==2){
+                    alert('{lang fightgroups:s93}');
+                }
+                if(m==0){
+                   alert('{lang fightgroups:s94}'); 
+                }
+             },"html");
+          
+
+  });
+  {/if}
+</script>
+    {/loop}
+    </div>
+  </div>
+  {/if} 
+    <div class="address_list_link">
+    <a class="item item_new"  href="{eval echo createMobileUrl('createadd');}">{lang fightgroups:s95}</a>
+    <a class="item item_wx" id="selAddrFromWx" style="display: none;" href="javascript:void(0);">{lang fightgroups:s96}</a> 
+    </div>
+    <div class="margin_footer"></div>
+  </div>
+</div>
+
+
+<!--{template fightgroups:index/footerbar}-->
+</body>
+</html>

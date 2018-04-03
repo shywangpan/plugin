@@ -1,0 +1,671 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{$__SitesInfo['name']}</title>
+<link href="source/plugin/tom_tongcheng/images/swiper.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<!--{if $__ShowTcqianggou == 1}-->
+<link rel="stylesheet" href="source/plugin/tom_tcqianggou/images/cash_list_style.css?v={$cssJsVersion}" />
+<!--{/if}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/swiper.min.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/global.js?v={$cssJsVersion}"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/layer_mobile/layer.js?v={$cssJsVersion}"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<style>
+    .layui-m-layer0 .layui-m-layerchild{width: 70%;}
+    .layui-m-layercont{padding: 5px 3px;}
+</style>
+</head>
+<body class="body-bg">
+<div class="swiper-container swiper-container-focuspic">
+    <!--{if $tongchengConfig['index_search_show_type'] == 1}-->
+    <section class="search_pic_box clearfix">
+    <!--{elseif $tongchengConfig['index_search_show_type'] == 2}-->
+    <section class="search_pic_box search_pic_box_fiexd clearfix">
+    <!--{/if}-->
+        <div class="search_pic" style="display:none"><img src="{$logoSrc}"></div>
+        <div class="search_box">
+            <form  id="search_form" onsubmit="return false;">
+                <input  type="text" name="keyword" placeholder="{lang tom_tongcheng:search_msg}">
+                <input type="hidden" name="formhash" value="{$formhash}">
+                <div class="search_button id_search_btn">{lang tom_tongcheng:search_btn}</div>
+            </form>
+            <script>
+            $(".id_search_btn").click( function (){ 
+                $.ajax({
+                    type: "GET",
+                    url: "{$searchUrl}",
+                    data: $('#search_form').serialize(),
+                    success: function(msg){
+                        window.location = msg;
+                    }
+                });
+            });
+            </script>
+        </div>
+    </section>
+    <!--{if $focuspicList}-->
+    <div class="swiper-wrapper">
+        <!--{loop $focuspicList $key $val}-->
+        <div class="swiper-slide">
+            <a href="{$val['link']}"><img src="{$val['picurl']}" width="100%" height="30%"></a>
+        </div>
+        <!--{/loop}-->
+    </div>
+    <div class="swiper-pagination swiper-pagination-focuspic"></div>
+    <!--{/if}-->
+</div>
+<section class="mainer" style="margin-top: -2px;">
+   <section class="wrap">
+        <section class="nav-list">
+             <section class="nav-list-tit">
+                  <section class="nav-list-tit-l">
+                       <div class="dt_xh">
+                            <span>
+                                {lang tom_tongcheng:index_clicks_all}&nbsp;{$clicksNumTxt}<!--{if $clicksNum > 10000}-->{lang tom_tongcheng:wan}<!--{/if}--> &nbsp; 
+                                {lang tom_tongcheng:index_fabu_all}&nbsp;{$fabuNumTxt}<!--{if $fabuNum > 10000}-->{lang tom_tongcheng:wan}<!--{/if}--> &nbsp;
+                                <!--{if $__ShowTcshop == 1}-->
+                                {lang tom_tongcheng:index_ruzhu_all}&nbsp;{$ruzhuNumTxt}<!--{if $ruzhuNum > 10000}-->{lang tom_tongcheng:wan}<!--{/if}--> &nbsp;
+                                <!--{/if}-->
+                            </span>
+                       </div>
+                  </section>
+                 <div class="help_title"><a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=help">{lang tom_tongcheng:index_help_title}</a></div>
+             </section>
+             <section class="nav-li swiper-container swiper-container-nav">
+                <div class="swiper-wrapper">
+                    <ul class="swiper-slide swiper-slide-active" style="width: 760px; margin-right: 30px;">
+                                            <li>
+                            <a href="plugin.php?id=tom_tongcheng&amp;site=1&amp;mod=list&amp;model_id=43">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093259lzk6qoettotkio6e.png">
+                              </section>
+                              <p>招聘求职</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&amp;site=1&amp;mod=list&amp;model_id=49">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093309rq3j27ec2387reoz.png">
+                              </section>
+                              <p>二手转让</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&amp;site=1&amp;mod=list&amp;model_id=45">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093321eu50stny90nz7737.png">
+                              </section>
+                              <p>房屋租售</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&amp;site=1&amp;mod=list&amp;model_id=42">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093331o1twu8c153w8zttp.png">
+                              </section>
+                              <p>顺风车</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&amp;site=1&amp;mod=list&amp;model_id=52">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093341s37amk3hnkg94snh.png">
+                              </section>
+                              <p>综合信息</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&site=1&mod=list&type_id=34">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093401crcii7r6c6fc62aa.png">
+                              </section>
+                              <p>餐饮美食</p>
+                            </a>
+                        </li>
+                                                                  <li>
+                            <a href="plugin.php?id=tom_tongcheng&site=1&mod=list&type_id=35">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093412q8q5qrnvn5me7m11.png">
+                              </section>
+                              <p>休闲娱乐</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&site=1&mod=list&model_id=6&type_id=43">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093351n554uaubs3cuf3sq.png ">
+                              </section>
+                              <p>家政服务</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&site=1&mod=list&type_id=39">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093422let4nhzwem7askj4.png">
+                              </section>
+                              <p>车辆买卖</p>
+                            </a>
+                        </li>
+                                                                    <li>
+                            <a href="plugin.php?id=tom_tongcheng&site=1&mod=list&type_id=63">
+                              <section class="nav-li-pic">
+                                    <img src="data/attachment/tomwx/201803/05/093434p5691tt19d949mdu.png">
+                              </section>
+                              <p>驾校培训</p>
+                            </a>
+                        </li>
+                                             
+                    </ul>
+                </div>
+                  <!--{if $navCount> 10  }-->
+                 <div class="swiper-pagination swiper-pagination-nav" style="bottom: 5px;"></div>
+                 <!--{/if}-->
+                <section class="clear"></section>
+             </section>
+        </section>
+       
+       <!--{if $colorMenuList}-->
+       <section class="clear5" style="background-color: #fff;"></section>
+       <!--{else}-->
+       <section class="clear5" style="background-color: #fff;margin-bottom: 5px;"></section>
+       <!--{/if}-->
+       <!--{if $colorMenuList}-->
+        <section class="index-color_menu clearfix">
+            <!--{loop $colorMenuList $key $val}-->
+           <a href="{$val[4]}">
+                <div class="color_area " style="background:#35a6ee;">
+                    <div class="color-left">
+                         <p class="title">{$val[0]}</p>
+                         <p class="button">{$val[1]}</p>
+                     </div>
+                     <div class="color-right">
+                         <img src="source/plugin/tom_tongcheng/images/index_nav/{$val[2]}">
+                     </div>
+                </div>
+           </a>
+           <!--{/loop}--> 
+        </section>
+       <!--{/if}-->
+       <!--{if $whiteMenuList}-->
+        <section class="index-white_menu clearfix">
+           <!--{loop $whiteMenuList $key $val}-->
+           <a href="{$val[4]}">
+                <div class="white_area ">
+                    <div class="white-left">
+                         <p class="title">{$val[0]}</p>
+                         <p class="button" style="color:{$val[3]};">{$val[1]}</p>
+                     </div>
+                     <div class="white-right">
+                         <img src="source/plugin/tom_tongcheng/images/index_nav/{$val[2]}">
+                     </div>
+                </div>
+           </a>
+            <!--{/loop}--> 
+        </section>
+       <!--{/if}-->
+        <!--{if $__ShowTcshop == 1}-->
+        <!--{if $tcshopList}-->
+       
+        <!--{/if}-->
+        <!--{/if}-->
+        <section class="tc-sec">
+             <ul class="tab-navs index-navs">
+                  <div class="tab-scroll" style="display:none">
+                       <li id="index-nav_id_0" class="tab-nav index-nav active" onclick="indexLoadList(0, 1);">{lang tom_tongcheng:index_new_title}</li>
+                       <!--{if $__ShowTcqianggou == 1}-->
+                            <!--{if $showQianggouBtn == 1}-->
+                            <li id="index-nav_id_qg" class="tab-nav index-nav" onclick="indexLoadList(0, 2);">{lang tom_tongcheng:index_new_qianggou_title}</li>
+                            <!--{/if}-->
+                            <!--{if $showCouponBtn == 1}-->
+                            <li id="index-nav_id_coupon" class="tab-nav index-nav" onclick="indexLoadList(0, 3);">{lang tom_tongcheng:index_new_coupon_title}</li>
+                            <!--{/if}-->
+                       <!--{/if}-->
+                       <!--{loop $modelList $key $val}-->
+                       <li id="index-nav_id_{$val['id']}" class="tab-nav index-nav"><a href="javascript:void(0);" onclick="indexLoadList({$val['id']}, 1);">{$val['name']}</a></li>
+                       <!--{/loop}--> 
+                  </div>
+             </ul>
+            <section class="tc-sec mt0" id="index-list" style="min-height: 400px;">
+                 <div class="tcui-loadmore" style="padding:1em;display:none"><i class="tcui-loading"></i><span class="tcui-loadmore__tips">{lang tom_tongcheng:list_jiazaiing}</span></div>
+             </section>
+             <section style="display: none;" id="load-html">
+                <div class="tcui-loadmore" style="padding:1em;display:none"><i class="tcui-loading"></i><span class="tcui-loadmore__tips">{lang tom_tongcheng:list_jiazaiing}</span></div>
+             </section>
+             <section style="display: none;" id="no-load-html">
+                <div class="tcui-loadmore" style="padding:1em;display:none"><span class="tcui-loadmore__tips">{lang tom_tongcheng:no_list_jiazaiing}</span></div>
+             </section>
+             <section  style="display: none;" id="no-list-html">
+                <div class="clear10" style="height:7em;"></div>
+                  <div class="tcui-loadmore tcui-loadmore_line">
+                       <span class="tcui-loadmore__tips">{lang tom_tongcheng:list_no_list}</span>
+                  </div>
+                  <div class="btn-group-block">
+                       <a class="id-fabu-url" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=fabu">{lang tom_tongcheng:list_fabu_one}</a>
+                       <div class="clear10" style="height:7em;"></div>
+                  </div>
+             </section>
+        </section>
+   </section>
+</section>
+{template tom_tongcheng:popup}
+<!--{if $subscribeFlag==2}-->
+<section id="subscribe">
+    <div class="subscribe_box">
+        <span>{lang tom_tongcheng:index_guanzu_msg}</span>
+        <div class="right">
+            <div class="guanzu_show"><a onclick="guanzu();">{lang tom_tongcheng:index_guanzu_btn}</a></div>
+            <div class="guanzu_close" onclick="hide_guanzu();"><i></i></div>
+        </div>
+    </div>
+</section>
+<!--{/if}-->
+<section class="pic_info id-pic-tip box_hide clearfix" style="z-index: 999;height: 2000px;position: fixed;">
+	<div class="pic_info_in id-pic-tip-in" style="top: 0px; height: 550px; background-image: url();"></div>
+</section>
+
+<!--{if $browser_shouchang_show == 1}-->
+<section id="index_prompt" onClick="hide_shouchang_prompt($__UserInfo['id']);">
+    <div class="prompt-pic"><img src="source/plugin/tom_tongcheng/images/index-tip-bg.png"></div>
+</section>
+<!--{/if}-->
+<section class="back_top">
+    <a href="javascript:void(0);"><img src="source/plugin/tom_tongcheng/images/back_top.png"></a>
+</section>
+{template tom_tongcheng:footer}
+<script src="source/plugin/tom_tongcheng/images/index.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+var index_jm_link = '{$md5HostUrl}';
+var index_top = 'index_scrollTop'+index_jm_link;
+var index_page = 'index_page'+index_jm_link;
+var index_data = 'index_data'+index_jm_link;
+var index_modeId = 'index_modeId'+index_jm_link;
+var index_type = 'index_type'+index_jm_link;
+
+var loadModeId = 0;
+var loadPage = 1;
+var loadType = 1;
+var ajaxLoadListUrl = "{$ajaxLoadListUrl}";
+
+$(document).ready(function(){
+	indexLoadList(0, 1);
+    var swiper1 = new Swiper('.swiper-container-nav', {
+        pagination: '.swiper-pagination-nav',
+        paginationClickable: true,
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: 5000,
+        autoplayDisableOnInteraction: false
+    });
+    <!--{if $focuspicList}-->
+    var swiper2 = new Swiper('.swiper-container-focuspic', {
+        pagination: '.swiper-pagination-focuspic',
+        paginationClickable: true,
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: 2500,
+        autoplayDisableOnInteraction: false
+    });
+    <!--{/if}-->
+    //loadList('',1);
+    if($("#index-list").length>0){
+        if(sessionStorage.getItem(index_page)){
+            $('#index-list').html(sessionStorage.getItem(index_data));
+            loadPage = sessionStorage.getItem(index_page);
+            loadPage = loadPage*1;
+            loadModeId = sessionStorage.getItem(index_modeId);
+            loadType = sessionStorage.getItem(index_type);
+            loadType = loadType*1;
+            $(document).scrollTop(sessionStorage.getItem(index_top));
+            if(loadType == 1){
+                $('#index-nav_id_'+loadModeId).addClass('active').siblings('.index-nav').removeClass('active');
+            }else if(loadType == 2){
+                ajaxLoadListUrl = '{$ajaxLoadQianggouListUrl}';
+                $('#index-nav_id_qg').addClass('active').siblings('.index-nav').removeClass('active');
+            }else if(loadType == 3){
+                ajaxLoadListUrl = '{$ajaxLoadCouponListUrl}';
+                $('#index-nav_id_coupon').addClass('active').siblings('.index-nav').removeClass('active');
+            }
+        }else{
+            loadList('{$ajaxLoadListUrl}',1);
+        }
+    }
+    
+});
+
+function indexLoadList(modelId ,type){
+    loadModeId = modelId;
+    loadPage = 1;
+    loadType = type;
+    if(loadType == 1){
+        ajaxLoadListUrl = '{$ajaxLoadListUrl}&model_id='+modelId+'&index=1';
+        loadList(ajaxLoadListUrl,1);
+    }else if(loadType == 2){
+        ajaxLoadListUrl = '{$ajaxLoadQianggouListUrl}'+'&index=1';
+        loadList(ajaxLoadListUrl,1);
+    }else if(loadType == 3){
+        ajaxLoadListUrl = '{$ajaxLoadCouponListUrl}'+'&index=1';
+        loadList(ajaxLoadListUrl,1);
+    }
+}
+
+var loadHtml = $("#load-html").html();
+var noListHtml = $("#no-list-html").html();
+var loadListStatus = 0;
+function loadList(url,Page) {
+    if(loadListStatus == 1){
+        return false;
+    }
+    loadListStatus = 1;
+    $("#index-list").html(loadHtml);
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {page:Page},
+        success: function(msg){
+            loadListStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 205){
+                $("#index-list").html(noListHtml);
+                $(".id-fabu-url").attr("href",'{$fabuUrl}'+modelId);
+                return false;
+            }else{
+                loadPage += 1;
+                $("#index-list").html(data);
+                if(loadType == 2 || loadType == 3){
+                    countDaojishi();
+                }
+            }
+        }
+    });
+}
+
+$(window).scroll(function () {
+    var scrollTop       = $(this).scrollTop();
+    var scrollHeight    = $(document).height();
+    var windowHeight    = $(this).height();
+    if ((scrollTop + windowHeight) >= (scrollHeight * 0.9)) {
+        scrollLoadList(ajaxLoadListUrl);
+    }
+    
+    if ((scrollTop + windowHeight) >= 1000) {
+        $('.back_top').show();
+    }else{
+        $('.back_top').hide();
+    }
+    
+    if ($(window).scrollTop()> 350) {
+        sessionStorage.setItem(index_top, $(window).scrollTop());
+        sessionStorage.setItem(index_data, $('#index-list').html());
+        if(loadPage >= 1){ sessionStorage.setItem(index_page, loadPage); }
+        sessionStorage.setItem(index_modeId, loadModeId);
+        sessionStorage.setItem(index_type, loadType);
+    } else {
+        sessionStorage.removeItem(index_page);
+        sessionStorage.removeItem(index_data);
+        sessionStorage.removeItem(index_top);
+        sessionStorage.removeItem(index_type);
+        sessionStorage.removeItem(index_modeId);
+    }
+});
+
+$(document).on('click','.back_top', function () {
+    $('body,html').animate({scrollTop: 0}, 500);
+    return false;
+});
+
+function scrollLoadList(url) {
+    if(loadListStatus == 1){
+        return false;
+    }
+    if(loadPage > 50){
+        return false;
+    }
+    $('#load-html').show();
+	$('#no-load-html').hide();
+    loadListStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: url,
+        data: {page:loadPage},
+        success: function(msg){
+            loadListStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 205){
+                $('#load-html').hide();
+                $('#no-load-html').show();
+                return false;
+            }else{
+                loadPage += 1;
+                $('#load-html').hide();
+                $("#index-list").append(data);
+                if(loadType == 2 || loadType == 3){
+                    countDaojishi();
+                }
+            }
+        }
+    });
+}
+
+var djsTime;
+function countDaojishi()
+{
+    window.clearInterval(djsTime);
+    djsTime=setInterval(function() {
+        $(".daojishi").each(function() { 
+            var t = $(this).attr('data-time');
+            t = t-100;
+            var d=Math.floor(t/1000/60/60/24);
+            var h=Math.floor(t/1000/60/60%24);
+            var m=Math.floor(t/1000/60%60);
+            var s=Math.floor(t/1000%60);
+            if (t > 0) { 
+                var str = d + "{lang tom_tcqianggou:tian}" + ( h<10?"0"+h:h) + "{lang tom_tcqianggou:hour}" + ( m<10?"0"+m:m) + "{lang tom_tcqianggou:minute}" + ( s<10?"0"+s:s)+"{lang tom_tcqianggou:second}"; 
+            }
+            else { 
+                var str = "{lang tom_tcqianggou:details_end}"; 
+            } 
+            $(this).attr('data-time',t);
+            $(this).html(str); 		
+        })
+    },100);
+}
+
+$(document).ready(function(){
+   $.get("{$ajaxCommonClicksUrl}");
+   $.get("{$ajaxUpdateTopstatusUrl}");
+   $.get("{$ajaxAutoClickUrl}");
+   $.get("{$ajaxAutoZhuanfaUrl}");
+   $.get("{$ajaxShenheSmsUrl}");
+});
+
+function dingyue(){
+    layer.open({
+        content: '<img src="{$__SitesInfo['dingyue_qrcode']}"><p>{lang tom_tongcheng:index_ts_guanz_msg}<p/>'
+        ,btn: '{lang tom_tongcheng:index_kefu_ok}'
+      });
+}
+function kefu(){
+    layer.open({
+        content: '<img src="{$kefuQrcodeSrc}"><p>{lang tom_tongcheng:index_ts_kefu_msg}<p/>'
+        ,btn: '{lang tom_tongcheng:index_kefu_ok}'
+      });
+}
+
+function guanzu(){
+    layer.open({
+        content: '<img src="{$tongchengConfig['fwh_qrcode']}"><p>{lang tom_tongcheng:index_ts_guanz_msg}<p/>'
+        ,btn: '{lang tom_tongcheng:index_kefu_ok}'
+      });
+}
+
+function hide_guanzu(){
+    $("#subscribe").hide();
+}
+
+$(function() {
+    setInterval(function() {
+        var e = $(".index-scroll-ad ul");
+        e.scrollTo({
+            to: e.find("li").eq(0).height(),
+            durTime: 800,
+            delay: 80,
+            callback: function() {
+                var a = e.find("li").eq(0),
+                i = a.clone(!0);
+                e.scrollTop(0),
+                a.remove(),
+                e.append(i)
+            }
+        })
+    },
+    2e3)
+});
+
+$(document).on("click", ".index-nav",function() {
+    var e = $(this),
+    a = e.parent();
+    a.find(".active").removeClass("active"),
+    e.addClass("active");
+    var i = e.data("id");
+});
+
+function hide_shouchang_prompt(uid){
+    $('#index_prompt').hide();
+    $.ajax({
+		type: "GET",
+		url: "{$ajaxShouchangUrl}",
+		data: {user_id:uid},
+		success: function(msg){
+            
+		}
+	})
+    
+}
+
+/* list js start */
+$(document).on("click", ".detail-time-icon",function() {
+    var t = $(this),
+    a = t.next();
+    if (!a.hasClass("detail-toolbar")) {
+        var id = t.data("id"),message = t.data("message"),user_id = t.data("user-id"),tel = t.data("tel"),tousu = t.data("tousu");
+        a = $('<div class="detail-toolbar"><A href="'+tousu+'" rel="nofollow"><img src="source/plugin/tom_tongcheng/images/icon-report.png">{lang tom_tongcheng:list_tousu_btn}</A><a href="javascript:void(0);" onclick="collect('+user_id+','+id+');" class="ajax-post"><img src="source/plugin/tom_tongcheng/images/list_zan.png">{lang tom_tongcheng:list_collect_btn}</a><A href="'+message+'"><img src="source/plugin/tom_tongcheng/images/icon-message.png">{lang tom_tongcheng:list_sms_btn}</A><A href="'+tel+'" class="ajax-get"><img src="source/plugin/tom_tongcheng/images/icon-tel.png">{lang tom_tongcheng:list_tel_btn}</A></div>'),
+        t.after(a);
+    }
+    a.hasClass("active") ? a.removeClass("active") : a.addClass("active");
+});
+$(document).on("click",function(t) {
+    var a = $(t.target);
+    a.hasClass("detail-time-icon") || $(".detail-toolbar").removeClass("active");
+});
+<!--{if $tongchengConfig['open_list_quanwen'] == 1}-->
+$(document).on("click", ".detail-toggle,.detail-toggle2,article",function() {
+<!--{else}-->
+$(document).on("click", ".detail-toggle,.detail-toggle2",function() {
+<!--{/if}-->
+    var t = $(this).parent(),
+    a = t.find("article"),
+    i = t.find(".act-bar"),
+    id = t.data("id"),
+    e = i.find("img");
+    $.get("{$ajaxClicksUrl}"+id);
+    return a.attr("oldheight") ? (a.css("max-height", a.attr("oldheight") + "px"), a.removeAttr("oldheight"), t.find(".detail-toggle").show(),t.find(".detail-toggle2").hide(), t.find(".act-bar").hide(), void 0) : (a.attr("oldheight", parseInt(a.css("max-height"), 10)), a.css("max-height", "none"), t.find(".detail-toggle").hide(),t.find(".detail-toggle2").show(), i.show(), e.attr("url") && e.attr("src", e.attr("url")).removeAttr("url"), !1)
+});
+function collect(user_id,tongcheng_id){
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxCollectUrl}",
+        data: "user_id="+user_id+"&tongcheng_id="+tongcheng_id,
+        success: function(msg){
+            msg = $.trim(msg);
+            if(msg == '100'){
+                tusi("{lang tom_tongcheng:list_collect_100}");
+            }else if(msg == '200'){
+                tusi("{lang tom_tongcheng:list_collect_ok}");
+            }else{
+                tusi("{lang tom_tongcheng:list_collect_error}");
+            }
+        }
+    });
+}
+function showPic(picurl,id){
+    var photo_list = $("#photo_list_"+id).val();
+    var picarr = photo_list.split('|');
+    wx.previewImage({
+        current: picurl,
+        urls: picarr 
+    });
+    //$(".id-pic-tip").removeClass('box_hide');
+    //$('.id-pic-tip-in').css('background-image', 'url(' + picurl + ')');
+}
+
+$(".pic_info").on("click", function(){
+    $(".id-pic-tip").addClass('box_hide');
+    $('.id-pic-tip-in').css('background-image', '');
+});
+/* list js end */
+</script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'onMenuShareQQ',
+      'previewImage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () {
+            $.get("{$ajaxZhuanfaScoreUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () {
+            $.get("{$ajaxZhuanfaScoreUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareQQ({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        success: function () { 
+            $.get("{$ajaxZhuanfaScoreUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

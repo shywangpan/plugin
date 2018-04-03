@@ -1,0 +1,190 @@
+<link rel="stylesheet" href="{HEJIN_PATH}public/bootstrap.min.css"  type="text/css"/>
+<ul class="nav-tabs">
+	<li ><a href="{eval echo createWebUrl('category', array('act' => 'post'))}" {if $operation == 'post'}class="active" style="color:#FF0000;"{/if}>{lang fightgroups:c1}</a></li>
+	<li ><a href="{eval echo createWebUrl('category', array('act' => 'display'))}" {if $operation == 'display'}class="active" style="color:#FF0000;"{/if}>{lang fightgroups:c2}</a></li>
+</ul>
+{if $operation == 'post'}
+
+<script type="text/javascript">
+var right_type=new Array(".gif",".jpg",".jpeg",".png"); 
+function checkImgType(fileURL) 
+{ 
+	var right_typeLen=right_type.length; 
+	var imgUrl=fileURL.toLowerCase(); 
+	var postfixLen=imgUrl.length; 
+	var len4=imgUrl.substring(postfixLen-4,postfixLen); 
+	var len5=imgUrl.substring(postfixLen-5,postfixLen); 
+	for (i=0;i <right_typeLen;i++) 
+		{ 
+			if((len4==right_type[i])||(len5==right_type[i])) 
+			{ 
+				return true; 
+			} 
+		} 
+}
+function changeSrc(filePicker) 
+{ 
+	if(!checkImgType(filePicker.value)) 
+	{ 
+		alert("{lang fightgroups:c3}"); 
+		return false; 
+	}
+	return true;
+}
+
+</script>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{lang fightgroups:c4}
+			</div>
+			<div class="panel-body">
+				{if !empty($parentid)}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:c5}</label>
+					<div class="col-sm-9 col-xs-12 control-label" style="text-align:left;">{$parent['name']}</div>
+				</div>
+				{/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:c6}</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="displayorder" class="form-control" value="{$category['displayorder']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">{lang fightgroups:c9}</span>{lang fightgroups:c7}</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="catename" class="form-control" value="{$category['name']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:c8}</label>
+					<div class="col-sm-9 col-xs-12">
+						{if $category['thumb']}<img src="{$category['thumb']}"  width="100" height="80"/>{/if}
+						<input type="file" id="pic" name="fileupload" onchange="changeSrc(this)"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:c10}</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="description" class="form-control" value="{$category['description']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:c11}</label>
+					<div class="col-sm-9 col-xs-12">
+						 <label class='radio-inline'>
+							 <input type='radio' name='isrecommand' value=1' {if $category['isrecommand']==1}checked{/if} />{lang fightgroups:c12}
+						 </label>
+						 <label class='radio-inline'>
+							 <input type='radio' name='isrecommand' value=0' {if $category['isrecommand']==0}checked{/if} />{lang fightgroups:c13}
+						 </label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:c14}</label>
+					<div class="col-sm-9 col-xs-12">
+						<label class='radio-inline'>
+							<input type='radio' name='enabled' value=1' {if $category['enabled']==1}checked{/if} /> {lang fightgroups:c12}
+						</label>
+						<label class='radio-inline'>
+							<input type='radio' name='enabled' value=0' {if $category['enabled']==0}checked{/if} /> {lang fightgroups:c13}
+						</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="{lang fightgroups:c15}" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="formhash" value="{FORMHASH}" />
+		</div>
+	</form>
+</div>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="category">
+		<form action="" method="post" onsubmit="return formcheck(this)">
+			<div class="panel panel-default">
+				<div class="panel-body table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th style="width:10px;"></th>
+								<th style="width:80px;">{lang fightgroups:c16}</th>
+								<th style="width:300px;">{lang fightgroups:c17}</th>
+								<th style="width:150px;">{lang fightgroups:c18}</th>
+								<th style="width:150px;">{lang fightgroups:c19}</th>
+							</tr>
+						</thead>
+						<tbody>
+						{loop $category $row}
+						<tr>
+							<td>{if count($children[$row['id']]) > 0}<a href="javascript:;"><i class="fa fa-chevron-down"></i></a>{/if}</td>
+							<td><input type="text" class="form-control" name="displayorder[{$row['id']}]" value="{$row['displayorder']}"></td>
+							<td>
+								<img src="{$row['thumb']}" width='30' height="30" onerror="this.remove()" style='padding:1px;border: 1px solid #ccc;float:left;' />
+								<div class="type-parent">{$row['name']}
+								</div>
+							</td>
+							<td>
+								{if $row['enabled']==1}
+								<span class='label label-success'>{lang fightgroups:c23}</span>
+								{else}
+								<span class='label label-danger'>{lang fightgroups:c24}</span>
+								{/if}
+							</td>
+							<td>
+								<a href="{eval echo createWebUrl('category', array('act' => 'post', 'sid' => $row['id'] ))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom">{lang fightgroups:c22}</a>{lang fightgroups:c20}
+								<a href="{eval echo createWebUrl('category', array('act' => 'delete', 'sid' => $row['id'], 'formhash' => FORMHASH))}" onclick="return confirm('{lang fightgroups:c25}');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:c27}</a>
+								{lang fightgroups:c20}
+								
+								<a href="{eval echo createWebUrl('category', array('act' => 'post', 'parentid' => $row['id'] ))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" >{lang fightgroups:c26}</a>
+							</td>
+						</tr>
+						{loop $children[$row['id']] $row}
+						<tr>
+							<td></td>
+							<td>
+								<input type="text" class="form-control col-lg-2" name="displayorder[{$row['id']}]" value="{$row['displayorder']}">
+							</td>
+							<td>
+								<div style="padding-left:50px;height:30px;line-height:30px;">{$row['name']}
+								{if $row['thumb']}<img src="{$row['thumb']}" width='30' height="30" onerror="$(this).remove()" style='padding:1px;border: 1px solid #ccc;float:left;' />{/if}{lang fightgroups:c20}
+								</div>
+							</td>
+							<td>
+								{if $row['enabled']==1}
+								<span class='label label-success'>{lang fightgroups:c23}</span>
+								{else}
+								<span class='label label-danger'>{lang fightgroups:c24}</span>
+								{/if}
+							</td>
+							<td>
+								<a href="{eval echo createWebUrl('category', array('act' => 'post', 'sid' => $row['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:c22}</a>{lang fightgroups:c20}
+								<a href="{eval echo createWebUrl('category', array('act' => 'delete', 'sid' => $row['id'], 'formhash' => FORMHASH))}" onclick="return confirm('{lang fightgroups:c25}');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:c27}</i></a>
+							</td>
+						</tr>
+						{/loop}
+						{/loop}
+						<tr>
+							<td></td>
+							<td colspan="4">
+								<a href="{eval echo createWebUrl('category', array('act' => 'post'))}"><i class="fa fa-plus-sign-alt"></i> {lang fightgroups:c26}</a>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td colspan="4">
+								<input name="submit" type="submit" class="btn btn-primary" value="{lang fightgroups:c15}">
+								<input type="hidden" name="token" value="{$_W['token']}" />
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+{/if}

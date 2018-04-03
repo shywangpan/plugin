@@ -1,0 +1,62 @@
+.shop_list{ margin-top:5px;}
+.shop_list .shop_list-menu{ background:#fff; border-bottom:1px solid #EEEEEE; display: -webkit-box; display: -webkit-flex; display: flex;}
+.shop_list .shop_list-menu .list-menu{ -webkit-box-flex:1; -webkit-flex:1; flex:1; text-align:center; height:36px; line-height:36px;}
+.shop_list .shop_list-menu .list-menu a{ display:inline-block; width:70%; color:#A1A1A0;}
+.shop_list .shop_list-menu .list-menu a.on{ color:#ff7f00; border-bottom:2px solid #ff7f00; height:35px;}
+.shop_list .list-item{/* padding:15px 10px 15px 15px; background:#fff; margin-bottom:3px; */}
+.shop_list .list-item .item-box{ display:-webkit-box; display:-webkit-flex; display:flex; padding: 15px 10px 10px 15px; background: #fff; margin-bottom: 1px;}
+.shop_list .list-item .item-box .item-pic{ width:65px; height:65px; position:relative;}
+.shop_list .list-item .item-box .item-pic img{ height:100%; width:100%;object-fit: cover;}
+.shop_list .list-item .item-box .item-pic i.vip{ position:absolute; top:0; left:0; width:30px; height:30px; background:url(shop_vip.png) no-repeat 0px 0px; background-size:100% auto;}
+.shop_list .list-item .item-box .item-content{ position:relative; padding-right:50px; padding-left:10px; -webkit-box-flex:1; -webkit-flex:1; flex:1; overflow:hidden;}
+.shop_list .list-item .item-box .item-content .content h5{ font-weight: 500; height:20px; font-size:1.1em; line-height:20px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;margin-bottom: 1px;}
+.shop_list .list-item .item-box .item-content .content h5 span.text-icon{ color: #fff; color: #fff; padding: 0px 1px; background-color: #ff7f00; border-radius: 2px; display: inline-block; font-size: 0.6em; font-weight: 500; height: 16px; line-height: 18px; margin-right: 5px;}
+.shop_list .list-item .item-box .item-content .content h5 span.icon{ display:inline-block; min-width:20px; height:20px; vertical-align: bottom;}
+.shop_list .list-item .item-box .item-content .content h5 span.top{ background:url(shop_top.png)no-repeat center; background-size:90% auto; margin-right:5px;}
+.shop_list .list-item .item-box .item-content .content h5 span.video{ background:url(shop_video2.png)no-repeat center; background-size:80% auto; margin-left:5px;}
+.shop_list .list-item .item-box .item-content .content h5 span.video_720{ background:url(shop_720_video2.png)no-repeat center; background-size:80% auto; margin-left:5px;}
+.shop_list .list-item .item-box .item-content .content h5 span.hb{vertical-align: 0px; padding:0 2px; background:#fe737a; color:#fff; font-size:0.8em;border-radius: 2px; margin-left: 5px; line-height: 16px; height: 16px;}
+
+.shop_list .list-item .item-box .item-content .content .xinxi{ height:25px; margin-top: 0px; line-height:25px; color:#9c9c9c; overflow:hidden; font-size:0.9em; padding:1px 0; }
+.shop_list .list-item .item-box .item-content .content .nr{ height:20px; margin-bottom: 2px; line-height:20px;overflow:hidden; white-space:nowrap; text-overflow:ellipsis;color:#888888; font-size:0.85em;}
+.shop_list .list-item .item-box .item-content .content .nr .zan{ margin-right:2px; vertical-align: bottom; display:inline-block; width:20px; height:20px; background:url(shop_zan2.png)no-repeat center; background-size:80% auto;}
+.shop_list .list-item .item-box .item-content .content .nr .juan{ margin-right:2px; vertical-align: bottom; display:inline-block; width:20px; height:20px; background:url(shop_juan2.png)no-repeat center; background-size:80% auto;}
+.shop_list .list-item .item-box .item-content .content .nr .goods{ margin-right:2px; vertical-align: bottom; display:inline-block; width:20px; height:20px; background:url(shop_juan2.png)no-repeat center; background-size:80% auto;}
+.shop_list .list-item .item-box .item-content .content .nr .qiang{ margin-right:2px; vertical-align: bottom; display:inline-block; width:20px; height:20px; background:url(shop_qiang2.png)no-repeat center; background-size:80% auto;}
+.shop_list .list-item .item-box .item-content .details{text-align:center; position:absolute; right:0; top:0; }
+.shop_list .list-item .item-box .item-content .details .tel a{ display:inline-block; width:30px; height:30px; background:url(shop_tel2.png)no-repeat center; background-size:100% auto;}
+.shop_list .list-item .item-box .item-content .details .dist{ font-size:0.8em; height:20px; line-height:20px;color:#787878;}
+.shop_list .shop_list-title{ height:36px; color:#4C4B4B; line-height:40px; padding:0 10px; border-bottom:1px solid #eee;}
+
+.shop_list .list-msg{
+        text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1em;
+    color: #a7a19f;
+}
+
+.shop_list-tags {
+	line-height: 1.5em;
+	clear: both;
+	overflow: hidden
+}
+
+.shop_list-tags span {
+    font-size: 0.9em;
+    height: 17px;
+    line-height: 17px;
+    margin-top: 3px;
+    margin-right: 5px;
+    /* padding: 0 2px; */
+    padding-left: 2px;
+    padding-right: 2px;
+    display: inline-block;
+    float: left;
+    /* letter-spacing: 0; */
+    /* margin-bottom: 2px; */
+    border-radius: 2px;
+    color: #FDA233 !important;
+    border: 1px solid #FDA233;
+    /* box-sizing: border-box; */
+}

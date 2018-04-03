@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{$shareTitle}</title>
+<link href="source/plugin/tom_tongcheng/images/swiper.min.css?v={$cssJsVersion}" rel="stylesheet" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<!--{if $__ShowTchongbao == 1}-->
+<link rel="stylesheet" href="source/plugin/tom_tchongbao/images/yinru_hb_style.css?v={$cssJsVersion}" />
+<!--{/if}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/swiper.min.js?v={$cssJsVersion}"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/global.js?v={$cssJsVersion}"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/layer_mobile/layer.js?v={$cssJsVersion}"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<style>
+    .layui-m-layer0 .layui-m-layerchild{width: 70%;}
+    .layui-m-layercont{padding: 5px 3px;}
+</style>
+</head>
+<body id="tc_info">
+<!--{if $__HideHeader == 0 }-->
+<header class="header on">
+   <section class="wrap">
+        <section class="sec-ico go-back" onclick="javascript:history.go(-1);">{lang tom_tongcheng:back}</section>
+        <h2>{$title}</h2>
+   </section>
+</header>
+<!--{/if}-->
+<section class="info-item" style="<!--{if $__HideHeader == 0 }-->margin-top: 3em;<!--{/if}-->margin-bottom: 1px;">
+    <!--{if $tongchengConfig['open_fabu_title'] == 1 }-->
+    <div class="item-title">{$tongchengInfo['title']}</div>
+    <!--{/if}-->
+	<div class="info-item-title clearfix">
+        <div class="item-headimg-l">
+            <img src="{$userInfo['picurl']}">
+        </div>
+        <div class="item-title-r">
+            <h5>
+                <a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=list&type_id={$typeInfo['id']}">
+                    <span>{$typeInfo['name']}</span>
+                </a>
+                <!--{if $tongchengConfig['open_list_xm'] == 1 }-->
+                {$tongchengInfo['xm']}
+                <!--{else}-->
+                {$userInfo['nickname']}
+                <!--{/if}-->
+                <!--{if $tchongbaoInfo && $tchongbaoInfo['status'] == 1 && $tchongbaoConfig['open_show_hongbao_price'] == 1}-->
+                <i class="hbsy_money" ><img src="source/plugin/tom_tchongbao/images/hongbao-ico.png">{$tchongbaoInfo['money']}</i>
+                <!--{/if}-->
+            </h5>
+            <div class="title-time clearfix">
+                <!--{date($tongchengInfo[refresh_time], 'u','9999','m-d H:i')}-->
+                <!--{if $tongchengConfig['show_site_name'] == 1 }-->
+                &nbsp;{lang tom_tongcheng:laiyuan}{$siteInfo['name']}
+                <!--{/if}-->
+            </div>
+        </div>
+        <!--{if $tongchengConfig['open_info_pic_jgg'] == 0}-->
+        <p class="item-liulan">{$tongchengInfo['clicks']} {lang tom_tongcheng:info_clicks}{$tongchengInfo['zhuanfa']} {lang tom_tongcheng:info_zhuanfa}{$zanCount} {lang tom_tongcheng:info_collect}</p>
+        <!--{/if}-->
+    </div>
+    <!--{if $tongchengInfo['finish'] == 1}-->
+    <div class="title-finish"><img src="source/plugin/tom_tongcheng/images/icon35.png"></div>
+    <!--{/if}-->
+</section>
+<!--{if $attrList || $addressStr || $cateInfo }-->
+<section class="info-item" style="margin-bottom: 1px;">
+	<div class="info-item-attr">
+        <!--{if $cateInfo}-->
+        <div class="attr clearfix">
+        	<div class="attr-left">{lang tom_tongcheng:info_cate}&nbsp;:&nbsp;</div>
+        	<div class="attr-right">{$cateInfo['name']}</div>
+        </div>
+        <!--{/if}-->
+        <!--{loop $attrList $k2 $v2}-->
+        <!--{if $v2['value']}-->
+    	<div class="attr clearfix">
+        	<div class="attr-left">{$v2['attr_name']}&nbsp;:&nbsp;</div>
+        	<div class="attr-right">{$v2['value']}<!--{if $v2['unit']}-->{$v2['unit']}<!--{/if}--></div>
+        </div>
+        <!--{/if}-->
+        <!--{/loop}-->
+        <!--{if $addressStr  }-->
+        <div class="attr clearfix">
+        	<div class="attr-left">{lang tom_tongcheng:info_address}&nbsp;:&nbsp;</div>
+        	<div class="attr-right">{$addressStr}</div>
+        </div>
+        <!--{/if}-->
+    </div>
+</section>
+<!--{/if}-->
+<section class="info-item">
+	<div class="info-item-mation">
+    	<!--<h5>{lang tom_tongcheng:info_xinxi_xiangqing}</h5>-->
+        <!--{if $tagList}-->
+        <div class="title-bq clearfix">
+            <!--{loop $tagList $k1 $v1}-->
+            <span class="span{$k1}">{$v1['tag_name']}</span>
+            <!--{/loop}--> 
+        </div>
+        <!--{/if}-->
+        <!--{if $showNewContent == 1}-->
+        <div class="mation-content">{$newContent}</div>
+        <!--{else}-->
+        <div class="mation-content">{$content}</div>
+        <!--{if $photoList}-->
+            <!--{if $tongchengConfig['open_info_pic_jgg'] == 1}-->
+            <div class="mation-photo__jgg clearfix">
+                <!--{loop $photoList $k3 $v3}-->
+                <img class="picture <!--{if $photoCount == 1}-->bigwidth<!--{/if}-->" src="{$v3}" onClick="showPicList($(this),'{$k3}');">
+                <!--{/loop}-->
+                <input type="hidden" name="photo_list" class="photo_list" value="{$photoListStr}">
+            </div>
+            <!--{else}-->
+            <div class="mation-photo clearfix">
+                <input type="hidden" name="photo_list" class="photo_list" value="{$photoListStr}">
+                <!--{loop $photoList $k3 $v3}-->
+                <img class="picture" src="{$v3}" onClick="showPicList($(this),'{$k3}');">
+                <!--{/loop}-->
+            </div>
+            <!--{/if}-->
+        <!--{/if}-->
+        <!--{/if}-->
+    </div>
+    <div class="info-item-zan ">
+        <div class="zan-hd clearfix">
+            <div class="zan-hd_num">
+                <!--{if $isCollect == 1 }-->
+                <i class="on" onClick="collect({$__UserInfo['id']}, {$tongcheng_id});"></i>
+                <!--{else}-->
+                <i onClick="collect({$__UserInfo['id']}, {$tongcheng_id});"></i>
+                <!--{/if}-->
+                <span>{$zanCount}</span>
+            </div>
+            <!--{if $tongchengConfig['open_info_pic_jgg'] == 1}-->
+            <div class="zan-hd_clicks">{$tongchengInfo['clicks']} {lang tom_tongcheng:info_clicks}{$tongchengInfo['zhuanfa']} {lang tom_tongcheng:info_zhuanfa}{$zanCount} {lang tom_tongcheng:info_collect}</div>
+            <!--{/if}-->
+        </div>
+        <!--{if $zanCount > 0}-->
+        <div class="zan-bd">
+            <i class="detail-cmtr"></i>
+            <div class="zan-bd_content clearfix">
+                <!--{loop $zanList $key $value}-->
+                <img src="{$value['userInfo']['picurl']}">
+                <!--{/loop}-->
+            </div>
+        </div>
+        <!--{/if}-->
+    </div>
+</section>
+<section class="info-item">
+    <div class="info-item-ly">
+        <div class="ly-content">
+            <p>{lang tom_tongcheng:info_tel_xm}{$tongchengInfo['xm']}</p>
+            <p class="import">{lang tom_tongcheng:info_tc_title_1}<a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=index"><span>{$__SitesInfo['name']}</span></a>{lang tom_tongcheng:info_tc_title_2}</p>
+        </div>
+        <!--{if $tongchengInfo['finish'] == 0}-->
+        <div class="ly-right"><a href="tel:{$tongchengInfo['tel']}"></a></div>
+        <!--{/if}-->
+    </div>
+</section>
+<!--{if $__ShowTcshop == 1 }-->
+{template tom_tongcheng:info_shop}
+<!--{/if}-->
+<section class="info-item">
+    <div class="info-item-jubao">
+        <div class="jubao-content">
+            <p class="title">{lang tom_tongcheng:info_jubao_title}</p>
+            <p class="desc">{$zhapian_msg}</p>
+        </div>
+        <div class="jubao-right">
+            <a href="{$tousuUrl}">
+                <div class="ico"><img src="source/plugin/tom_tongcheng/images/jubao_ico.png" width="30" height="28"/></div>
+                <div class="btn">{lang tom_tongcheng:info_jubao_btn}</div>
+            </a>
+        </div>
+    </div>
+</section>
+<section class="info-item">
+	<div class="info-item-fbr clearfix">
+    	<a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=home&uid={$userInfo['id']}">
+            <div class="fbr-avatar"><img src="{$userInfo['picurl']}"></div>
+            <div class="fbr-content">
+                <div class="fbr-name">{$userInfo['nickname']} <i></i></div>
+                <div class="fbr-count">{lang tom_tongcheng:info_user_fabu_num_1}{$tcCount}{lang tom_tongcheng:info_user_fabu_num_2}</div>
+            </div>
+        </a>
+    </div>
+</section>
+<!--{if $__ShowTchongbao == 1 && $tchongbaoInfo}-->
+<section class="info-item">
+    <div class="hb_title">
+        {lang tom_tongcheng:info_hb_title}<font color="#f00">{$tchongbaoLogCount}</font>/{$tchongbaoInfo['hb_count']}
+        <a href="{$hongbaoLogListUrl}">{lang tom_tongcheng:info_hb_more}</a>
+    </div>
+    <div class="hongbaolog-list">
+        <!--{if $tchongbaoLogList}-->
+        <ul>
+            <!--{loop $tchongbaoLogList $key $value}-->
+            <li><img src="{$value['user_picurl']}">{$value['nickname']}<span>{$value['money']}</span></li>
+            <!--{/loop}-->
+        </ul>
+        <!--{else}-->
+        <div class="no-hb-ts">{lang tom_tongcheng:info_hb_no_lingqu}</div>
+        <!--{/if}-->
+    </div>
+</section>
+<!--{/if}-->
+{template tom_tongcheng:pinglun}
+<section id="tab-navs">
+    <ul class="tab-navs index-navs detail-navs" >
+       <div class="tab-scroll">
+            <li class="tab-nav index-nav active" onclick="indexLoadList(0);">{lang tom_tongcheng:index_new_title}</li>
+            <!--{loop $modelList $key $val}-->
+             <li class="tab-nav index-nav"><a href="javascript:void(0);" onclick="indexLoadList({$val['id']});">{$val['name']}</a></li>
+             <!--{/loop}-->
+       </div>
+    </ul>
+    <div id="index-list" style="min-height: 400px;background-color: #fff;">
+    </div>
+    <section style="display: none;" id="load-html">
+        <div class="tcui-loadmore" style="padding:1em"><i class="tcui-loading"></i><span class="tcui-loadmore__tips">{lang tom_tongcheng:list_jiazaiing}</span></div>
+    </section>
+    <section  style="display: none;" id="no-list-html">
+       <div class="clear10" style="height:7em;"></div>
+       <div class="tcui-loadmore tcui-loadmore_line">
+           <span class="tcui-loadmore__tips">{lang tom_tongcheng:list_no_list}</span>
+       </div>
+       <div class="btn-group-block">
+           <a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=fabu">{lang tom_tongcheng:list_fabu_one}</a>
+           <div class="clear10" style="height:7em;"></div>
+       </div>
+   </section>
+</section>
+{template tom_tongcheng:popup}
+<!--{if $__ShowTchongbao == 1 && $tchongbaoInfo && $show_hongbao_button == 1}-->
+<section class="info-hongbao">
+    <div class="hongbao-button" style="bottom: 50px;">
+        <!--{if $lqHongbaoStatus == 1}-->
+        <a href="{$myMoneyUrl}" class="qiang_over">{lang tom_tongcheng:info_hb_lq_status_1}</a>
+        <!--{elseif $tchongbaoInfo['status'] == 1}-->
+        <a href="javascript:;" onClick="hongbaoFilter();">{lang tom_tongcheng:info_hb_lq}</a>
+        <!--{else}-->
+        <a href="{$hongbaoIndexUrl}" class="qiang_over">{lang tom_tongcheng:info_hb_lq_status_2}</a>
+        <!--{/if}-->
+    </div>
+</section>
+<!--{/if}-->
+<section id="info-footer">
+	<div class="info-footer">
+    	<div class="info-footer-item">
+        	<a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=index&prand={$prand}">
+                <img src="source/plugin/tom_tongcheng/images/footer_nav_index.png">
+                <span>{lang tom_tongcheng:info_nav_index}</span>
+            </a>
+        </div>
+    	<div class="info-footer-item">
+        	<a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=fabu&prand={$prand}" >
+                <img src="source/plugin/tom_tongcheng/images/footer_nav_fabu2.png">
+                <span>{lang tom_tongcheng:footer_nav_fabu}</span>
+            </a>
+        </div>
+    	<div class="info-footer-item">
+        	<a href="{$messageUrl}">
+                <img src="source/plugin/tom_tongcheng/images/footer_nav_message.png">
+                <span>{lang tom_tongcheng:info_nav_sms}</span>
+            </a>
+        </div>
+    	<div class="info-footer-item info-footer-tel">
+            <!--{if $tongchengInfo['finish'] == 1}-->
+            <a href="javascript:;" class="finish">{lang tom_tongcheng:info_nav_finish}</a>
+            <!--{else}-->
+            <a href="tel:{$tongchengInfo['tel']}">{lang tom_tongcheng:info_nav_tel}<br/>{$tongchengInfo['tel']}</a>
+            <!--{/if}-->
+        </div>
+    </div>
+</section>
+<section class="pic_info id-pic-tip box_hide clearfix" style="z-index: 999;height: 2000px;position: fixed;">
+	<div class="pic_info_in id-pic-tip-in" style="top: 0px; height: 550px; background-image: url();"></div>
+</section>
+<div class="site-float" style="font-size: 0.7em;">
+    <span class="img-dialog" onclick="dingyue();" > {lang tom_tongcheng:index_dingyue1} <i></i> {lang tom_tongcheng:index_dingyue2} </span>
+    <span class="img-dialog" onclick="kefu();" > {lang tom_tongcheng:index_kefu1} <i></i> {lang tom_tongcheng:index_kefu2} </span>
+</div>
+<section class="back_top">
+    <a href="javascript:void(0);"><img src="source/plugin/tom_tongcheng/images/back_top.png"></a>
+</section>
+<!--{if $subscribeFlag==2}-->
+<section id="subscribe_box" class="info_guanzu_pormpt">
+    <div class="guanzu_pormpt_area guanzu_pormpt_left">
+        <div class="guanzu_pic"><img src="{$tongchengConfig['fwh_logo']}"></div>
+        <div class="guanzu_text">
+            <h5>{$tongchengConfig['fwh_name']}</h5>
+            <p>{$tongchengConfig['fwh_desc']}</p>
+        </div>
+    </div>
+    <div class="guanzu_pormpt_area guanzu_pormpt_right">
+        <div class="guanzu_button" onclick="guanzu();">{lang tom_tongcheng:index_guanzu_btn}</div>
+        <div class="guanzu_close" onclick="hide_guanzu();"></div>
+    </div>
+</section>
+<!--{elseif $browser_shouchang_show == 1}-->
+<section id="index_prompt" onClick="hide_shouchang_prompt($__UserInfo['id']);">
+    <div class="prompt-pic"><img src="source/plugin/tom_tongcheng/images/index-tip-bg.png"></div>
+</section>
+<!--{/if}-->
+<div class="swiper-container rebox" id="rebox">
+    <div class="swiper-wrapper " id="rebox-wrapper__box">
+    </div>
+    <div class="swiper-pagination rebox-pagination"></div>
+	<div class="swiper-close" id="rebox-close"></div>
+</div>
+<!--{if $__ShowTchongbao == 1 && $tchongbaoInfo}-->
+<section class="info-hongbao-box">
+    <div class="hongbao-box">
+        <div class="shop-pic">
+            <img src="{$userInfo['picurl']}">
+            <p>{$userInfo['nickname']}</p>
+            <p>{lang tom_tongcheng:info_hb_to_me}</p>
+        </div>
+        <div class="bongbao-title <!--{if $tchongbaoInfo['open_kouling'] == 1}-->open_kouling<!--{/if}-->">{lang tom_tongcheng:info_hb_heyu}</div>
+        <form id="qiang_hongbao_form">
+            <!--{if $tchongbaoInfo['open_kouling'] == 1}-->
+            <input type="text" id="kouling" name="kouling" value="" placeholder="{lang tom_tongcheng:info_hb_input_kouling}">
+            <!--{/if}-->
+            <input type="hidden" name="formhash" value="{$formhash}">
+            <input type="hidden" name="site" value="{$site_id}">
+            <input type="hidden" name="tongcheng_id" value="{$tongcheng_id}">
+            <input type="hidden" name="act" value="open_hb">
+            <input type="hidden" name="hongbao_id" value="{$tchongbaoInfo['id']}">
+        </form>
+        <div class="hongbao-button" id="open_hb"><img src="source/plugin/tom_tchongbao/images/hongbao_qiang.png"></div>
+        <!--{if $tchongbaoInfo['open_kouling'] == 1}-->
+        <p class="kouling_pormpt">{$tchongbaoInfo['kouling_pormpt']}</p>
+        <!--{/if}-->
+        <div class="hongbao-close" onClick="hongbaoBoxHide();"></div>
+    </div>
+</section>
+<!--{if $tchongbaoConfig['mp3_link']}-->
+<script src="source/plugin/tom_tchongbao/images/music/music.js"></script>
+<div class="music_play_yinfu" id="music_audio_btn" style="display: none;">
+    <div id="music_yinfu" class="music_rotate"></div>
+    <audio id="music_media" controls="controls" src="{$tchongbaoConfig['mp3_link']}" ></audio>
+</div>
+<!--{/if}-->
+<div id="loadingToast" class="loading-toast">
+    <div class="tcui-mask_transparent"></div>
+    <div class="tcui-toast">
+        <i class="tcui-loading tcui-icon_toast"></i>
+        <p class="tcui-toast__content"></p>
+    </div>
+</div>
+<div id="toast" style="display: none;">
+    <div class="tcui-mask_transparent"></div>
+    <div class="tcui-toast">
+        <i class="tcui-icon-success-no-circle tcui-icon_toast"></i>
+        <p class="tcui-toast__content">{lang tom_tongcheng:info_hb_qiangover}</p>
+    </div>
+</div>
+<script type="text/javascript">
+<!--{if $__ShowTchongbao == 1 && $lqHongbaoStatus != 1 && $tchongbaoInfo['status'] == 1 && $openLocaltionDistance == 1 && $hongbaoLocationStatus == 0}-->
+    $('#loadingToast .tcui-toast .tcui-toast__content').html("{lang tom_tongcheng:locationing}");
+    $('#loadingToast').show();
+<!--{/if}-->
+<!--{if $tchongbaoInfo['status'] == 2}-->
+/*
+$(function(){
+    $('#toast').fadeIn(100);
+    setTimeout(function () {
+        $('#toast').fadeOut(100);
+    }, 2000);
+});*/
+<!--{/if}-->
+$(document).ready(function(){
+    <!--{if $tchongbaoConfig['mp3_link']}-->
+    var audio2 = $('#music_media');
+    audio2[0].pause();
+    <!--{/if}-->
+});
+
+var hbButtomClickStatus = 0;
+function hongbaoFilter(){
+    <!--{if $tchongbaoConfig['mp3_link']}-->
+    var audio2 = $('#music_media');
+    audio2[0].play();
+    <!--{/if}-->
+    <!--{if $openLocaltionDistance == 2}-->
+    tusi('{lang tom_tongcheng:info_hb_err_wx_open}');
+    return false;
+    <!--{elseif $openLocaltionDistance == 3}-->
+    tusi('[301]{lang tom_tongcheng:info_hb_err_distance_error}');
+    return false;
+    <!--{elseif $openLocaltionDistance == 1}-->
+    
+        <!--{if $hongbaoLocationStatus == 1}-->
+            hbButtomClickStatus = 1;
+            hongbaoBox();
+            return false;
+        <!--{elseif $hongbaoLocationStatus == 2}-->
+            tusi('{lang tom_tongcheng:info_hb_err_distance_303}');
+            return false;
+        <!--{/if}-->
+        
+        if(getLocationStatus == 1){
+            if(hbButtomClickStatus == 1){
+                hongbaoBox();
+            }else{
+                tusi('{lang tom_tongcheng:info_hb_err_distance_303}');
+                return false;
+            }
+        }else if(getLocationStatus == 2){
+            tusi("{lang tom_tongcheng:info_hb_err_no_location_error}");
+            return false;
+        }else{
+            tusi('{lang tom_tongcheng:info_hb_location_error}');
+            return false;
+        }
+    
+    <!--{else}-->
+    hongbaoBox();
+    return false;
+    <!--{/if}-->
+}
+
+function locationRequest(latitude, longitude){
+    if(latitude == '' || longitude == ''){
+        $('#loadingToast').hide();
+        tusi('[304]{lang tom_tongcheng:info_hb_err_distance_error}');
+        return false;
+    }
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxDistanceHongbaoUrl}",
+        data: {latitude:latitude,longitude:longitude},
+        success: function(msg){
+            $('#loadingToast').hide();
+            getLocationStatus = 1;
+            var data = eval('('+msg+')');
+            if(data == 200){
+                hbButtomClickStatus = 1;
+            }else if(data == 301){
+                tusi('[305]{lang tom_tongcheng:info_hb_err_distance_error}');
+                return false;
+            }else if(data == 302){
+                tusi('[306]{lang tom_tongcheng:info_hb_err_distance_error}');
+                return false;
+            }else if(data == 303){
+                tusi('{lang tom_tongcheng:info_hb_err_distance_303}');
+                return false;
+            }else{
+                tusi('{lang tom_tongcheng:info_hb_err_distance_error}');
+                return false;
+            }
+        }
+    });
+}
+
+function hongbaoBox(){
+    <!--{if $tchongbaoConfig['hb_lq_type'] == 1}-->
+    $('.info-hongbao-box').show();
+    <!--{/if}-->
+}
+    
+function hongbaoBoxHide(){
+    <!--{if $tchongbaoConfig['mp3_link']}-->
+    var audio2 = $('#music_media');
+    audio2[0].pause();
+    <!--{/if}-->
+    $('.info-hongbao-box').hide();
+}
+
+var openHongbaoStatus = 0;
+$('#open_hb').click(function(){
+    <!--{if $tchongbaoInfo['status'] != 1}-->
+    tusi("{lang tom_tongcheng:info_hb_lq_over}");
+    return false;
+    <!--{/if}-->
+    <!--{if $tchongbaoConfig['open_hb_position'] == 1}-->
+    if(hbButtomClickStatus != 1){
+        tusi("{lang tom_tongcheng:info_hb_err_distance_303}");
+        return false;
+    }
+    <!--{/if}-->
+    
+    <!--{if $tchongbaoInfo['open_kouling'] == 1}-->
+    var kouling = $('#kouling').val();
+    if(kouling == ''){
+        tusi("{lang tom_tongcheng:info_hb_input_kouling}");
+        return false;
+    }
+    <!--{/if}-->
+    if(openHongbaoStatus == 1){
+        return false;
+    }
+    openHongbaoStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxHongbaoUrl}",
+        data: $('#qiang_hongbao_form').serialize(),
+        success: function(msg){
+            openHongbaoStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 200){
+                setTimeout(function(){window.location.href='{$hongbaoLogListUrl}';},500);
+            }else if(data == 301){
+                tusi("{lang tom_tongcheng:info_hb_err_301}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data == 302){
+                tusi("{lang tom_tongcheng:info_hb_err_302}");
+                return false;
+            }else if(data == 303){
+                tusi("{lang tom_tongcheng:info_hb_err_303}");
+                return false;
+            }else if(data == 304){
+                tusi("{lang tom_tongcheng:info_hb_err_304}");
+                setTimeout(function(){window.location.href='{$hongbaoLogListUrl}';},500);
+            }else if(data == 305){
+                tusi("{lang tom_tongcheng:info_hb_err_305}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tongcheng:info_hb_err}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+})
+
+</script>
+<!--{/if}-->
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript">    
+$(document).ready(function(){
+    loadList('',1);
+});
+$(document).ready(function(){
+   $.get("{$ajaxCommonClicksUrl}");
+   $.get("{$ajaxUpdateTopstatusUrl}");
+   $.get("{$ajaxAutoClickUrl}");
+   $.get("{$ajaxAutoZhuanfaUrl}");
+   $.get("{$ajaxShenheSmsUrl}");
+   $.get("{$ajaxUpdateToprandUrl}");
+});
+function indexLoadList(modelId){
+    loadList(modelId,1);
+}
+
+var loadHtml = $("#load-html").html();
+var noListHtml = $("#no-list-html").html();
+var loadListStatus = 0;
+function loadList(modelId,Page) {
+    if(loadListStatus == 1){
+        return false;
+    }
+    loadListStatus = 1;
+    $("#index-list").html(loadHtml);
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxLoadListUrl}",
+        data: { model_id:modelId,page:Page},
+        success: function(msg){
+            loadListStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 205){
+                $("#index-list").html(noListHtml);
+                return false;
+            }else{
+                $("#index-list").html(data);
+            }
+        }
+    });
+}
+
+$(document).on("click", ".index-nav",function() {
+    var e = $(this),
+    a = e.parent();
+    a.find(".active").removeClass("active"),
+    e.addClass("active");
+    var i = e.data("id");
+});
+
+function hide_shouchang_prompt(uid){
+    $('#index_prompt').hide();
+    $.ajax({
+		type: "GET",
+		url: "{$ajaxShouchangUrl}",
+		data: {user_id:uid},
+		success: function(msg){
+            
+		}
+	})
+}
+
+function dingyue(){
+    layer.open({
+        content: '<img src="{$__SitesInfo['dingyue_qrcode']}"><p>{lang tom_tongcheng:index_ts_guanz_msg}<p/>'
+        ,btn: '{lang tom_tongcheng:index_kefu_ok}'
+      });
+}
+function kefu(){
+    layer.open({
+        content: '<img src="{$kefuQrcodeSrc}"><p>{lang tom_tongcheng:index_ts_kefu_msg}<p/>'
+        ,btn: '{lang tom_tongcheng:index_kefu_ok}'
+      });
+}
+
+function guanzu(){
+    layer.open({
+        content: '<img src="{$tongchengConfig['fwh_qrcode']}"><p>{lang tom_tongcheng:index_ts_guanz_msg}<p/>'
+        ,btn: '{lang tom_tongcheng:index_kefu_ok}'
+      });
+}
+
+function hide_guanzu(){
+    $("#subscribe_box").hide();
+}
+
+$(window).scroll(function () {
+    var scrollTop       = $(this).scrollTop();
+    var scrollHeight    = $(document).height();
+    var windowHeight    = $(this).height();
+    if ((scrollTop + windowHeight) >= 1000) {
+        $('.back_top').show();
+    }else{
+        $('.back_top').hide();
+    }
+});
+$(document).on('click','.back_top', function () {
+    $('body,html').animate({scrollTop: 0}, 500);
+    return false;
+});
+/* list js start */
+$(document).on("click", ".detail-time-icon",function() {
+    var t = $(this),
+    a = t.next();
+    if (!a.hasClass("detail-toolbar")) {
+        var id = t.data("id"),message = t.data("message"),user_id = t.data("user-id"),tel = t.data("tel"),tousu = t.data("tousu");
+        a = $('<div class="detail-toolbar"><A href="'+tousu+'" rel="nofollow"><img src="source/plugin/tom_tongcheng/images/icon-report.png">{lang tom_tongcheng:list_tousu_btn}</A><a href="javascript:void(0);" onclick="collect('+user_id+','+id+');" class="ajax-post"><img src="source/plugin/tom_tongcheng/images/list_zan.png">{lang tom_tongcheng:list_collect_btn}</a><A href="'+message+'"><img src="source/plugin/tom_tongcheng/images/icon-message.png">{lang tom_tongcheng:list_sms_btn}</A><A href="'+tel+'" class="ajax-get"><img src="source/plugin/tom_tongcheng/images/icon-tel.png">{lang tom_tongcheng:list_tel_btn}</A></div>'),
+        t.after(a);
+    }
+    a.hasClass("active") ? a.removeClass("active") : a.addClass("active");
+});
+$(document).on("click",function(t) {
+    var a = $(t.target);
+    a.hasClass("detail-time-icon") || $(".detail-toolbar").removeClass("active");
+});
+<!--{if $tongchengConfig['open_list_quanwen'] == 1}-->
+$(document).on("click", ".detail-toggle,.detail-toggle2,article",function() {
+<!--{else}-->
+$(document).on("click", ".detail-toggle,.detail-toggle2",function() {
+<!--{/if}-->
+    var t = $(this).parent(),
+    a = t.find("article"),
+    i = t.find(".act-bar"),
+    id = t.data("id"),
+    e = i.find("img");
+    $.get("{$ajaxClicksUrl}"+id);
+    return a.attr("oldheight") ? (a.css("max-height", a.attr("oldheight") + "px"), a.removeAttr("oldheight"), t.find(".detail-toggle").show(),t.find(".detail-toggle2").hide(), t.find(".act-bar").hide(), void 0) : (a.attr("oldheight", parseInt(a.css("max-height"), 10)), a.css("max-height", "none"), t.find(".detail-toggle").hide(),t.find(".detail-toggle2").show(), i.show(), e.attr("url") && e.attr("src", e.attr("url")).removeAttr("url"), !1)
+});
+
+var tongchengId = "{$tongcheng_id}",zanCount = "{$zanCount}";
+tongchengId = tongchengId * 1;
+zanCount = zanCount * 1;
+function collect(user_id,tongcheng_id){
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxCollectUrl}",
+        data: "user_id="+user_id+"&tongcheng_id="+tongcheng_id,
+        success: function(msg){
+            msg = $.trim(msg);
+            if(msg == '100'){
+                tusi("{lang tom_tongcheng:list_collect_100}");
+            }else if(msg == '200'){
+                if(tongchengId == tongcheng_id){
+                    $('.zan-hd_num i').addClass('on');
+                    $('.zan-hd_num span').html(++zanCount);
+                }
+                tusi("{lang tom_tongcheng:list_collect_ok}");
+            }else{
+                tusi("{lang tom_tongcheng:list_collect_error}");
+            }
+        }
+    });
+}
+function showPic(picurl,id){
+    var photo_list = $("#photo_list_"+id).val();
+    var picarr = photo_list.split('|');
+    wx.previewImage({
+        current: picurl,
+        urls: picarr 
+    });
+    //$(".id-pic-tip").removeClass('box_hide');
+    //$('.id-pic-tip-in').css('background-image', 'url(' + picurl + ')');
+}
+
+$(".pic_info").on("click", function(){
+    $(".id-pic-tip").addClass('box_hide');
+    $('.id-pic-tip-in').css('background-image', '');
+});
+
+var swiper = null;
+function showPicList(obj, idx){
+    var that = obj;
+    var index = idx;
+    var pictureHtm = '';
+    var photo_list = $(that).parent().find(".photo_list").val();
+    var picarr = photo_list.split('|');
+    if(picarr.length > 0){
+        for(var i=0; i<picarr.length; i++){
+            pictureHtm += '<div class="swiper-slide "><img src="'+picarr[i]+'"/></div>';
+        }
+    }
+    $('#rebox-wrapper__box').html(pictureHtm);
+    $('#rebox').removeClass('bocunceinOut').addClass('bocuncein').show();
+    swiper = new Swiper('#rebox', {
+        pagination: '.swiper-pagination',
+        paginationType: 'fraction',	
+        loop: true,	
+        preventLinksPropagation : false,
+        zoom : true,
+        zoomToggle :false,
+        lazyLoading : true,
+    });
+    swiper.slideTo(index * 1 + 1, 0);
+    return false;
+}
+$(document).on('click', '#rebox', function () {
+    $('#rebox').removeClass('bocuncein').addClass('bocunceinOut');
+    setTimeout(function(){$('#rebox').hide();swiper.destroy();}, 400);
+    return false;
+});
+/* list js end */
+</script>
+<!--{if $openLocaltionDistance == 1}-->
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak={$tchongbaoConfig['baidu_js_ak']}"></script>
+<!--{/if}-->
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'onMenuShareQQ',
+      'previewImage',
+      'openLocation', 
+      'getLocation'
+    ]
+});
+
+var getLocationStatus = 0, latitude = '', longitude = '';
+wx.ready(function (){
+    <!--{if $openLocaltionDistance == 1 && $hongbaoLocationStatus == 0}-->
+    function wxGetLocation(){
+        wx.getLocation({
+            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+            success: function(res) {
+                var point = new BMap.Point(res.longitude, res.latitude);
+                var convertor = new BMap.Convertor();
+                var pointArr = [];
+                pointArr.push(point);
+                convertor.translate(pointArr, 1, 5, function(data) {
+                    if (data.status === 0) {
+                        latitude = data.points[0].lat;
+                        longitude = data.points[0].lng;
+                    } else {
+                        latitude = res.latitude;
+                        longitude = res.longitude;
+                    }
+                    locationRequest(latitude, longitude);
+                });
+            },
+            fail: function(res){
+                $('#loadingToast').hide();
+                tusi("{lang tom_tongcheng:info_hb_err_distance_location_error}");
+            },
+            cancel: function(res){
+                $('#loadingToast').hide();
+                getLocationStatus = 2;
+                tusi("{lang tom_tongcheng:info_hb_err_no_location_error}");
+            }
+        });
+    }
+    <!--{if $lqHongbaoStatus != 1 && $tchongbaoInfo['status'] == 1}-->
+        wxGetLocation();
+    <!--{/if}-->
+    <!--{/if}-->
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+            $.get("{$ajaxZhuanfaUrl}");
+            $.get("{$ajaxZhuanfaScoreUrl}");
+            <!--{if $tchongbaoInfo['status'] == 1 && $__ShowTchongbao == 1 && $lqHongbaoStatus != 1}-->
+                <!--{if $tchongbaoConfig['hb_lq_type'] == 3 || $tchongbaoConfig['hb_lq_type'] == 4}-->
+                    <!--{if $hongbaoLocationStatus == 1}-->
+                        hbButtomClickStatus = 1;
+                        $('.info-hongbao-box').show();
+                    <!--{elseif $openLocaltionDistance > 0}-->
+                        if(hbButtomClickStatus == 1){
+                            $('.info-hongbao-box').show();
+                        }
+                    <!--{else}-->
+                        $('.info-hongbao-box').show();
+                    <!--{/if}-->
+                <!--{/if}-->
+            <!--{/if}-->
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () {
+            $.get("{$ajaxZhuanfaUrl}");
+            $.get("{$ajaxZhuanfaScoreUrl}");
+            <!--{if $tchongbaoInfo['status'] == 1 && $__ShowTchongbao == 1 && $lqHongbaoStatus != 1}-->
+                <!--{if $tchongbaoConfig['hb_lq_type'] == 2 || $tchongbaoConfig['hb_lq_type'] == 4}-->
+                    <!--{if $hongbaoLocationStatus == 1}-->
+                        hbButtomClickStatus = 1;
+                        $('.info-hongbao-box').show();
+                    <!--{elseif $openLocaltionDistance > 0}-->
+                        if(hbButtomClickStatus == 1){
+                            $('.info-hongbao-box').show();
+                        }
+                    <!--{else}-->
+                        $('.info-hongbao-box').show();
+                    <!--{/if}-->
+                <!--{/if}-->
+            <!--{/if}-->
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareQQ({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        success: function () { 
+           $.get("{$ajaxZhuanfaUrl}");
+            $.get("{$ajaxZhuanfaScoreUrl}");
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+<script type="text/javascript">
+function h5Geolocation(){
+	if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(
+			function(position) {  
+				var lat = position.coords.latitude;
+				var lng = position.coords.longitude;
+				var point = new BMap.Point(lng, lat);
+				var convertor = new BMap.Convertor();
+				var pointArr = [];
+				pointArr.push(point);
+				convertor.translate(pointArr, 1, 5, function(data) {
+					if (data.status === 0) {
+                        latitude = data.points[0].lat;
+                        longitude = data.points[0].lng;
+					} else {
+                        latitude = lat;
+                        longitude = lng;
+					}
+                    locationRequest(latitude, longitude);
+				});
+			 },
+			function(error) {
+                $('#loadingToast').hide();
+                getLocationStatus = 2;
+				tusi("{lang tom_tongcheng:info_hb_err_moblie_location_err}"+error.code)
+			}
+		)
+	}else{
+		tusi('{lang tom_tongcheng:info_hb_err_moblie_no_location}');
+	}
+}
+
+function wapGeolocation(){
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            locationRequest(r.point.lat, r.point.lng);
+		}else{
+            $('#loadingToast').hide();
+            getLocationStatus = 2;
+			alert('{lang tom_tongcheng:info_hb_err_moblie_location_err}'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+}
+
+function getLocation(){
+    <!--{if $show_hongbao_button == 0}-->
+    return false;
+    <!--{/if}-->
+    <!--{if $openLocaltionDistance == 1}-->
+        <!--{if $__IsWeixin == 1}-->
+        return false;
+        <!--{elseif $tongchengConfig['open_moblie_https_location'] == 1}-->
+        h5Geolocation();
+        <!--{else}-->
+        wapGeolocation();
+        <!--{/if}-->
+    <!--{/if}-->
+}
+
+<!--{if $lqHongbaoStatus != 1 && $tchongbaoInfo['status'] == 1 && $openLocaltionDistance == 1 && $hongbaoLocationStatus == 0}-->
+$(document).ready(function(){
+    getLocation();
+});
+<!--{/if}-->
+</script>
+</body>
+</html>

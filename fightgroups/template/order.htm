@@ -1,0 +1,742 @@
+<link rel="stylesheet" href="{HEJIN_PATH}public/bootstrap.min.css"  type="text/css"/>
+<script type="text/javascript" src="{HEJIN_PATH}public/admin/js/jquery.js"></script>
+<script type="text/javascript">
+jQuery.noConflict();
+</script>
+<ul class=" nav-tabs">
+	<li {if $operation == 'display' && $status == '' }class="active"{/if}>
+        <a href="{eval echo createWebUrl('order', array('op' => 'display'))}">{lang fightgroups:o1}</a>
+    </li>
+    <li {if $operation == 'tuan' && $is_tuan == '1'} class="active"{/if}>
+        <a href="{eval echo createWebUrl('order', array('op' => 'tuan','is_tuan'=>1))}">{lang fightgroups:o2}</a>
+    </li>
+	<li {if $operation == 'display' && $status == '1'} class="active"{/if}>
+        <a href="{eval echo createWebUrl('order', array('op' => 'display', 'status' => 1))}">{lang fightgroups:o3}</a>
+    </li>
+	<li {if $operation == 'display' && $status == '0'}class="active"{/if}>
+        <a href="{eval echo createWebUrl('order', array('op' => 'display', 'status' => 0))}">{lang fightgroups:o4}</a>
+    </li>
+	<li {if $operation == 'display' && $status == '2'}class="active"{/if}>
+        <a href="{eval echo createWebUrl('order', array('op' => 'display', 'status' => 2))}">{lang fightgroups:o5}</a>
+    </li>
+	<li {if $operation == 'display' && $status == '3'}class="active"{/if}>
+        <a href="{eval echo createWebUrl('order', array('op' => 'display', 'status' => 3))}">{lang fightgroups:o6}</a>
+    </li>
+	{if $operation == 'detail'}
+    <li class="active">
+        <a href="#">{lang fightgroups:o7}</a>
+    </li>
+    {/if}
+    {if $operation == 'tuan_detail'}
+    <li class="active">
+        <a href="#">{lang fightgroups:o8}</a>
+    </li>
+    {/if}
+</ul>
+<script src="static/js/calendar.js" type="text/javascript"></script>
+{if $operation == 'display'}
+<div class="main">
+    <div class="panel panel-info">
+	    <div class="panel-heading">{lang fightgroups:g36}</div>
+	    <div class="panel-body">
+            <form action="{eval echo createWebUrl('order', array('op' => 'display'))}" method="post" class="form-horizontal" role="form" id="form1">
+           
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">{lang fightgroups:o9}</label>
+                    <div class="col-sm-8 col-lg-9 col-xs-12">
+                        <input class="form-control" name="keyword" id="" type="text" value="{$_GET['keyword']}" placeholder="{lang fightgroups:o10}">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">{lang fightgroups:o11}</label>
+                    <div class="col-sm-8 col-lg-9 col-xs-12">
+                        <input class="form-control" name="transid" id="" type="text" value="{$_GET['transid']}" placeholder="{lang fightgroups:o11}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">{lang fightgroups:o12}</label>
+                    <div class="col-sm-8 col-lg-9 col-xs-12">
+                        <input class="form-control" name="member" id="" type="text" value="{$_GET['member']}" placeholder="{lang fightgroups:o13}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">{lang fightgroups:o14}</label>
+                    <div class="col-sm-8 col-lg-9 col-xs-12">
+                        <select name="pay_type" class="form-control">
+                            <option value="">{lang fightgroups:o15}</option>
+                            {loop $paytype $key $type}
+                            
+                            <option value="{$key}" >{$type['name']}</option>
+                            {/loop}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                        <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">{lang fightgroups:o16}</label>
+                        <div class="col-sm-5 col-lg-7 col-xs-12">
+                            
+                            <input class="Wdate"  id="calendar" name="start" type="text"  value="{$_GET['start']}"  onclick="showcalendar(event, this)"/>
+                            {lang fightgroups:o19}
+                             <input class="Wdate"  id="calendar" name="end" type="text"  value="{$_GET['end']}"  onclick="showcalendar(event, this)"/>
+                        </div>
+                        <div class="col-sm-3 col-lg-2" style="text-align:right;"><button class="btn btn-default"><i class="fa fa-search"></i> {lang fightgroups:o17}</button>
+                        
+                         {lang fightgroups:o20}<a href="{eval echo createWebUrl('order', array('op' => 'display'))}">{lang fightgroups:o18}</a>
+                        </div>
+                    </div>
+                <div class="form-group">
+                </div>
+            </form>
+            
+	   		
+	    	
+	    </div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body table-responsive">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:150px;">{lang fightgroups:o21}</th>
+						<th style="width:100px;">{lang fightgroups:o22}</th>
+						<th style="width:70px;">{lang fightgroups:o23}</th>
+						<th style="width:100px;">{lang fightgroups:o24}</th>
+						<th style="width:80px;">{lang fightgroups:o25}</th>
+						<th style="width:180px;">{lang fightgroups:o26}</th>
+
+						<th style="width:50px;">{lang fightgroups:o27}</th>
+						<th style="width:60px;">{lang fightgroups:o28}</th>
+						<th style="width:60px;">{lang fightgroups:o29}</th>
+						<th style="width:120px;">{lang fightgroups:o30}</th>
+						<th style="width:100px; text-align:right;">{lang fightgroups:c19}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $item}
+					<tr>
+						<td>{$item['orderno']}</td>
+						<td>{if $item['is_tuan']==1}<span class="label label-warning">{lang fightgroups:o31}{$item['tuan_id']}{lang fightgroups:o32}</span>{else}<span class="label label-success">{lang fightgroups:o33}</span>{/if}</td>
+						<td>{if $item['cname']}{$item['cname']}{else}{$item['addname']}{/if}</td>
+						<td>{if $item['tel']}{$item['tel']}{else}{$item['mobile']}{/if}</td>
+						<td>
+							<span class="label label-{$item['css']}">{$item['paytype']}</span>
+						</td>
+						<td>{$item['transid']}</td>
+				
+						<td>{$item['freight']} {lang fightgroups:g20}</td>
+						<td>{$item['price']} {lang fightgroups:g20}</td>
+						<td>
+							<span class="label label-{$item['statuscss']}">{$item['status']}</span>
+						<td>{eval echo date('Y-m-d H:i:s', $item['createtime'])}</td>
+						<td style="text-align:right;">
+							<a href="{eval echo createWebUrl('order', array('op' => 'detail', 'id' => $item['id'],'is_tuan'=>1))}" class="btn btn-success btn-sm">{lang fightgroups:o34}</a>
+							<a href="{eval echo createWebUrl('order', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('{lang fightgroups:g46}');"
+								class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:c27}
+							</a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{$multi}
+
+{/if}
+{if $operation == 'detail'}
+<style type="text/css">
+	.main .form-horizontal .form-group{margin-bottom:0;}
+	.main .form-horizontal .modal .form-group{margin-bottom:15px;}
+	#modal-confirmsend .control-label{margin-top:0;}
+</style>
+<div class="main">
+	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{lang fightgroups:o35}
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o36} :</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{$item['price']} {lang fightgroups:o37}{$item['goods'][0]['gprice']} {lang fightgroups:o38}{$item['goods'][0]['freight']} {lang fightgroups:o39}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o40}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{$item['orderno']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o41}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">
+							{if $item['pay_type'] == 0}
+							{lang fightgroups:o42}
+							{/if}
+							{if $item['pay_type'] == 1}
+							{lang fightgroups:o43}
+							{/if}
+							{if $item['pay_type'] == 2}
+							{lang fightgroups:o44}
+							{/if}
+							{if $item['pay_type'] == 3}
+							{lang fightgroups:o45}
+							{/if}
+						</p>
+					</div>
+				</div>
+                {if !empty($item['transid'])}
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o46}</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <p class="form-control-static">{$item['transid']}</p>
+                    </div>
+                </div>
+                {/if}
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o47}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">
+						{if $item['status'] == 0}<span class="label label-info">{lang fightgroups:o48}</span>{/if}
+						{if $item['status'] == 1}<span class="label label-info">{lang fightgroups:o49}</span>{/if}
+						{if $item['status'] == 2}<span class="label label-info">{lang fightgroups:o50}</span>{/if}
+						{if $item['status'] == 3}<span class="label label-success">{lang fightgroups:o51}</span>{/if}
+						{if $item['status'] == 4}<span class="label label-success">{lang fightgroups:o52}</span>{/if}
+						{if $item['status'] == 9}<span class="label label-success">{lang fightgroups:o53}</span>{/if}
+						</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o54}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{eval echo date('Y-m-d H:i:s', $item['createtime'])}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{lang fightgroups:o55}
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o56}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{if $item['user']['cname']}{$item['user']['cname']}{else}{$item['addname']}{/if}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o57}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{if $item['user']['tel']}{$item['user']['tel']}{else}{$item['mobile']}{/if}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o58}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{if $item['user']['province']}{$item['user']['province']}{$item['user']['city']}{$item['user']['county']}{$item['user']['detailed_address']}{else}{$item['address']}{/if}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{lang fightgroups:o59}
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o60}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{$item['express']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o61}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{$item['expresssn']}</p>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		<form class="form-horizontal form" action="{eval echo createWebUrl('order', array('op'=>'detail','id' => $id, 'is_tuan' => $is_tuan))}" method="post" enctype="multipart/form-data">
+		<div class="panel panel-default">
+			<div class="panel-body table-responsive">
+				
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+						<th style="width:5%;">{lang fightgroups:o62}</th>
+						<th style="width:15%;">{lang fightgroups:o63}</th>
+						<th style="width:15%;">{lang fightgroups:o64}</th>
+						<th style="width:20%;">{lang fightgroups:o65}</th>
+						<th style="width:20%;">{lang fightgroups:o66}</th>
+						<th style="width:15%;">{lang fightgroups:o67}</th>
+						<th style="width:10%;">{lang fightgroups:o68}</th>
+					</tr>
+					</thead>
+					{loop $item['goods'] $goods}
+					<tr>
+						<td>{$goods['id']}</td>
+						<td>{$goods['gname']}</td>
+						<td>
+						<div style=" width:40px;height:40px;">
+                            <img src="{$goods['gimg']}" style=" width:40px;height:40px;" alt="" title="">
+                        </div>  
+						</td>
+						<td>{$goods['gprice']}{lang fightgroups:o69}</td>
+						<td>{$goods['mprice']}{lang fightgroups:o69}</td>
+						<td>{$goods['gnum']}</td>
+						<td>
+							<a href="{eval echo createWebUrl('goods', array('sid' => $goods['id'], 'act' => 'post'))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:c22}</a>
+						</td>
+					</tr>
+					{/loop}
+					
+					<tr>
+						<td colspan="10" class="text-right">
+						
+							{if empty($item['status'])}
+							<button type="submit" class="btn btn-primary" onclick="return confirm('{lang fightgroups:o70}'); return false;" name="confrimpay" value="yes">{lang fightgroups:o71}</button>
+							{/if}
+
+							{if $item['status'] == 1}
+							<input type="hidden" name='refund_id' value="{$item['id']}"/>
+							<button type="button" class="btn btn-primary" onclick="jQuery('#primary').show();">{lang fightgroups:o72}</button>
+							{if !empty($item['transid'])}
+							<button type="submit" class="btn btn-success" onclick="return confirm('{lang fightgroups:o73}'); return false;" name="refund" value="yes">{lang fightgroups:o74}</button>
+							{/if}
+							{/if}
+							{if $item['status'] == 2}					
+							<button type="button" class="btn btn-danger"   value="yes" onclick="jQuery('#cancelsend2').show();">{lang fightgroups:o75}</button>
+							<button type="submit" class="btn btn-success"  name="finish" value="yes">{lang fightgroups:o76}</button>
+							{/if}	
+							{if $item['status'] >= 0}
+							<button type="button" class="btn btn-default" onclick="jQuery('.close1').show();">{lang fightgroups:o77}</button>
+							{else}
+							<button type="submit" class="btn btn-default" onclick="return confirm('{lang fightgroups:o79}'); return false;" name="open" value="yes">{lang fightgroups:o78}</button>
+							{/if}
+							 <input type="hidden" name="formhash" value="{FORMHASH}" />
+						
+						</td>
+					</tr>
+					
+				</table>
+				
+			</div>
+		</div>
+		</form>
+
+		<script type="text/javascript">
+			function button1(){
+				var reson = jQuery("#reson").val();
+				if(reson == ""){
+					alert("{lang fightgroups:o80}");return false;
+				}
+				return true;
+			}
+		</script>
+		<form method="POST" action="{eval echo createWebUrl('order', array('op' => 'detail','id' => $id, 'is_tuan' => $is_tuan))}" onsubmit="return button1();" id="closeForm">
+				<input type="hidden" name="formhash" value="{FORMHASH}" />
+				<div class="modal-content close1" style="display:none">
+					<div class="modal-header">
+						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">��</button>
+						<h3>{lang fightgroups:o81}</h3>
+					</div>
+					<div class="modal-body">
+						<label>{lang fightgroups:o82}</label>
+						<textarea style="height:150px;" class="form-control" name="reson" id="reson" autocomplete="off"></textarea>
+						<div id="module-menus"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" name="close1" value="yes">{lang fightgroups:o81}</button>
+						<a href="javascript:;" class="btn btn-default" onclick="jQuery('.close1').hide();">{lang fightgroups:o84}</a>
+					</div>
+				</div>
+		</form>
+	
+		<script type="text/javascript">
+		function chang2(val){
+			if(val != ""){
+				jQuery("#expresscom").val(val);
+			}
+		}
+		function b2(){
+			if(jQuery("#express").val() == ''){
+				alert("{lang fightgroups:o85}");return false;
+			}
+			if(jQuery("#expresssn").val() == ''){
+				alert("{lang fightgroups:o86}");return false;
+			}
+			return true;
+		}
+		</script>
+		<form method="POST" action="{eval echo createWebUrl('order', array('op' => 'detail','id' => $id, 'is_tuan' => $is_tuan))}" onsubmit="return b2();">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />		
+			<div class="modal-content" id="primary" style="display:none">
+					<div class="modal-header">
+						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">��</button>
+						<h3>{lang fightgroups:o87}</h3>
+					</div>
+					<div class="modal-body">
+						<div class="form-group">
+							<label class="col-xs-10 col-sm-3 col-md-3 control-label">{lang fightgroups:o88}</label>
+							<div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+								<label for="radio_1" class="radio-inline">
+									<input type="radio" name="isexpress" id="radio_1" value="1" onclick="jQuery('#expresspanel').show();" checked> {lang fightgroups:o89}
+								</label>
+								<label for="radio_2" class="radio-inline">
+									<input type="radio" name="isexpress" id="radio_2" value="0" onclick="jQuery('#expresspanel').hide();"> {lang fightgroups:o90}
+								</label>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-10 col-sm-3 col-md-3 control-label">{lang fightgroups:o91}</label>
+							<div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+								
+								<select class="form-control" name="express" id="express" onchange="chang2(this.value)" >
+									<option value="" data-name="">{lang fightgroups:o92}</option>
+									<option value="{lang fightgroups:o93}" data-name="{lang fightgroups:o93}">{lang fightgroups:o93}</option>
+									<option value="{lang fightgroups:o94}" data-name="{lang fightgroups:o94}">{lang fightgroups:o94}</option>
+									<option value="{lang fightgroups:o95}" data-name="{lang fightgroups:o95}">{lang fightgroups:o95}</option>
+									<option value="{lang fightgroups:o96}" data-name="{lang fightgroups:o96}">{lang fightgroups:o96}</option>
+									<option value="{lang fightgroups:o97}" data-name="{lang fightgroups:o97}">{lang fightgroups:o97}</option>
+									<option value="{lang fightgroups:o98}" data-name="{lang fightgroups:o98}">{lang fightgroups:o98}</option>
+									<option value="{lang fightgroups:o99}" data-name="{lang fightgroups:o99}">{lang fightgroups:o99}</option>
+									<option value="{lang fightgroups:o100}" data-name="{lang fightgroups:o100}">{lang fightgroups:o100}</option>
+									<option value="{lang fightgroups:o101}" data-name="{lang fightgroups:o101}">{lang fightgroups:o101}</option>
+									<option value="{lang fightgroups:o102}" data-name="{lang fightgroups:o102}">{lang fightgroups:o102}</option>
+									<option value="{lang fightgroups:o103}" data-name="{lang fightgroups:o103}">{lang fightgroups:o103}</option>
+									<option value="{lang fightgroups:o104}" data-name="{lang fightgroups:o104}">{lang fightgroups:o104}</option>
+									
+								</select>
+								<input type='hidden' name='expresscom' id='expresscom' />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-10 col-sm-3 col-md-3 control-label">{lang fightgroups:o105}</label>
+							<div class="col-xs-12 col-sm-9 col-md-8 col-lg-8">
+								<input type="text" name="expresssn" id="expresssn" class="form-control" />
+							</div>
+						</div>
+						<div id="module-menus"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary span2" name="confirmsend" value="yes">{lang fightgroups:o108}</button>
+						<a href="#" class="btn btn-default" onclick="jQuery('#primary').hide();">{lang fightgroups:o107}</a>
+					</div>
+				</div>
+		</form>
+	
+		<form method="POST" action="{eval echo createWebUrl('order', array('op' => 'detail','id' => $id, 'is_tuan' => $is_tuan))}">
+			<input type="hidden" name="formhash" value="{FORMHASH}" />		
+				<div class="modal-content"  id="cancelsend2" style="display:none;">
+					<div class="modal-header cancelsend" >
+						<button aria-hidden="true" data-dismiss="modal" class="close" type="button">��</button>
+						<h3>{lang fightgroups:o109}</h3>
+					</div>
+					<div class="modal-body">
+						<label>{lang fightgroups:o110}</label>
+						<textarea style="height:150px;" class="form-control" name="cancelreson" autocomplete="off"></textarea>
+						<div id="module-menus"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary span2" name="cancelsend" value="yes" onclick="">{lang fightgroups:o109}</button>
+						<a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true" onclick="jQuery('#cancelsend2').hide();">{lang fightgroups:o108}</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		</form>
+</div>
+<div id="modal-cancelsend" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+	<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">��</button><h3>{lang fightgroups:o109}</h3></div>
+	<div class="modal-body">
+		<table class="tb">
+			<tr>
+				<th><label for="">{lang fightgroups:o111}</label></th>
+				<td>
+					<textarea style="height:150px;" class="span5" name="cancelreson" cols="70" autocomplete="off"></textarea>
+				</td>
+			</tr>
+		</table>
+		<div id="module-menus"></div>
+	</div>
+	<div class="modal-footer"><button type="submit" class="btn btn-primary span2" name="cancelsend" value="yes">{lang fightgroups:o109}</button><a href="#" class="btn" data-dismiss="modal" aria-hidden="true">{lang fightgroups:o108}</a></div>
+</div>
+<script language='javascript'>
+    jQuery(function(){
+        {if !empty($express)}
+        jQuery("#express").find("option[data-name='{$express['express_name']}']").attr("selected",true);
+        jQuery("#expresscom").val(jQuery("#express").find("option:selected").attr("data-name"));
+        {/if}
+      
+    });
+</script>
+{/if}
+{if $operation == 'tuan'}
+<div class="main">
+    <div class="panel panel-info">
+	    <div class="panel-heading">{lang fightgroups:o112}</div>
+	    <div class="panel-body">
+            <form action="{eval echo createWebUrl('order', array('op' => 'tuan'))}" method="post" class="form-horizontal" role="form" id="form1">
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">{lang fightgroups:o113}</label>
+                    <div class="col-sm-8 col-lg-9 col-xs-12">
+                        <input class="form-control" name="keyword" id="" type="text" value="{$_GET['keyword']}" placeholder="{lang fightgroups:o114}">
+                    </div>
+                    <div class="col-sm-3 col-lg-2"><button class="btn btn-default"><i class="fa fa-search"></i> {lang fightgroups:o115}</button></div>
+                </div>
+                <div class="form-group">
+                </div>
+            </form>
+            
+	    </div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-body table-responsive">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:10%;">{lang fightgroups:o116}</th>
+						<th style="width:20%;">{lang fightgroups:o117}</th>
+						<th style="width:50%;">{lang fightgroups:o118}</th>
+						<th style="width:20%; text-align:right;">{lang fightgroups:o119}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $tuan_id $item}
+					<tr>
+						<td>{$item['tuan_id']}</td>
+						<td>
+						{if $item['lasttime'] > 0 }
+							{if $item['tsucc'] == $item['groupnum']}
+								<span class="label label-success">{lang fightgroups:o120}</span>
+							{/if}
+							{if $item['tsucc'] < $item['groupnum']}
+								<span class="label label-info">{lang fightgroups:o121}</span>
+							{/if}
+						{else}
+						    {if $item['tsucc'] == $item['groupnum']}
+						        <span class="label label-success">{lang fightgroups:o122}</span>
+						    {else}
+						        <span class="label label-warning">{lang fightgroups:o123}</span>
+						    {/if}   
+						{/if}
+						</td>
+						<td>
+						{if $item['lasttime'] > 0 }
+							{if $item['tsucc'] == $item['groupnum']}
+								{lang fightgroups:o124}{$item['groupnum']}{lang fightgroups:o125}{$item['itemnum1']}{lang fightgroups:o126}{$item['itemnum2']}{lang fightgroups:o127}
+							{/if}
+							{if $item['tsucc'] < $item['groupnum']}
+								{lang fightgroups:o128}{$item['groupnum']}{lang fightgroups:o129}{$item['itemnum1']}{lang fightgroups:o130}{eval echo $item['groupnum']-$item['tsucc']}{lang fightgroups:o127}
+							{/if}
+						{else}
+						    {if $item['tsucc'] == $item['groupnum']}
+						        {lang fightgroups:o131}{$item['groupnum']}{lang fightgroups:o132}{$item['itemnum1']}{lang fightgroups:o133}{$item['itemnum2']}{lang fightgroups:o127}
+						    {else}
+						        {lang fightgroups:o135}{$item['groupnum']}{lang fightgroups:o136}{$item['itemnum1']}{lang fightgroups:o138}{$item['itemnum4']}{lang fightgroups:o127}
+						    {/if}   
+						{/if}
+						</td>
+						<td style="text-align:right;">
+							<a href="{eval echo createWebUrl('order', array('op' => 'tuan_detail', 'tuan_id' => $item['tuan_id'],'is_tuan'=>1))}" class="btn btn-success btn-sm">{$item['itemnum1']}{lang fightgroups:o140}</a>
+							<a href="{eval echo createWebUrl('order', array('id' => $item['tuan_id'], 'op' => 'delete'))}" onclick="return confirm('{lang fightgroups:o141}');"
+								class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:o142}
+							</a>
+						</td>
+					</tr>
+					{/loop}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+{$multi}
+<script type="text/javascript">
+	
+</script>
+{/if}
+{if $operation == 'tuan_detail'}
+<style type="text/css">
+.main .form-horizontal .form-group{margin-bottom:0;}
+.main .form-horizontal .modal .form-group{margin-bottom:15px;}
+#modal-confirmsend .control-label{margin-top:0;}
+</style>
+<div class="main">
+	<form class="form-horizontal form" action="{eval echo createWebUrl('order', array('op' => 'tuan_detail','tuan_id' => $tuan_id, 'is_tuan' => $is_tuan))}" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="formhash" value="{FORMHASH}" />	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				{lang fightgroups:o143}
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o144}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{$tuan_id}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o145}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">{$num}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">{lang fightgroups:o146}</label>
+					<div class="col-sm-9 col-xs-12">
+						<p class="form-control-static">
+                            {if $lasttime2 > 0 }
+							{if $goods2['tsucc'] == $goods2['groupnum']}
+								<span class="label label-success">{lang fightgroups:o147}</span>{lang fightgroups:o151}{$goods2['groupnum']}{lang fightgroups:o152}{$goods2['itemnum1']}{lang fightgroups:o153}{$goods2['itemnum2']}{lang fightgroups:o127}
+							{/if}
+							{if $goods2['tsucc'] < $goods2['groupnum']}
+								<span class="label label-info">{lang fightgroups:o148}</span>{lang fightgroups:o156}{$goods2['groupnum']}{lang fightgroups:o155}{$goods2['itemnum1']}{lang fightgroups:o154}{eval echo $goods2['groupnum']-$goods2['tsucc']}{lang fightgroups:o127}
+							{/if}
+						{else}
+						    {if $goods2['tsucc'] == $goods2['groupnum']}
+						        <span class="label label-success">{lang fightgroups:o149}</span>{lang fightgroups:o157}{$goods2['groupnum']}{lang fightgroups:o159}{$goods2['itemnum1']}{lang fightgroups:o162}{$goods2['itemnum2']}{lang fightgroups:o127}
+						    {else}
+						        <span class="label label-warning">{lang fightgroups:o150}</span>{lang fightgroups:o158}{$goods2['groupnum']}{lang fightgroups:o160}{$goods2['itemnum1']}{lang fightgroups:o161}{$goods2['itemnum4']}{lang fightgroups:o127}
+						    {/if}   
+						{/if}
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	   	<div class="panel panel-default">
+	   	<div class="panel-heading">
+			{lang fightgroups:o12}
+		</div>
+	   	<div class="panel-body table-responsive">
+	   		<table class="table table-hover">
+	   			<thead class="navbar-inner">
+	   				<tr>
+	   					<th style="width:80px;">{lang fightgroups:o9}</th>
+	   					<th style="width:80px;">{lang fightgroups:o23}</th>
+	   					<th style="width:120px;">{lang fightgroups:o24}</th>
+	   					<th style="width:80px;">{lang fightgroups:o25}</th>
+	   					<th style="width:80px;">{lang fightgroups:o47}</th>
+	   					<th style="width:80px;">{lang fightgroups:o27}</th>
+	   					<th style="width:80px;">{lang fightgroups:o28}</th>
+	   					<th style="width:150px;">{lang fightgroups:o30}</th>
+	   					<th style="width:220px;">{lang fightgroups:o58}</th>
+	   					<th style="width:120px; text-align:right;">{lang fightgroups:o19}</th>
+	   			
+	   				</tr>
+	   			</thead>
+	   			<tbody>
+	   				{loop $orders $item}
+	   				<tr>
+	   					<td>{$item['orderno']}</td>
+	   					<td>{$item['cname']}</td>
+	   					<td>{$item['tel']}</td>
+	   					<td>
+	   					{if $item['pay_type'] == 0}
+	   					{lang fightgroups:o42}
+	   					{/if}
+	   					{if $item['pay_type'] == 1}
+	   					{lang fightgroups:o43}
+	   					{/if}
+	   					{if $item['pay_type'] == 2}
+	   					{lang fightgroups:o44}
+	   					{/if}
+	   					{if $item['pay_type'] == 3}
+	   					{lang fightgroups:o45}
+	   					{/if}
+	   					</td>
+	   					
+	   					<td>
+	   					{if $item['status'] == 9}
+	   					<span class="label label-default">{lang fightgroups:o53}</span>
+	   					{/if}
+	   					{if $item['status'] == -1}
+	   					<span class="label label-default">{lang fightgroups:o53}</span>
+	   					{/if}
+	   					{if $item['status'] == 4}
+	   					<span class="label label-default">{lang fightgroups:o52}</span>
+	   					{/if}
+						{if $item['status'] == 0}
+	   					<span class="label label-danger">{lang fightgroups:o48}</span>
+	   					{/if}
+	   					{if $item['status'] == 1}
+	   					<span class="label label-info">{lang fightgroups:o49}</span>
+	   					{/if}
+	   					{if $item['status'] == 2}
+	   					 <span class="label label-warning">{lang fightgroups:o50}</span>
+	   					{/if}
+	   					{if $item['status'] == 3}
+	   					<span class="label label-success">{lang fightgroups:o6}</span>
+	   					{/if}
+	   					</td>
+	   					<td>{$item['freight']} {lang fightgroups:g20}</td>
+	   					<td>{$item['price']} {lang fightgroups:g20}</td>
+	   				
+	   					<td>{eval echo date('Y-m-d H:i:s', $item['createtime'])}</td>
+	   					<td>
+	   						{$item['province']}{$item['city']}{$item['county']}
+	   						{$item['detailed_address']}
+	   					</td>
+	   					<td style="text-align:right;">
+	   						<a href="{eval echo createWebUrl('order', array('op' => 'detail', 'id' => $item['id'],'is_tuan'=>1))}" class="btn btn-success btn-sm">{lang fightgroups:o34}</a>
+	   						<a href="{eval echo createWebUrl('order', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('{lang fightgroups:g46}');"
+	   							class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="">{lang fightgroups:27}
+	   						</a>
+	   					</td>
+	   				</tr>
+	   				{/loop}
+	   			</tbody>
+	   		</table>
+	   	</div>
+	   	</div>
+		<div class="panel panel-default">
+			 <div class="panel-heading">
+				{lang fightgroups:o270}
+			</div> 
+			<div class="panel-body table-responsive">
+				<table class="table table-hover">
+					<thead class="navbar-inner">
+					<tr>
+					
+						
+						<th style="width:5%;">{lang fightgroups:o62}</th>
+						<th style="width:15%;">{lang fightgroups:o63}</th>
+						<th style="width:15%;">{lang fightgroups:o64}</th>
+						<th style="width:20%;">{lang fightgroups:o65}</th>
+						<th style="width:20%;">{lang fightgroups:o66}</th>
+						<th style="width:15%;">{lang fightgroups:o67}</th>
+				
+					</tr>
+					</thead>
+					<tr>
+						<td>{$goods['id']}</td>
+						<td>{$goods['gname']}</td>
+						<td>
+						<div style=" width:40px;height:40px;">
+                            <img src="{$goods['gimg']}" style=" width:40px;height:40px;" alt="" title="">
+                        </div>  
+						</td>
+						<td>{$goods['gprice']}{lang fightgroups:g20}</td>
+						<td>{$goods['oprice']}{lang fightgroups:g20}</td>
+						<td>{$goods['mprice']}{lang fightgroups:g20}</td>
+						<td>{$goods['gnum']}</td>
+						
+					</tr>
+				</table>
+			</div>
+		</div>
+	</form>
+</div>
+{/if}
+<script>
+	
+</script>

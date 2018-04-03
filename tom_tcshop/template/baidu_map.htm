@@ -1,0 +1,125 @@
+<script>
+// 地图API START
+var latitude = longitude = null;
+var type = 0;
+var isSaveClick = true;
+var gc = new BMap.Geocoder();
+function getaddress(lat, lng) {
+    $('#hidlat').val(lat);
+    $('#hidlng').val(lng);
+    if (isSaveClick) {
+        $('#locationtext').text("{lang tom_tcshop:ruzhu_dingweizhong}");
+        var point = new BMap.Point(lng, lat);
+        gc.getLocation(point, function (rs) {
+            var addComp = rs.addressComponents;
+            $('#locationtext').text('{lang tom_tcshop:ruzhu_dingwei}');
+            $('#address').val(addComp.city + addComp.district + addComp.street + addComp.streetNumber);
+        });
+    }
+    isSaveClick = true;
+}
+function getLocation() {
+    getaddress(res.latitude, res.longitude);
+}
+function LocationOK(x, y) {
+    getaddress(x, y);
+    $("#baidumap").hide();
+}
+function LocationCancel(x, y) {
+    $("#baidumap").hide();
+}
+
+$("#mylocation").click(function() {
+    $("#actionsheet_cancel").click();
+    type = 2;
+    <!--{if $tongchengConfig['open_moblie_https_location'] == 1}-->
+    h5Geolocation();
+    <!--{else}-->
+    wapGeolocation()
+    <!--{/if}-->
+});
+
+$("#maplocation").click(function() {
+    $("#baidumap").show();
+    $("#actionsheet_cancel").click();
+});
+
+$(function () {
+    var actionSheet = $('#actionSheet_wrap');
+    function hideActionSheet() {
+        if (actionSheet.hasClass('tcui-actionsheet_toggle')) {
+            actionSheet.removeClass('tcui-actionsheet_toggle');
+        }
+        return false;
+    }
+    $('#actionsheet_cancel').on('click', hideActionSheet);
+    $("#showActionSheet").on("click", function () {
+        if (tomBrowser.versions.WindowsWechat) {
+            return tusi("{lang tom_tcshop:ruzhu_only_mobile}");
+        }
+        
+        type = 1;
+        <!--{if $tongchengConfig['open_moblie_https_location'] == 1}-->
+        h5Geolocation();
+        <!--{else}-->
+        wapGeolocation()
+        <!--{/if}-->
+        actionSheet.addClass('tcui-actionsheet_toggle');
+        return false;
+    });
+});
+
+function h5Geolocation(){
+	if (navigator.geolocation){
+		navigator.geolocation.getCurrentPosition(
+			function(position) {  
+				var lat = position.coords.latitude;
+				var lng = position.coords.longitude;
+				var point = new BMap.Point(lng, lat);
+				var convertor = new BMap.Convertor();
+				var pointArr = [];
+				pointArr.push(point);
+				convertor.translate(pointArr, 1, 5, function(data) {
+                    if (data.status === 0) {
+                        latitude = data.points[0].lat;
+                        longitude = data.points[0].lng;
+					} else {
+                        latitude = lat;
+                        longitude = lng;
+					}
+                    if(type == 1){
+                        $('#hidlat').val(latitude); // 纬度，浮点数，范围为90 ~ -90
+                        $('#hidlng').val(longitude); // 经度，浮点数，范围为180 ~ -180。
+                        $("#baidumap iframe").attr("src", 'plugin.php?id=tom_tcshop&site={$site_id}&mod=baidumap&lat=' + latitude + "&lng=" + longitude);
+                    }else if(type == 2){
+                        getaddress(latitude, longitude);
+                    }
+				});
+			 },
+			function(error) {
+				tusi("{lang tom_tongcheng:info_hb_err_moblie_location_err}"+error.code)
+			}
+		)
+	}else{
+		tusi('{lang tom_tongcheng:info_hb_err_moblie_no_location}');
+	}
+}
+
+function wapGeolocation(){
+	var geolocation = new BMap.Geolocation();
+	geolocation.getCurrentPosition(function(r){
+		if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            if(type == 1){
+                $('#hidlat').val(r.point.lat); // 纬度，浮点数，范围为90 ~ -90
+                $('#hidlng').val(r.point.lng); // 经度，浮点数，范围为180 ~ -180。
+                $("#baidumap iframe").attr("src", 'plugin.php?id=tom_tcshop&site={$site_id}&mod=baidumap&lat=' + r.point.lat + "&lng=" + r.point.lng);
+            }else if(type == 2){
+                getaddress(r.point.lat, r.point.lng);
+            }
+		}else{
+			tusi('{lang tom_tongcheng:info_hb_err_moblie_location_err}'+this.getStatus());
+		}        
+	},{enableHighAccuracy: true})
+}
+// 地图API END
+</script>

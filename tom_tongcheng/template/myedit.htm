@@ -1,0 +1,192 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:myedit_title}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body class="body-white">
+<header class="header on ">
+    <section class="wrap">
+        <section class="sec-ico go-back" onclick="history.back();">{lang tom_tongcheng:back}</section>
+        <h2>{lang tom_tongcheng:myedit_title}</h2>
+    </section>
+</header>
+<section class="mainer">
+    <section class="wrap">
+        <form name="editForm" id="editForm" onSubmit="return false;">
+            <div class="tcui-cells tcui-cells_form">
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label" style="width: 80px;">UID</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        {$__UserInfo['id']}
+                    </div>
+                </div>
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label" style="width: 80px;">{lang tom_tongcheng:myedit_nickname}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <input class="tcui-input" type="text" name="nickname" id="nickname" value="" placeholder="{$__UserInfo['nickname']}">
+                    </div>
+                </div>
+            </div>
+            <div class="user-avatar clearfix">
+                <div class="upload-avatar" style="width: 80px;">
+                    <label>{lang tom_tongcheng:myedit_edit_avatar}</label>
+                </div>
+                <div class="show-avatar clearfix">
+                    <div class="upload-click">
+                        <img src="source/plugin/tom_tongcheng/images/img7.png">
+                        <input type="file" id="filedata" name="filedata">
+                    </div>
+                    <div class="upload-picurl">
+                        <img src="{$__UserInfo['picurl']}">
+                        <input type="hidden" class="picurl" name="picurl" value="{$__UserInfo['picurl']}">
+                        <input type="hidden" name="formhash" value="{$formhash}">
+                    </div>
+                </div>
+            </div>
+            <div class="user-xian"></div>
+            <section class="page_rgs">
+                <section class="btn-group">
+                    <input type="button" class="tcui-btn tcui-btn_primary id_avatar_form_btn" value="{lang tom_tongcheng:myedit_edit_submit}">
+                </section>
+            </section>
+        </form>
+    </section>
+</section>
+<script language="javascript" src="source/plugin/tom_tongcheng/images/localResizeIMG4/dist/lrz.bundle.js"></script>
+<script>
+<!--{if $mustUploadAvatar == 1}-->
+$(document).ready(function(){
+    tusi('{lang tom_tongcheng:myedit_must_avatar}');
+});
+<!--{/if}-->
+$(document).on('change', '#filedata', function() {
+    loading('{lang tom_tongcheng:uploading}');
+    lrz(this.files[0], {width:{$picYasuSize},quality:0.8,fieldName:"filedata"})
+        .then(function (rst) {
+            return rst;
+        })
+        .then(function (rst) {
+            rst.formData.append('fileLen', rst.fileLen);
+            $.ajax({
+                url: '{$uploadUrl}',
+                data: rst.formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    if(data == '') {
+                        loading(false);
+                        tusi('{lang tom_tongcheng:upload_error}');
+                    }
+                    var dataarr = data.split('|');
+                    dataarr[0] = $.trim(dataarr[0]);
+                    if(dataarr[0] == 'OK') {
+                        loading(false);
+                        $('.upload-picurl img').attr('src',dataarr[1]);
+                        $('.upload-picurl .picurl').val(dataarr[1]);
+                         
+                    }else {
+                        loading(false);
+                        tusi('{lang tom_tongcheng:upload_error}');
+                    }
+                }
+            });
+            return rst;
+        })
+        .catch(function (err) {
+            loading(false);
+            //alert(err);
+        })
+        .always(function () {
+        });
+});
+</script>
+<script>
+var submintStatus = 0;
+
+$(".id_avatar_form_btn").click( function () {
+    
+    if(submintStatus == 1){
+        return false;
+    }
+    
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$saveUrl}",
+        data: $('#editForm').serialize(),
+        success: function(msg){
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            tusi("{lang tom_tongcheng:myedit_save_succ}");
+            setTimeout(function(){window.location.href='plugin.php?id=tom_tongcheng&site={$site_id}&mod=personal';},1888);
+            
+        }
+    });
+});
+
+function checkMobile(s){
+	var regu =/^[1][3|8|4|5|7][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

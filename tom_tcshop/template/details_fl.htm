@@ -1,0 +1,127 @@
+<section class="tc-sec mt0" id="index-fl-list">
+    <div class="tcui-loadmore" style="padding:1em"><i class="tcui-loading"></i><span class="tcui-loadmore__tips">{lang tom_tongcheng:list_jiazaiing}</span></div>
+</section>
+<section style="display: none;" id="load-fl-html">
+    <div class="tcui-loadmore" style="padding:1em;min-height:400px;"><i class="tcui-loading"></i><span class="tcui-loadmore__tips">{lang tom_tongcheng:list_jiazaiing}</span></div>
+</section>
+<section style="display: none;" id="no-load-fl-html">
+    <div class="tcui-loadmore" style="padding:1em"></i><span class="tcui-loadmore__tips">{lang tom_tongcheng:no_list_jiazaiing}</span></div>
+</section>
+<section  style="display: none;" id="no-list-fl-html">
+    <div class="clear10" style="height:7em;"></div>
+    <div class="tcui-loadmore tcui-loadmore_line">
+       <span class="tcui-loadmore__tips">{lang tom_tongcheng:list_no_list}</span>
+    </div>
+    <div class="btn-group-block">
+       <a class="id-fabu-url" href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=fabu">{lang tom_tongcheng:list_fabu_one}</a>
+       <div class="clear10" style="height:7em;"></div>
+    </div>
+</section>
+<div class="deta-item">
+    <div class="item-more">
+        <a href="{$__TongchengHost}plugin.php?id=tom_tongcheng&site={$site_id}&mod=home&uid={$tcshopInfo['user_id']}">{lang tom_tcshop:details_fl_more_btn}</a>	
+    </div>
+</div>
+
+<script type="text/javascript">
+var loadFlHtml = $("#load-fl-html").html();
+var noListFlHtml = $("#no-list-fl-html").html();
+var loadFlListStatus = 0;
+
+if(tab == 2){
+    <!--{if $cateInfo['youhui_model_ids']}-->
+    loadFlList('', '{$cateInfo['youhui_model_ids']}', 1);
+    <!--{elseif $cateInfo['youhui_model_id'] > 0 }-->
+    loadFlList('{$cateInfo['youhui_model_id']}', '', 1);
+    <!--{else}-->
+    loadFlList('{$tcshopConfig['youhui_model_id']}', '', 1);
+    <!--{/if}-->
+}else if(tab == 3){
+    loadFlList('{$tcshopConfig['zhaopin_model_id']}', '',1);
+}
+
+function loadFlList(modelId, modelIds, Page){
+    if(loadFlListStatus == 1){
+        return false;
+    }
+    loadFlListStatus = 1;
+    $("#index-fl-list").html(loadFlHtml);
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxLoadFlListUrl}",
+        data: { model_id:modelId, model_ids:modelIds, page:Page,pagesize:6},
+        success: function(msg){
+            loadFlListStatus = 0;
+            var data = eval('('+msg+')');
+            if(data == 205){
+                $("#index-fl-list").html(noListFlHtml);
+                $(".id-fabu-url").attr("href",'{$fabuFlUrl}'+modelId);
+                return false;
+            }else{
+                $("#index-fl-list").html(data);
+            }
+        }
+    });
+}
+
+/* list js start */
+$(document).on("click", ".detail-time-icon",function() {
+    var t = $(this),
+    a = t.next();
+    if (!a.hasClass("detail-toolbar")) {
+        var id = t.data("id"),message = t.data("message"),user_id = t.data("user-id"),tel = t.data("tel"),tousu = t.data("tousu");
+        a = $('<div class="detail-toolbar"><A href="'+tousu+'" rel="nofollow"><img src="source/plugin/tom_tongcheng/images/icon-report.png">{lang tom_tongcheng:list_tousu_btn}</A><a href="javascript:void(0);" onclick="collect('+user_id+','+id+');" class="ajax-post"><img src="source/plugin/tom_tongcheng/images/icon-collect.png">{lang tom_tongcheng:list_collect_btn}</a><A href="'+message+'"><img src="source/plugin/tom_tongcheng/images/icon-message.png">{lang tom_tongcheng:list_sms_btn}</A><A href="tel:'+tel+'" class="ajax-get"><img src="source/plugin/tom_tongcheng/images/icon-tel.png">{lang tom_tongcheng:list_tel_btn}</A></div>'),
+        t.after(a);
+    }
+    a.hasClass("active") ? a.removeClass("active") : a.addClass("active");
+});
+$(document).on("click",function(t) {
+    var a = $(t.target);
+    a.hasClass("detail-time-icon") || $(".detail-toolbar").removeClass("active");
+});
+<!--{if $tongchengConfig['open_list_quanwen'] == 1}-->
+$(document).on("click", ".detail-toggle,.detail-toggle2,article",function() {
+<!--{else}-->
+$(document).on("click", ".detail-toggle,.detail-toggle2",function() {
+<!--{/if}-->
+    var t = $(this).parent(),
+    a = t.find("article"),
+    i = t.find(".act-bar"),
+    id = t.data("id"),
+    e = i.find("img");
+    $.get("{$ajaxClicksUrl}"+id);
+    return a.attr("oldheight") ? (a.css("max-height", a.attr("oldheight") + "px"), a.removeAttr("oldheight"), t.find(".detail-toggle").show(),t.find(".detail-toggle2").hide(), t.find(".act-bar").hide(), void 0) : (a.attr("oldheight", parseInt(a.css("max-height"), 10)), a.css("max-height", "none"), t.find(".detail-toggle").hide(),t.find(".detail-toggle2").show(), i.show(), e.attr("url") && e.attr("src", e.attr("url")).removeAttr("url"), !1)
+});
+function collect(user_id,tongcheng_id){
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxCollectFlUrl}",
+        data: "user_id="+user_id+"&tongcheng_id="+tongcheng_id,
+        success: function(msg){
+            if(msg == '100'){
+                tusi("{lang tom_tongcheng:list_collect_100}");
+            }else if(msg == '200'){
+                tusi("{lang tom_tongcheng:list_collect_ok}");
+            }else{
+                tusi("{lang tom_tongcheng:list_collect_error}");
+            }
+        }
+    });
+}
+function showPic(picurl,id){
+    var photo_list = $("#photo_list_"+id).val();
+    var picarr = photo_list.split('|');
+    wx.previewImage({
+        current: picurl,
+        urls: picarr 
+    });
+    //$(".id-pic-tip").removeClass('box_hide');
+    //$('.id-pic-tip-in').css('background-image', 'url(' + picurl + ')');
+}
+
+$(".pic_info").on("click", function(){
+    $(".id-pic-tip").addClass('box_hide');
+    $('.id-pic-tip-in').css('background-image', '');
+});
+/* list js end */
+</script>

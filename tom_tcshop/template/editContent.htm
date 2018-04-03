@@ -1,0 +1,238 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tcshop:edit_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/shop_style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+<style>
+.tcui-actionsheet__cell:before{border:0}
+.tcui-actionsheet__cell{border-bottom:1px solid #EFEFF4;padding:20px 0}
+.tcui-uploader__input-box:before{height: 20.5px;}
+.tcui-uploader__input-box:after{width: 20.5px;}
+.paixu-class{width: 35px;margin-top: 30px;border: 1px solid #eadfe4;text-align: center;}
+</style>
+<script>
+var tomBrowser = {
+    versions: function () {
+        var u = navigator.userAgent, app = navigator.appVersion;
+        return { /*移动终端浏览器版本信息*/
+            trident: u.indexOf('Trident') > -1, /*IE内核*/
+            presto: u.indexOf('Presto') > -1, /*opera内核*/
+            webKit: u.indexOf('AppleWebKit') > -1, /*苹果、谷歌内核*/
+            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, /*火狐内核*/
+            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), /*是否为移动终端*/
+            ios: !!u.match(/i[^;]+;( U;)? CPU.+Mac OS X/), /*ios终端*/
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, /*android终端或者uc浏览器*/
+            iPhone: u.indexOf('iPhone') > -1 || (u.indexOf('Mac') > -1 && u.indexOf('Macintosh') < 0), /*是否为iPhone或者QQHD浏览器*/
+            iPad: u.indexOf('iPad') > -1, /*是否iPad*/
+            webApp: u.indexOf('Safari') == -1, /*是否web应该程序，没有头部与底部*/
+            WindowsWechat: u.indexOf('WindowsWechat') > 0 /*是否web应该程序，没有头部与底部*/
+        };
+    }(),
+    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+}
+</script>
+</head>
+<body>
+<header class="header header-index on in2">
+   <section class="wrap">
+       <!--{if $__HideHeader == 0 }-->
+        <section class="sec-ico go-back" onclick="history.back();">{lang tom_tcshop:back}</section>
+        <!--{/if}-->
+        <h2>{lang tom_tcshop:edit_title}</h2>
+   </section>
+</header>
+<form class="mainer" name="saveForm" id="saveForm" >
+   <section class="wrap edit-form">
+        <section class="edit-item">
+            <section class="input-control clear bb0" style="margin-bottom: 5px;">
+                  <div style="line-height: 3em;">{lang tom_tcshop:ruzhu_content}</div>
+                  <section class="textarea">
+                       <section class="sec-input">
+                            <textarea id="content" name="content" maxlength="1000">{$tcshopInfo['content']}</textarea>
+                       </section>
+                  </section>
+             </section>
+            <section class="input-control " id="photolist" >
+                <!--{loop $tcshopTuwenList $key $val}-->
+                <div  class="tcui-flex li_{$val['li_i']}" style="position: relative;">
+                    <div><img style="width: 75px;height: 75px;" src="{$val['src']}" /><input type="hidden" name="photo_{$val['li_i']}" value="{$val['picurl']}"/></div>
+                    <div class="tcui-flex__item" style="line-height: 25px;"><textarea class="tcui-textarea" name="txt_{$val['li_i']}" placeholder="{lang tom_tcshop:edit_tuwen_txt}" rows="3">{$val['txt']}</textarea></div>
+                    <div><input class="tcui-input paixu-class" name="paixu_{$val['li_i']}" type="text" value="{$val['paixu']}" placeholder="{lang tom_tcshop:edit_tuwen_paixu}"></div>
+                    <div style="top: 3px;right: 3px" class="close pic-delete-btn pointer" onclick="picremove({$val['li_i']});">&nbsp;X&nbsp;</div>
+                </div>
+                <!--{/loop}-->
+             </section>
+            <section class="input-control ">
+                <div class="tcui-uploader__input-box" style="margin-top: 10px;float: none;margin-left: auto;margin-right: auto;width: 200px;height: 45px;">
+                    <input name="filedata1" id="filedata1" class="tcui-uploader__input" type="file" accept="image/*" multiple="">
+                </div>
+             </section>
+        </section>
+   </section>
+   <section class="btn-group-block">
+        <button type="button" id="id_save_btn" class="id_save_btn">{lang tom_tcshop:edit_btn}</button>
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <input type="hidden" name="tcshop_id" value="{$tcshop_id}">
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+   </section>
+</form>
+<div id="baidumap" style="position: fixed;bottom: 0px; height:100%; width:100%;z-index:9999;display:none">
+    <iframe style="border:0px;width:100%;height:100%"></iframe>
+</div>
+<div class="tcui-actionsheet" id="actionSheet_wrap">
+    <header class="header on in2">
+        <section class="wrap"><h2>{lang tom_tcshop:ruzhu_choose_address}</h2></section>
+    </header>
+    <div class="tcui-actionsheet__menu">
+        <a class="tcui-actionsheet__cell" href="javascript:void(0);" id="mylocation">{lang tom_tcshop:ruzhu_choose_mylocation}</a>
+        <a class="tcui-actionsheet__cell" href="javascript:void(0);" id="maplocation">{lang tom_tcshop:ruzhu_choose_maplocation}</a>
+    </div>
+    <div class="clear"></div>
+    <div class="tcui-actionsheet__action">
+        <div class="tcui-actionsheet__cell" id="actionsheet_cancel">{lang tom_tcshop:ruzhu_choose_close}</div>
+    </div>
+</div>
+<script language="javascript" src="source/plugin/tom_tongcheng/images/localResizeIMG4/dist/lrz.bundle.js"></script>
+<script>
+var li_i = {$photoCount};
+li_i++;
+var count = 0;
+    
+var submintPayStatus = 0;
+$(".id_save_btn").click( function (){
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    loading('{lang tom_tcshop:doing}');
+    submintPayStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$saveUrl}",
+        dataType : "json",
+        data: $('#saveForm').serialize(),
+        success: function(data){
+            submintPayStatus = 0;
+            loading(false);
+            if(data.status == 200) {
+                tusi("{lang tom_tcshop:edit_success}");
+                setTimeout(function(){window.location.href='plugin.php?id=tom_tcshop&site={$site_id}&mod=edit&tcshop_id={$tcshop_id}&fromlist={$_GET['fromlist']}';},1888);
+            }else{
+                tusi("{lang tom_tcshop:edit_error}");
+                //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+$(document).on('change', '#filedata1', function() {
+    loading('{lang tom_tcshop:uploading}');
+    lrz(this.files[0], {width:640,quality:0.8,fieldName:"filedata1"})
+        .then(function (rst) {
+            return rst;
+        })
+        .then(function (rst) {
+            rst.formData.append('fileLen', rst.fileLen);
+            $.ajax({
+                url: '{$uploadUrl1}',
+                data: rst.formData,
+                processData: false,
+                contentType: false,
+                type: 'POST',
+                success: function (data) {
+                    if(data == '') {
+                        loading(false);
+                        tusi('{lang tom_tcshop:upload_fail}');
+                    }
+                    var dataarr = data.split('|');
+                    dataarr[0] = $.trim(dataarr[0]);
+                    if(dataarr[0] == 'OK') {
+                        loading(false);
+                        
+                        html = '<div class="tcui-flex li_'+li_i+'" style="position: relative;">';
+                            html+= '<div><img style="width: 75px;height: 75px;" src="'+dataarr[1]+'" /><input type="hidden" name="photo_'+li_i+'" value="'+dataarr[2]+'"/></div>';
+                            html+= '<div class="tcui-flex__item" style="line-height: 25px;"><textarea class="tcui-textarea" name="txt_'+li_i+'" placeholder="{lang tom_tcshop:edit_tuwen_txt}" rows="3"></textarea></div>';
+                            html+= '<div><input class="tcui-input paixu-class" name="paixu_'+li_i+'" type="text" placeholder="{lang tom_tcshop:edit_tuwen_paixu}"></div>';
+                            html+= '<div style="top: 3px;right: 3px" class="close pic-delete-btn pointer" onclick="picremove('+li_i+');">&nbsp;X&nbsp;</div>';
+                        html+= '</div>';
+                        $("#photolist").append(html);
+                        li_i++;
+                        photo_count++;
+                    }else {
+                        loading(false);
+                        tusi('{lang tom_tcshop:upload_error}');
+                    }
+                }
+            });
+            return rst;
+        })
+        .catch(function (err) {
+            loading(false);
+            //alert(err);
+        })
+        .always(function () {
+        });
+});
+
+function picremove(i){
+    $(".li_"+i).remove();
+    photo_count--;
+}
+</script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'previewImage',
+      'openLocation', 
+      'getLocation'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () {
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+
+</body>
+</html>

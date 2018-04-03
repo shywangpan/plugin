@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!--{template fightgroups:index/header}-->
+    <link href="{HEJIN_PATH}public/css/reset.css?v=135" rel="stylesheet">
+    <link href="{HEJIN_PATH}public/css/home.css?v=1335" rel="stylesheet">
+    <script src="{HEJIN_PATH}public/js/jquery.min.js" language="javascript"></script>
+   	<link href="{HEJIN_PATH}public/css/lanrenzhijia.css" type="text/css" rel="stylesheet" />
+	<style>
+.g_core:before,.cat_item span:before{background-image:url(http://static.paipaiimg.com/fd/qqpai/tuan/img/bg_list_v3.png?t=20141215173530);background-repeat:no-repeat;-webkit-background-size:195px 87px;background-size:195px 87px}
+.tuan{padding:10px;min-height:520px}
+.tuan_banner{display:block;overflow:hidden;margin-bottom:10px}
+.tuan_banner img{display:block;width:100%;overflow:hidden}
+.tuan_none{text-align:center;line-height:21px;margin:20px 0}
+.g{border:1px solid #E6E6E6;background-color:#fff;margin-bottom:10px;font-size:12px;position:relative}
+.g:after{content:'';display:block;clear:both;height:0;visibility:hidden}
+.g_img{display:block;position:relative;height:auto;min-height:140px}
+.g_img img{display:block;width:100%;height:auto;min-height:140px;margin:0 auto;overflow:hidden;background-color:#e6e6e6;-webkit-background-size:60px 25px;background-size:60px 25px}
+.g_num{position:absolute;right:0px;bottom:0px;height:15px;line-height:15px;display:block;text-align:center;font-size:12px;color:#fff;background-color:rgba(0,0,0,0.5);padding:0 10px}
+.g_num b{font-weight:normal}
+.g_info{padding:10px 10px 12px}
+.g_name{color:#191919;margin-bottom:0;height:15px;line-height:15px;overflow:hidden;padding-right:48px}
+.g_mark{display:inline-block;width:38px;height:15px;line-height:15px;-webkit-border-radius:15px;border-radius:15px;color:#fff;font-size:12px;text-align:center;margin-right:8px}
+.g_mark1{background-color:#F0373D}
+.g_mark2{background-color:#8EBD27}
+.g_cx{color:#ADADAD;line-height:18px;display:none}
+.g_sale{position:absolute;right:-4px;top:10px;display:block;width:50px;height:15px;line-height:15px;text-align:center;background-color:#F2AC3D;font-size:10px;color:#fff}
+.g_sale b{font-weight:normal}
+.g_sale:after{content:'';position:absolute;bottom:-3px;right:0px;width:0;height:0;overflow:hidden;font-size:0;display:inline-block;border-left:3px solid #9C6F29;border-bottom:3px dashed transparent}
+.g_core{position:relative;display:block;height:33px;line-height:33px;color:#fff;margin:0 10px 0 27px;background-color:#F0373D;-webkit-border-top-right-radius:17px;border-top-right-radius:17px;-webkit-border-bottom-right-radius:17px;border-bottom-right-radius:17px;max-width:260px}
+.g_core:active,.g_core:visited{color:#fff}
+.g_core:before{position:absolute;top:-2px;left:-17px;width:37px;height:37px;content:" ";background-position:-0px -50px}
+.g_price{position:relative;overflow:hidden;padding-left:17px}
+.g_price b{float:left;margin-left:10px;font-size:18px;font-weight:normal}
+.g_price b i{font-size:9px}
+.g_price span{float:left;width:60px;text-align:center;position:relative}
+.g_price span:after{content:'';position:absolute;top:10px;right:0;display:block;width:1px;height:13px;background-color:#F6888B}
+.g_btn{position:absolute;top:0;right:10px;padding-right:16px}
+.g_btn:after{content:'';position:absolute;top:11px;right:2px;display:block;width:8px;height:8px;-webkit-transform:rotate(-135deg);border-left:1px solid #fff;border-bottom:1px solid #fff}
+.g_extra{height:18px;line-height:18px;padding:3px 0 7px}
+.g_extra:after{content:'';display:block;clear:both;height:0;visibility:hidden}
+.g_mprice{float:left;color:#999;height:21px;padding-left:45px}
+.g_state{float:right;color:#F0373D;padding-right:10px;display:none}
+.g_sns{clear:both;padding:10px;border-top:1px solid #EBEBEC;color:#5A5A5A;display:none}
+.g_sns_list{padding:7px 0}
+.g_sns_list:after{content:'';display:block;clear:both;height:0;visibility:hidden}
+.g_avatar{float:left;margin-right:10px}
+.g_avatar img{display:block;width:30px;height:30px;-webkit-border-radius:30px;border-radius:30px;overflow:hidden}
+.g_shop{display:block;text-align:right;padding-right:14px;position:relative;height:18px;line-height:18px}
+.g_shop b{font-weight:normal;margin:0 5px}
+.g_shop:after{content:'';position:absolute;top:4px;right:2px;display:block;width:8px;height:8px;-webkit-transform:rotate(-135deg);border-left:1px solid #CCCCCC;border-bottom:1px solid #CCCCCC}
+.g_vip .g_core{background-color:#482605}
+.g_vip .g_price span:after{background-color:#917D69}
+.g_vip .g_core:before{background-position:-42px -50px}
+.g_disabled .g_info:before{content:'';display:block;width:73px;height:73px;position:absolute;top:-46px;right:15px;background-position:0 -59px;z-index:2}
+.g_disabled .g_core:before{background-position:-42px -50px}
+.container{max-width: 540px;}
+	</style>
+    </head>
+<body onselectstart="return true;" ondragstart="return false;">
+{if !empty($advs)}
+<div data-role="container" class="container detail3">
+<header data-role="header">
+<div id="js_banner" class="banner">
+	<ul id="js_banner_img" class="banner_img clear">
+		{loop $advs  $adv}
+		<li class="bgli0{$adv['seq']}">
+			<div class="banner_inner">
+				<div class="child child{$adv['seq']}"><a href="{$adv['link']}">
+				<img src="{$adv['thumb']}" width="" height="430"/></a></div>
+
+			</div>
+		</li>
+		{/loop}
+	</ul>
+</div>
+</header>
+</div>	
+<script src="{HEJIN_PATH}public/js/lanrenzhijia.js"></script>
+<script>
+	$(function(){
+		var window_width = 540;
+		$('#js_banner, #js_banner_img li').width(window_width);
+
+		var urlParam = G.util.parse.url(),
+			startFrame = 0;
+		if (urlParam.search && ('banner' in urlParam.search)) {
+			startFrame = (parseInt(urlParam.search['banner'])-1) || 0;
+		}
+
+		new $.Tab({
+			target: $('#js_banner_img li'),
+			effect: 'slide3d',
+			animateTime: 1000,
+			stay: 5000,
+			playTo: startFrame,
+			autoPlay: true,
+			merge: true,
+			prevBtn: $('#js_banner_pre'),
+			nextBtn: $('#js_banner_next')
+		});
+		$('#js_banner_img').css('left','-' + (window_width) + 'px');
+	})
+</script>
+{/if}
+
+
+
+
+
+<div data-role="container" class="container home">
+<section data-role="body" class="body" >
+	<div type="2" id="840197" data-role="widget" data-widget="search_2" class="search_2">
+      <div class="widget_wrap">
+        <form name="search_2" action="plugin.php" method="get">
+         	<input type="hidden" name="id" value="fightgroups" />
+            <input type="hidden" name="op" value="search" />
+          <div class="divfirst">
+            <input type="search" value="{$_GET['']}" name="keyword" placeholder="">
+          </div>
+          <div onclick="onApiSuccess();" class="divlast">
+            <img src="{HEJIN_PATH}public/image/widget_search_pic.png">
+          </div>
+          <button style="display:none;" type="submit" id="wBtn"></button>
+        </form>
+      </div>
+    </div>
+    <script>
+    onApiSuccess = function(){
+		document.getElementById('wBtn').click();
+	};
+    </script>
+{if !empty($category)}
+    {loop $category $itme}
+
+
+    
+
+    <div id="tuan" class="tuan" style="padding-top: 10px; -webkit-backface-visibility: hidden; opacity: 1; display: block;">
+    <div id="cat1" data-s-top="500">
+    {loop $itme['goodses'] $goods}
+    <div class="g ">
+        <a href="plugin.php?id=fightgroups&op=gooddetails&gid={$goods['id']}" class="g_img"><img src="{eval echo ($goods['gimg']);}" style="max-height: 14em;"><span class="g_num">{lang fightgroups:s3}<b>{$goods['salenum']}</b>{lang fightgroups:s4}</span></a>
+        <div class="g_info">
+            <p class="g_name"><span class="g_mark g_mark1">{lang fightgroups:s2}</span>{$goods['gname']}</p><p class="g_cx"></p><span class="g_sale" style="display:none;"><b>{if floatval($goods['gprice'])-0 > 0.000001 && floatval($goods['mprice'])> 0.000001}{eval echo sprintf("%.1f", ($goods['gprice']/$goods['mprice'])*10);}{else}0{/if}</b>{lang fightgroups:s5}</span>
+        </div>
+        <a href="plugin.php?id=fightgroups&op=gooddetails&gid={$goods['id']}" class="g_core"><div class="g_price"><span>{$goods['groupnum']}{lang fightgroups:s6}</span><b><i>{lang fightgroups:s7}</i>{$goods['gprice']}</b></div><div class="g_btn">{lang fightgroups:s8}</div></a>
+        <div class="g_extra"><div class="g_mprice">{lang fightgroups:s9}<del>{lang fightgroups:s7}{$goods['mprice']}</del></div></div>
+    </div>
+    {/loop}
+    </div>
+	</div>
+
+    {/loop}
+{/if}
+
+{if !empty($goodses)}
+    <div data-role="widget" data-widget="goodsList_1" class="goodsList_1">
+        <div class="widget_wrap">
+            <ul>
+                {loop $goodses $goods}
+                <li>
+                    <a href="plugin.php?id=fightgroups&op=gooddetails&gid={$goods['id']}">
+                        <div>
+                            <img src="{eval echo ($goods['gimg']);}">
+                            <span name="goodsdetailspan" class="tag">
+                            {if floatval($goods['gprice'])-0 > 0.000001 && floatval($goods['mprice'])> 0.000001}  
+                                {eval echo sprintf("%.1f", ($goods['gprice']/$goods['mprice'])*10)} {lang fightgroups:szhe}
+                            {else}  
+                           
+                                {lang fightgroups:s10}
+                            {/if}
+                            </span>
+                        </div>
+                        <div>
+                            <p class="title">{$goods['gname']}</p>
+                            <label class="price">{lang fightgroups:s7}{$goods['gprice']}</label>
+                        </div>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+    </div>
+{/if}
+
+</section>
+</div>
+
+
+<!--{template fightgroups:index/footer}-->
+</body>
+</html>

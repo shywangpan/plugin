@@ -1,0 +1,374 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tcshop:mylist_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tcshop/images/shop_style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tcshop/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/layer_mobile/layer.js?v={$cssJsVersion}"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body>
+<!--{if $__HideHeader == 0 }-->
+<header class="header on ">
+   <section class="wrap">
+        <section class="sec-ico go-back" onclick="history.back();">{lang tom_tcshop:back}</section>
+        <h2>{lang tom_tcshop:mylist_title}</h2>
+   </section>
+</header>
+<!--{/if}-->
+<section class="mainer">
+   <section class="wrap">
+        <div class="tcui-navbar">
+             <a class="tcui-navbar__item <!--{if $type==0  }-->tcui-bar__item_on<!--{/if}-->" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=mylist&type=0">{lang tom_tcshop:mylist_nav_0} </a>
+             <a class="tcui-navbar__item <!--{if $type==1  }-->tcui-bar__item_on<!--{/if}-->" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=mylist&type=1">{lang tom_tcshop:mylist_nav_1} </a>
+             <a class="tcui-navbar__item <!--{if $type==2  }-->tcui-bar__item_on<!--{/if}-->" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=mylist&type=2">{lang tom_tcshop:mylist_nav_2} </a>
+             <a class="tcui-navbar__item <!--{if $type==4  }-->tcui-bar__item_on<!--{/if}-->" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=mylist&type=4">{lang tom_tcshop:mylist_nav_4} </a>
+        </div>
+        <section class="shop_list" style="padding-top: 3em;<!--{if $__HideHeader == 1 }-->margin-top: 0px;<!--{/if}-->">
+            <div class="list-item">
+                <!--{loop $tcshopList $key $val}-->
+                <div class="item-box clearfix">
+                    <!--{if $val['shenhe_status'] == 1 && $val['pay_status'] != 1}-->
+                    <div class="item-pic"><a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=details&tcshop_id={$val['id']}"><img src="{$val['picurl']}"></a></div>
+                    <!--{else}-->
+                    <div class="item-pic"><a href="javascript:void(0);"><img src="{$val['picurl']}"></a></div>
+                    <!--{/if}-->
+                    <div class="item-content">
+                        <div class="content">
+                            <h5>
+                                <!--{if $val['vip_level'] == 1 }-->
+                                <span class="text-icon">{lang tom_tcshop:mylist_vip_level_1}</span>
+                                <!--{else}-->
+                                <span class="text-icon">{lang tom_tcshop:mylist_vip_level_0}</span>
+                                <!--{/if}-->
+                                <!--{if $val['shenhe_status'] == 1 && $val['pay_status'] != 1}-->
+                                <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=details&tcshop_id={$val['id']}">{$val['name']}</a>
+                                <!--{else}-->
+                                <a href="javascript:void(0);">{$val['name']}</a>
+                                <!--{/if}-->
+                            </h5>
+                            <p class="xinxi">{lang tom_tcshop:mylist_clicks}&nbsp;{$val['clicks']}</p>
+                            <!--{if $val['pay_status'] == 0 || $val['pay_status'] == 2 }-->
+                            <p class="nr">{lang tom_tcshop:mylist_time}&nbsp;
+                                <!--{if $val['overTime'] == 1 }-->
+                                <font color="#fd0d0d">{lang tom_tcshop:mylist_time_1}</font>
+                                <!--{else}-->
+                                <font color="#fd0d0d">{$val['overTime']}</font>
+                                <!--{/if}-->
+                            </p>
+                            <!--{/if}-->
+                        </div>
+                        <div class="details" style="top: 0;">
+                            <!--{if $val['pay_status'] == 1 }-->
+                            <font color="#fd0d0d">{lang tom_tcshop:mylist_nopay}</font>
+                            <!--{else}-->
+                                <!--{if $val['shenhe_status'] == 1 }-->
+                                    <!--{if $val['status'] == 1 }-->
+                                    <font color="#238206">{lang tom_tcshop:mylist_status_1}</font>
+                                    <!--{/if}-->
+                                    <!--{if $val['status'] == 2 }-->
+                                    <font color="#fd0d0d">{lang tom_tcshop:mylist_status_2}</font>
+                                    <!--{/if}-->
+                                    <!--{if $val['status'] == 3 }-->
+                                    <font color="#fd0d0d">{lang tom_tcshop:mylist_status_3}</font>
+                                    <!--{/if}-->
+                                <!--{elseif $val['shenhe_status'] == 2}-->
+                                    <font color="#fd0d0d">{lang tom_tcshop:mylist_shenhe_status_2}</font>
+                                <!--{elseif $val['shenhe_status'] == 3}-->
+                                    <font color="#fd0d0d">{lang tom_tcshop:mylist_shenhe_status_3}</font>
+                                <!--{/if}-->
+                            <!--{/if}-->
+                        </div>
+                    </div>
+                </div>
+                <!--{if $val['pay_status'] == 1 }-->
+                <section class="btn-group">
+                    <a class="red" href="javascript:void(0);" onclick="pay({$val['id']});" style="min-width: 10em;">{lang tom_tcshop:mylist_pay_btn}</a>
+                </section>
+                <!--{else}-->
+                <section class="btn-group">
+                    <!--{if $val['is_ok'] == 1}-->
+                        <!--{if $val['shenhe_status'] == 1 }-->
+                            <!--{if $val['status'] == 1 }-->
+                                <!--{if $val['vip_level'] == 0 }-->
+                                <a href="javascript:void(0);" onclick="vipSure({$val['id']});" >{lang tom_tcshop:mylist_vip_btn}</a>
+                                <!--{/if}-->
+                                <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=buy&tcshop_id={$val['id']}">{lang tom_tcshop:mylist_top_btn}</a>
+                                <!--{if $__ShowTchongbao == 1}-->
+                                <a href="plugin.php?id=tom_tchongbao&site={$site_id}&mod=add_tcshop_hb&tcshop_id={$val['id']}">{lang tom_tcshop:mylist_hb_btn}</a>
+                                <!--{/if}-->
+                                <a href="javascript:void(0);" onclick="updateStatus2({$val['id']});" >{lang tom_tcshop:mylist_status2_btn}</a>
+                                <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=clerk&tcshop_id={$val['id']}" >{lang tom_tcshop:mylist_clerk_btn}</a>
+                            <!--{/if}-->
+                            <!--{if $val['status'] == 2 }-->
+                                <a href="javascript:void(0);" onclick="updateStatus1({$val['id']});" style="min-width: 10em;">{lang tom_tcshop:mylist_status1_btn}</a>
+                            <!--{/if}-->
+                            <!--{if $val['status'] == 3 }-->
+                                <a class="red" href="javascript:void(0);" onclick="xufeiSure({$val['id']});">{lang tom_tcshop:mylist_status3_btn}</a>
+                                <a class="red" href="javascript:void(0);" onclick="vipSure({$val['id']});" >{lang tom_tcshop:mylist_vip_btn}</a>
+                            <!--{/if}-->
+                        <!--{/if}-->
+                        <!--{if $val['status'] == 3 }-->
+                        <!--{else}-->
+                        <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=edit&tcshop_id={$val['id']}&fromlist=mylist">{lang tom_tcshop:mylist_edit_btn}</a>
+                        <a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=shop_focuspic&tcshop_id={$val['id']}">{lang tom_tcshop:mylist_edit_focuspic}</a>
+                        <!--{/if}-->
+                    <!--{else}-->
+                    <a class="red" href="plugin.php?id=tom_tcshop&site={$site_id}&mod=edit&tcshop_id={$val['id']}&fromlist=mylist" style="min-width: 10em;">{lang tom_tcshop:mylist_edit_is_ok_0}</a>
+                    <!--{/if}-->
+                </section>
+                <!--{/if}-->
+                <!--{/loop}-->
+            </div>
+        </section>
+       <div class="pages clearfix">
+            <ul class="clearfix">
+              <li style="width: 40%;"><!--{if $page > 1}--><a href="{$prePageUrl}">{lang tom_tcshop:pre_page}</a><!--{else}--><span>{lang tom_tcshop:pre_page}</span><!--{/if}--></li>
+              <li style="width: 20%;"><span>{$page}/{$allPageNum}</span></li>
+              <li style="width: 40%;"><!--{if $showNextPage == 1}--><a href="{$nextPageUrl}">{lang tom_tcshop:next_page}</a><!--{else}--><span>{lang tom_tcshop:next_page}</span><!--{/if}--></li>
+          </ul>
+        </div>
+   </section>
+</section>
+<section class="pic_info id-pic-tip box_hide clearfix" style="z-index: 999;height: 2000px;position: fixed;">
+	<div class="pic_info_in id-pic-tip-in" style="top: 0px; height: 550px; background-image: url();"></div>
+</section>
+{template tom_tcshop:footer}
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+   $.get("{$ajaxCommonClicksUrl}");
+});
+
+var submintPayStatus = 0;
+function pay(tcshop_id){
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    submintPayStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$payUrl}",
+        dataType : "json",
+        data: "tcshop_id="+tcshop_id,
+        success: function(data){
+            if(data.status == 200) {
+                tusi("{lang tom_tcshop:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},500);
+            }else if(data.status == 302){
+                tusi("{lang tom_tcshop:pay_error_302}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 303){
+                tusi("{lang tom_tcshop:pay_error_303}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 304){
+                tusi("{lang tom_tcshop:pay_error_304}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 400){
+                tusi("{lang tom_tcshop:pay_error_400}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tcshop:pay_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+}
+
+var submintPayStatus = 0;
+function vip(tcshop_id){
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    submintPayStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$vipUrl}",
+        dataType : "json",
+        data: "tcshop_id="+tcshop_id,
+        success: function(data){
+            if(data.status == 200) {
+                tusi("{lang tom_tcshop:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},500);
+            }else if(data.status == 302){
+                tusi("{lang tom_tcshop:pay_error_302}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 303){
+                tusi("{lang tom_tcshop:pay_error_303}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 304){
+                tusi("{lang tom_tcshop:pay_error_304}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 400){
+                tusi("{lang tom_tcshop:pay_error_400}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 500){
+                tusi("{lang tom_tcshop:mylist_vip_error_500}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tcshop:pay_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+}
+
+var submintPayStatus = 0;
+function xufei(tcshop_id){
+    if(submintPayStatus == 1){
+        return false;
+    }
+    
+    submintPayStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$xufeiUrl}",
+        dataType : "json",
+        data: "tcshop_id="+tcshop_id,
+        success: function(data){
+            if(data.status == 200) {
+                tusi("{lang tom_tcshop:pay_succ_200}");
+                setTimeout(function(){window.location.href=data.payurl+"&prand={$prand}";},500);
+            }else if(data.status == 302){
+                tusi("{lang tom_tcshop:pay_error_302}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 303){
+                tusi("{lang tom_tcshop:pay_error_303}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 304){
+                tusi("{lang tom_tcshop:pay_error_304}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 400){
+                tusi("{lang tom_tcshop:pay_error_400}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 500){
+                tusi("{lang tom_tcshop:mylist_xufei_error_500}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tcshop:pay_error}");
+                setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+}
+
+function vipSure(tcshop_id){
+    layer.open({
+        content: '{lang tom_tcshop:mylist_sure_vip_msg}{$upgradeVipBackScore}<br><a href="plugin.php?id=tom_tcshop&site={$site_id}&mod=article&act=vip"><b><font color="#fd0d0d">{lang tom_tcshop:mylist_vip_article}</font></b></a>'
+        ,btn: ['{lang tom_tcshop:mylist_sure_vip_ok}', '{lang tom_tcshop:mylist_no_btn}']
+        ,yes: function(index){
+          vip(tcshop_id);
+          layer.close(index);
+        }
+      });
+}
+
+function xufeiSure(tcshop_id){
+    layer.open({
+        content: '{lang tom_tcshop:mylist_sure_xufei_msg}'
+        ,btn: ['{lang tom_tcshop:mylist_sure_xufei_ok}', '{lang tom_tcshop:mylist_no_btn}']
+        ,yes: function(index){
+          xufei(tcshop_id);
+          layer.close(index);
+        }
+      });
+}
+
+function updateStatus1(tcshop_id){
+    layer.open({
+        content: '{lang tom_tcshop:mylist_sure_show_msg}'
+        ,btn: ['{lang tom_tcshop:mylist_sure_show_ok}', '{lang tom_tcshop:mylist_no_btn}']
+        ,yes: function(index){
+          $.ajax({
+                type: "GET",
+                url: "{$ajaxUpdateStatusUrl}",
+                data: "status=1&tcshop_id="+tcshop_id,
+                success: function(msg){
+                    if(msg == '200'){
+                        tusi("{lang tom_tcshop:mylist_sure_show_succ}");
+                        setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+                    }else{
+                        tusi("{lang tom_tcshop:mylist_do_error}");
+                    }
+                }
+            });
+            layer.close(index);
+        }
+      });
+}
+function updateStatus2(tcshop_id){
+    layer.open({
+        content: '{lang tom_tcshop:mylist_sure_hide_msg}'
+        ,btn: ['{lang tom_tcshop:mylist_sure_hide_ok}', '{lang tom_tcshop:mylist_no_btn}']
+        ,yes: function(index){
+          $.ajax({
+                type: "GET",
+                url: "{$ajaxUpdateStatusUrl}",
+                data: "status=2&tcshop_id="+tcshop_id,
+                success: function(msg){
+                    if(msg == '200'){
+                        tusi("{lang tom_tcshop:mylist_sure_hide_succ}");
+                        setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+                    }else{
+                        tusi("{lang tom_tcshop:mylist_do_error}");
+                    }
+                }
+            });
+          layer.close(index);
+        }
+      });
+}
+</script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage',
+      'previewImage',
+      'openLocation', 
+      'getLocation'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () {
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

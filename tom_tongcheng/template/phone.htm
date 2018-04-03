@@ -1,0 +1,228 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:phone_title}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery.min-2.1.3.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body class="body-white">
+<header class="header on ">
+    <section class="wrap">
+        <section class="sec-ico go-back" onclick="history.back();">{lang tom_tongcheng:back}</section>
+        <h2>{lang tom_tongcheng:phone_title}</h2>
+    </section>
+</header>
+<section class="mainer">
+    <section class="wrap">
+        <form name="phoneForm" id="phoneForm">
+            <div class="tcui-cells tcui-cells_form">
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:phone_tel}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <input class="tcui-input" type="tel" name="tel" id="tel" maxlength="11" value="{$__UserInfo['tel']}" placeholder="{lang tom_tongcheng:phone_tel_msg}">
+                    </div>
+                </div>
+                <!--{if $showPwdInput == 1 }-->
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:phone_pwd}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <input class="tcui-input" type="password" name="pwd" id="pwd" value="" placeholder="{lang tom_tongcheng:phone_pwd_msg}">
+                    </div>
+                </div>
+                <!--{/if}-->
+                <div class="tcui-cell tcui-cell_vcode">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:phone_tel_code}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <input class="tcui-input" type="tel" name="tel_code" id="tel_code" placeholder="{lang tom_tongcheng:phone_tel_code_msg}">
+                    </div>
+                    <div class="tcui-cell__ft">
+                        <a id="receive" class="phone-code-btn tcui-vcode-btn ajax-get pointer">{lang tom_tongcheng:phone_tel_code_btn}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="phone-prompt">{lang tom_tongcheng:phone_prompt}</div>
+            <div class="phone-prompt"><font color="#fd0d0d">{lang tom_tongcheng:phone_prompt2}</font></div>
+            <section class="page_rgs">
+                <section class="btn-group">
+                    <input type="hidden" name="formhash" value="{$formhash}">
+                    <input type="button" class="tcui-btn tcui-btn_primary id_phone_form_btn" value="{lang tom_tongcheng:phone_btn}">
+                </section>
+            </section>
+        </form>
+    </section>
+</section>
+<script>
+
+var submintTelStatus = 0;
+$('#receive').click(function(){
+    if(submintTelStatus == 1){
+        return;
+    }
+    
+    var tel = $('#tel').val();       
+    if(tel == '' || !checkMobile(tel)){
+        tusi("{lang tom_tongcheng:phone_tel_error}");
+        return false;
+    }
+    submintTelStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$phoneUrl}",
+        data: {act:"huoqu",tel:tel},
+        success: function(msg){
+            //submintTelStatus = 0;
+            var data = eval('('+msg+')');
+            if(data.status == 200){
+                setTimeout(function(){ wait()},1000);
+                $('#tel').attr('readonly', 'true');
+                tusi("{lang tom_tongcheng:phone_sms_send_succ}");
+            }else if(data.status == 301){
+                tusi("{lang tom_tongcheng:phone_sms_send_301}");
+                return false;
+            }else if(data.status == 302){
+                tusi("{lang tom_tongcheng:phone_sms_send_302}");
+                return false;
+            }else if(data.status == 404){
+                tusi("{lang tom_tongcheng:phone_sms_send_404}");
+                return false;
+            }else{
+                tusi("{lang tom_tongcheng:phone_sms_send_error}");
+                return false;
+            }
+        }
+    });
+})
+
+var num = 60;
+function wait(){
+    num--;
+    if(num>0){
+        $('#receive').html(num+'s');
+        setTimeout(function(){wait()},1000);
+    }else{
+        num = 60;
+        submintTelStatus = 0;
+        $('#receive').html('{lang tom_tongcheng:phone_tel_code_btn}');
+    }
+}
+
+var submintStatus = 0;
+
+$(".id_phone_form_btn").click( function () {
+    
+    if(submintStatus == 1){
+        return false;
+    }
+    
+    var tel = $("#tel").val();
+    var tel_code = $("#tel_code").val();
+    
+    if(tel == ""){
+        tusi("{lang tom_tongcheng:phone_tel_error}");
+        return false;
+    }
+    <!--{if $showPwdInput == 1 }-->
+    var pwd = $("#pwd").val();
+    if(pwd == ""){
+        tusi("{lang tom_tongcheng:phone_pwd_error}");
+        return false;
+    }
+    <!--{/if}-->
+    if(tel_code.length != 6){
+        tusi("{lang tom_tongcheng:phone_save_code_error}");
+        return false;
+    }
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$saveUrl}",
+        data: $('#phoneForm').serialize(),
+        success: function(msg){
+            submintStatus = 0;
+            var data = eval('('+msg+')');
+            if(data.status==201){
+                tusi("{lang tom_tongcheng:phone_save_201}");
+                return false;
+            }else if(data.status==202){
+                tusi("{lang tom_tongcheng:phone_save_202}");
+                return false;
+            }else if(data.status==203){
+                tusi_h("{lang tom_tongcheng:phone_save_203}");
+                return false;
+            }else{
+                tusi("{lang tom_tongcheng:phone_save_succ}");
+                <!--{if $phone_back }-->
+                setTimeout(function(){window.location.href='{$phone_back}';},1888);
+                <!--{else}-->
+                setTimeout(function(){window.location.href='plugin.php?id=tom_tongcheng&site={$site_id}&mod=personal&act=set';},1888);
+                <!--{/if}-->
+            }
+        }
+    });
+});
+
+function checkMobile(s){
+	var regu =/^[1][3|8|4|5|7][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+</script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

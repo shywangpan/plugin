@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html><head>
+<title>{lang tom_tongcheng:addressedit_title}</title>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body class="body-white">
+<header class="header on">
+    <section class="wrap">
+        <section class="sec-ico go-back" onclick="history.back();">{lang tom_tongcheng:back}</section>
+        <h2>{lang tom_tongcheng:addressedit_title}</h2>
+    </section>
+</header>
+<section class="mainer">
+    <section class="wrap">
+        <form id="edit_form" method="post" action="" onsubmit="return false;">
+            <div class="tcui-cells tcui-cells_form">
+                <div class="tcui-cell tcui-cell_switch">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:addressadd_default}</label>
+                    </div>
+                    <div class="tcui-cell__ft">
+                        <input class="tcui-switch" name="adddefault" id="adddefault" value="1" type="checkbox" <!--{if $addressInfo['default_id'] == 1}-->checked="checked"<!--{/if}-->>
+                    </div>
+                </div>
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:addressadd_shouhuoren}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <input class="tcui-input" type="text" id="addxm" name="addxm" value="{$addressInfo['xm']}" placeholder="{lang tom_tongcheng:addressadd_shouhuoren_xm}">
+                    </div>
+                </div>
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:addressadd_shoujihao}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <input class="tcui-input" type="text" id="addtel" name="addtel" value="{$addressInfo['tel']}" placeholder="{lang tom_tongcheng:addressadd_shoujihao}">
+                    </div>
+                </div>
+                <div class="tcui-cell">
+                    <div class="tcui-cell__hd">
+                        <label class="tcui-label">{lang tom_tongcheng:addressadd_area}</label>
+                    </div>
+                    <div class="tcui-cell__bd">
+                        <div id="choseCity"><font color="#8e8e8e">{$provinceName} {$cityName} {$areaName}</font></div>
+                        <input type="hidden" name="province" id="province" value="{$addressInfo['province_id']}">
+                        <input type="hidden" name="city" id="city" value="{$addressInfo['city_id']}">
+                        <input type="hidden" name="area" id="area" value="{$addressInfo['area_id']}">
+                    </div>
+                </div>
+                <div class="tcui-cell">
+                    <div class="tcui-cell__bd">
+                        <textarea class="tcui-textarea" name="addinfo" id="addinfo" placeholder="{lang tom_tongcheng:addressadd_info}" rows="3">{$addressInfo['info']}</textarea>
+                    </div>
+                </div>
+            </div>
+            <section class="page_rgs">
+                <section class="btn-group">
+                    <input type="hidden" name="address_id" value="{$address_id}">
+                    <input type="hidden" name="act" value="editsave">
+                    <input type="hidden" name="formhash" value="{$formhash}">
+                    <input type="button" class="tcui-btn tcui-btn_primary id_edit_form_btn" value="{lang tom_tongcheng:addressadd_btn}">
+                    <input type="button" class="tcui-btn tcui-btn_default" onclick="javascript:window.location.href='{$delUrl}{$address_id}'" value="{lang tom_tongcheng:addressadd_del_btn}">
+                </section>
+            </section>
+        </form>
+    </section>
+</section>
+<script>var city = eval(decodeURIComponent('{$aData}'));var selectedIndex = [0,0,0];</script>
+<!--{if $isGbk}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.min.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.address.gbk.js"></script>
+<!--{else}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.min.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.address.utf8.js"></script>
+<!--{/if}-->
+<script src="//res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript"></script>
+<script>
+
+var submintStatus = 0;
+$(".id_edit_form_btn").click( function () { 
+    
+    if(submintStatus == 1){
+        return false;
+    }
+    
+    var addxm       = $("#addxm").val();
+    var addtel      = $("#addtel").val();
+    var province    = $("#province").val();
+    var addinfo     = $("#addinfo").val();
+    
+    if(addxm == ""){
+        tusi("{lang tom_tongcheng:addressadd_must_xm}");
+        return false;
+    }
+    if(addtel == ""){
+        tusi("{lang tom_tongcheng:addressadd_must_tel}");
+        return false;
+    }
+    if(province == 0){
+        tusi("{lang tom_tongcheng:addressadd_must_area}");
+        return false;
+    }
+    if(addinfo == ""){
+        tusi("{lang tom_tongcheng:addressadd_must_info}");
+        return false;
+    }
+    
+    submintStatus = 1;
+    $.ajax({
+        type: "GET",
+        url: "{$ajaxSaveUrl}",
+        data: $('#edit_form').serialize(),
+        success: function(msg){
+            submintStatus = 0;
+            if(msg == '400'){
+                tusi("{lang tom_tongcheng:addressadd_error}");
+            }else{
+                tusi("{lang tom_tongcheng:addressadd_succ}");
+                setTimeout(function(){window.location.href='{$addressUrl}';},1888);
+            }
+        }
+    });
+});
+
+wx.config({
+    debug: false,
+    appId: '{$wxJssdkConfig["appId"]}',
+    timestamp: {$wxJssdkConfig["timestamp"]},
+    nonceStr: '{$wxJssdkConfig["nonceStr"]}',
+    signature: '{$wxJssdkConfig["signature"]}',
+    jsApiList: [
+      'onMenuShareTimeline',
+      'onMenuShareAppMessage'
+    ]
+});
+wx.ready(function () {
+    wx.onMenuShareTimeline({
+        title: '{$shareTitle}',
+        link: '{$shareUrl}', 
+        imgUrl: '{$shareLogo}', 
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+    wx.onMenuShareAppMessage({
+        title: '{$shareTitle}',
+        desc: '{$shareDesc}',
+        link: '{$shareUrl}',
+        imgUrl: '{$shareLogo}',
+        type: 'link',
+        dataUrl: '',
+        success: function () { 
+        },
+        cancel: function () { 
+        }
+    });
+});
+</script>
+</body>
+</html>

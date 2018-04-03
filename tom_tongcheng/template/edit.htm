@@ -1,0 +1,419 @@
+<!DOCTYPE html><html>
+<head>
+<!--{if $isGbk}-->
+<meta http-equiv="Content-Type" content="text/html; charset=GBK">
+<!--{else}-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--{/if}-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no" />
+<title>{lang tom_tongcheng:edit_title} - {$__SitesInfo['name']}</title>
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/style.css?v={$cssJsVersion}" />
+<link rel="stylesheet" href="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.css" />
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    var commonjspath = 'source/plugin/tom_tongcheng/images';
+</script>
+<script src="source/plugin/tom_tongcheng/images/common.js?v={$cssJsVersion}" type="text/javascript"></script>
+</head>
+<body>
+<header class="header header-index on in2">
+   <section class="wrap">
+        <!--{if $__HideHeader == 0 }-->
+        <!--{if $_GET['fromlist'] == 'mylist' }-->
+        <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=mylist"><section class="sec-ico go-back">{lang tom_tongcheng:back}</section></a>
+        <!--{elseif $_GET['fromlist'] == 'managerList'}-->
+        <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=managerList"><section class="sec-ico go-back">{lang tom_tongcheng:back}</section></a>
+        <!--{else}-->
+        <section class="sec-ico go-back" onclick="history.back();">{lang tom_tongcheng:back}</section>
+        <!--{/if}-->
+        <!--{/if}-->
+        <h2>{lang tom_tongcheng:edit_title}</h2>
+        <section class="sec-ico btn slide-btn">
+            <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=article">{lang tom_tongcheng:fabu_xuzhi_title}</a>
+        </section>
+   </section>
+</header>
+<form class="mainer" name="saveForm" id="saveForm" >
+   <section class="wrap edit-form">
+        <!--{if $typeInfo['warning_msg']}-->
+        <div class="tcui-cells__title">
+             <section style="padding:10px;background: #eff9ff;line-height:1.5;letter-spacing: 1px;">
+                <p style="color:#f8a543">{$typeInfo['warning_msg']}</p>
+             </section>
+        </div>
+       <!--{/if}-->
+        <section class="edit-item">
+            <!--{if $__ShowTcshop == 1 && $__UserInfo['id'] == $tongchengInfo['user_id']}-->
+            <!--{if $tcshopList}-->
+             <section class="input-control ">
+                  <span>{lang tom_tongcheng:fabu_step2_tcshop_id}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="tcshop_id" id="tcshop_id" class="tcui-select">
+                                <option value="0"> {lang tom_tongcheng:fabu_step2_tcshop_all_name}</option>
+                                <!--{loop $tcshopList $key $val}-->
+                                <option value="{$val['id']}" <!--{if $tongchengInfo['tcshop_id'] == $val['id']}-->selected<!--{/if}-->> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{/if}-->
+            <!--{/if}-->
+            <section class="input-control ">
+                  <span>{lang tom_tongcheng:edit_model_title}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                           <a style="width: 100%;height: 100%;display: block;" href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=editcate&tongcheng_id={$tongcheng_id}&fromlist={$_GET['fromlist']}">{$modelInfo['name']} {$typeInfo['name']}</a>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{if $tongchengConfig['open_fabu_title'] == 1}-->
+            <section class="input-control ">
+                <span>{lang tom_tongcheng:fabu_step2_title}</span>
+                <section class="user-fav">
+                    <section class="sec-input">
+                        <input type="text" name="title" id="title" placeholder="{lang tom_tongcheng:fabu_step2_title_msg}" value="{$tongchengInfo['title']}" />
+                    </section>
+                    <div class="frt"></div>
+                </section>
+            </section>
+            <!--{/if}-->
+            <!--{if $cateList}-->
+             <section class="input-control ">
+                  <span>{$typeInfo['cate_title']}</span>
+                  <section class="user-fav">
+                       <section class="sec-input">
+                            <select name="cate_id" id="cate_id" class="tcui-select">
+                                <!--{loop $cateList $key $val}-->
+                                <option value="{$val['id']}" <!--{if $val['id']==$tongchengInfo['cate_id'] }-->selected<!--{/if}-->> {$val['name']}</option>
+                                <!--{/loop}-->
+                            </select>
+                       </section>
+                       <div class="frt">
+                            <div class="right-arrow"></div>
+                       </div>
+                  </section>
+             </section>
+            <!--{/if}-->
+            <!--{if $attrList}-->
+            <!--{loop $attrList $key $val}-->
+                <section class="input-control ">
+                      <span>{$val['name']}</span>
+                      <input type="hidden" name="attrname_{$val['id']}" value="{$val['name']}">
+                      <input type="hidden" name="attrpaixu_{$val['id']}" value="{$val['paixu']}">
+                      <input type="hidden" name="attrunit_{$val['id']}" value="{$val['unit']}">
+                      <section class="user-fav">
+                           <section class="sec-input">
+                               <!--{if $val['type'] == 1}-->
+                               <input type="text" name="attr_{$val['id']}" id="attr_{$val['id']}" placeholder="{$val['name']}" value="{$tongchengAttrList[$val['id']]}"  />
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 2}-->
+                               <select name="attr_{$val['id']}" id="attr_{$val['id']}" class="tcui-select" >
+                                    <!--{loop $val['list'] $kk $vv}-->
+                                    <option value="{$vv}" <!--{if $vv==$tongchengAttrList[$val['id']] }-->selected<!--{/if}-->>{$vv}</option>
+                                    <!--{/loop}-->
+                                </select>
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 3}-->
+                               <input class="tcui-input" type="datetime-local" name="attrdate_{$val['id']}" id="attrdate_{$val['id']}" value="{$tongchengAttrList[$val['id']]}" max="{$maxDateTime}" min="{$minDateTime}" />
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 4}-->
+                               <div class="tcui-cells tcui-cells_checkbox" style="margin-top: 0px;line-height: 30px;">
+                                   <!--{loop $val['list'] $kk $vv}-->
+                                    <label class="tcui-cell-cell tcui-check__label clearfix" for="s_{$val['id']}_{$kk}">
+                                        <div class="tcui-cell__hd" style="float: left;">
+                                            <input type="checkbox" class="tcui-check" name="attr_{$val['id']}[]" value="{$vv['value']}" id="s_{$val['id']}_{$kk}" <!--{if $vv['check'] == 1 }-->checked="checked"<!--{/if}-->>
+                                            <i class="tcui-icon-checked"></i>
+                                        </div>
+                                        <div class="tcui-cell__bd" style="float: left;">
+                                            <p>{$vv['value']}</p>
+                                        </div>
+                                    </label>
+                                   <!--{/loop}-->
+                                </div>
+                               <!--{/if}-->
+                               <!--{if $val['type'] == 5}-->
+                               <input type="number" name="attr_{$val['id']}" id="attr_{$val['id']}" placeholder="{$val['name']}" value="{$tongchengAttrList[$val['id']]}"  />
+                               <!--{/if}-->
+                           </section>
+                           <div class="frt"><!--{if $val['unit']}-->/{$val['unit']}<!--{elseif $val['type'] == 3}--><div class="right-arrow"></div><!--{/if}--></div>
+                      </section>
+                 </section>
+            <!--{/loop}-->
+            <!--{/if}-->
+            <section class="input-control " <!--{if $modelInfo['area_select'] == 0  }-->style="display: none;"<!--{/if}-->>
+                 <span>{lang tom_tongcheng:fabu_step2_city}</span>
+                 <section class="user-fav">
+                      <section class="sec-input">
+                           <div id="choseCity"><!--{if $areaName  }-->{$areaName} {$streetName}<!--{else}--><font color="#8e8e8e">{lang tom_tongcheng:fabu_step2_city_msg}</font><!--{/if}--></div>
+                           <input type="hidden" name="area_id" id="area_id" value="{$tongchengInfo['area_id']}">
+                           <input type="hidden" name="street_id" id="street_id" value="{$tongchengInfo['street_id']}">
+                      </section>
+                      <div class="frt"></div>
+                 </section>
+            </section>
+             <section class="input-control clear bb0">
+                  <div style="line-height: 3em;">{$typeInfo['desc_title']}</div>
+                  <section class="textarea">
+                       <section class="sec-input">
+                            <textarea name="content" id="content" maxlength="10000" placeholder="{$typeInfo['desc_content']}">{$content}</textarea>
+                       </section>
+                  </section>
+             </section>
+            <!--{if $tagList}-->
+             <section class="input-control clear input-control-hide-title">
+                  <span>-</span>
+                  <section class="user-fav">
+                       <section class="sec-input small-line">
+                            <div data-max="5">
+                                 <!--{loop $tagList $key $val}-->
+                                 <input type="checkbox" id="check-fuli-{$val['id']}" name="tag[]" value="{$val['id']}" <!--{if $tongchengTagList[$val['id']]==1 }-->checked="checked"<!--{/if}--> class="file-hide checkbox-label-item" />
+                                 <label for="check-fuli-{$val['id']}">{$val['name']}</label>
+                                 <input type="hidden" name="tagname_{$val['id']}" value="{$val['name']}">
+                                 <!--{/loop}-->
+                            </div>
+                       </section>
+                  </section>
+             </section>
+            <!--{/if}-->
+             <section class="input-control ">
+                  <ul>
+                      <div id="photolist" class="clearfix">
+                          <!--{loop $tongchengPhotoList $key $val}-->
+                          <li class="li_{$val['li_i']}">
+                              <section class="img">
+                                  <img src="{$val['src']}" />
+                                  <input type="hidden" name="photo_{$val['li_i']}" value="{$val['picurl']}"/>
+                              </section>
+                              <div class=" close pic-delete-btn pointer" onclick="picremove({$val['li_i']});">&nbsp;X&nbsp;</div>
+                          </li>
+                          <!--{/loop}-->
+                      </div>
+                       <li>
+                            <section class="img pic-upload-btn" id="picpic-btn">
+                                <!--{if $is_weixin == 0}-->
+                                <input type="file" name="filedata1" id="filedata1" class="post-upload-fileprew"  />
+                                <!--{/if}-->
+                                <img src="source/plugin/tom_tongcheng/images/img7.png" />
+                            </section>
+                       </li>
+                       <li class="li_text"><span>{lang tom_tongcheng:fabu_step2_photo_1}{$tongchengConfig['max_photo_num']}{lang tom_tongcheng:fabu_step2_photo_2} </span></li>
+                  </ul>
+             </section>
+        </section>
+        <section class="input-control ">
+             <span>{lang tom_tongcheng:fabu_step2_xm}</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                       <input type="text" name="xm" id="xm" placeholder="{lang tom_tongcheng:fabu_step2_xm_msg}" value="{$tongchengInfo['xm']}" />
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+        <section class="input-control ">
+             <span>{lang tom_tongcheng:fabu_step2_tel}</span>
+             <section class="user-fav">
+                  <section class="sec-input">
+                       <input type="text" name="tel" id="tel" placeholder="{lang tom_tongcheng:fabu_step2_tel_msg}" value="{$tongchengInfo['tel']}"  />
+                  </section>
+                  <div class="frt"></div>
+             </section>
+        </section>
+       <section class="input-control">
+             <span class="slide-btn" data-target="advance-slide" data-html="1">{lang tom_tongcheng:fabu_step2_tiaok_title}</span>
+             <section>
+                 <input type="checkbox" name="xieyi" id="xieyi" value="1" checked/> <a href="plugin.php?id=tom_tongcheng&site={$site_id}&mod=article">{lang tom_tongcheng:fabu_step2_agree_msg}</a> 
+             </section>
+        </section>
+   </section>
+   <section class="btn-group-block">
+        <button type="button" id="id_save_btn" class="id_save_btn">{lang tom_tongcheng:edit_save_btn}</button>
+        <input type="hidden" name="formhash" value="{$formhash}">
+        <input type="hidden" name="tongcheng_id" value="{$tongcheng_id}">
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+        <div class="clear10"></div>
+   </section>
+</form>
+<script>var city = eval(decodeURIComponent('{$cityData}'));var selectedIndex = [{$chooseI}, {$chooseJ}];</script>
+<!--{if $isGbk}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.min.gbk.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.fabu.gbk.js"></script>
+<!--{else}-->
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/mobiscroll/mobiscroll.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.min.utf8.js"></script>
+<script type="text/javascript" src="source/plugin/tom_tongcheng/images/picker/picker.fabu.utf8.js"></script>
+<!--{/if}-->
+<script src="//res.wx.qq.com/open/js/jweixin-1.3.2.js" type="text/javascript"></script>
+<script>
+var li_i = '{$photoCount}';
+li_i = li_i*1 + 1;
+var count = '{$photoCount}';
+count = count*1;
+var max_photo_num   = "{$tongchengConfig['max_photo_num']}";
+max_photo_num       = max_photo_num*1;
+
+var submintSaveStatus = 0;
+$(".id_save_btn").click( function (){
+    if(submintSaveStatus == 1){
+        return false;
+    }
+    
+    var xm          = $("#xm").val();
+    var tel         = $("#tel").val();
+    var content      = $("#content").val();
+    var area_id      = $("#area_id").val();
+    var street_id      = $("#street_id").val();
+    
+    <!--{if $tongchengConfig['open_fabu_title'] == 1}-->
+    var title          = $("#title").val();
+    if(title == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_title}");
+        return false;
+    }
+    <!--{/if}-->
+    
+    <!--{if $attrList}-->
+    <!--{loop $attrList $key $val}-->
+        <!--{if $val['is_must'] == 1}-->
+            var attr_{$val['id']} = $('#attr_{$val["id"]}').val();
+            <!--{if $val['type'] == 1}-->
+            if(attr_{$val['id']} == ''){
+                tusi('{lang tom_tongcheng:fabu_step2_must}{$val["name"]}');
+                return false;
+            }
+            <!--{elseif $val['type'] == 2}-->
+            if(attr_{$val['id']} == 0){
+                tusi('{lang tom_tongcheng:fabu_step2_must}{$val["name"]}');
+                return false;
+            }
+            <!--{elseif $val['type'] == 3}-->
+            if(attr_{$val['id']} == ''){
+                tusi('{lang tom_tongcheng:fabu_step2_must}{$val["name"]}');
+                return false;
+            }
+            <!--{/if}-->
+        <!--{/if}-->
+    <!--{/loop}-->        
+    <!--{/if}-->
+    
+    if($('#xieyi').attr("checked")) {
+    }else{
+        tusi("{lang tom_tongcheng:fabu_step2_must_xieyi}");
+        return false;
+    }
+    
+    <!--{if $modelInfo['area_select'] == 1  }-->
+    if(area_id == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_area}");
+        return false;
+    }
+    <!--{/if}-->
+    
+    if(xm == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_xm}");
+        return false;
+    }
+    <!--{if $tongchengConfig['fabu_phone_check'] == 1  }-->
+    if(tel == "" || !checkMobile(tel)){
+        tusi("{lang tom_tongcheng:fabu_step2_must_tel}");
+        return false;
+    }
+    <!--{else}-->
+    if(tel == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must_tel}");
+        return false;
+    }
+    <!--{/if}-->
+    if(content == ""){
+        tusi("{lang tom_tongcheng:fabu_step2_must}{$typeInfo['desc_title']}");
+        return false;
+    }
+    
+    if(count > max_photo_num){
+        tusi("{lang tom_tongcheng:fabu_step2_over_photo}");
+        return false;
+    }
+    
+    loading('{lang tom_tongcheng:doing}');
+    submintSaveStatus = 1;
+    $.ajax({
+        type: "POST",
+        url: "{$saveUrl}",
+        dataType : "json",
+        data: $('#saveForm').serialize(),
+        success: function(data){
+            submintSaveStatus = 0;
+            loading(false);
+            if(data.status == 200) {
+                tusi("{lang tom_tongcheng:edit_success}");
+                <!--{if $_GET['fromlist'] == 'mylist' }-->
+                setTimeout(function(){window.location.href='plugin.php?id=tom_tongcheng&site={$site_id}&mod=mylist';},1888);
+                <!--{elseif $_GET['fromlist'] == 'managerList'}-->
+                setTimeout(function(){window.location.href='plugin.php?id=tom_tongcheng&site={$site_id}&mod=managerList';},1888);
+                <!--{/if}-->
+            }else if(data.status == 404){
+                tusi("{lang tom_tongcheng:fabu_step2_error_404}");
+                //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else if(data.status == 505){
+                tusi("{lang tom_tongcheng:fabu_step2_error_505}"+data.word);
+                //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }else{
+                tusi("{lang tom_tongcheng:edit_error}");
+                //setTimeout(function(){window.location.href=window.location.href+"&prand={$prand}";},1888);
+            }
+        }
+    });
+});
+
+function checkMobile(s){
+	var regu =/^[1][3|8|4|5|7][0-9]{9}$/;
+	var re = new RegExp(regu);
+	if (re.test(s)) {
+		return true;
+	}else{
+		return false;
+	}
+}
+
+$(document).ready(function() {
+    var a = (new Date).getFullYear();
+    $("input[type=date]").each(function() {
+        $(this).mobiscroll().date({
+            startYear: a - 60,
+            endYear: a + 10
+        })
+    }),
+    $("input[type=datetime-local]").mobiscroll().datetime({
+        startYear: a - 60,
+        endYear: a + 10
+    })
+});
+
+function picremove(i){
+    $(".li_"+i).remove();
+    count--;
+}
+
+$(document).on("click", ".checkbox-label-item",function() {
+    var t = $(this).parent(),
+    a = parseInt(t.data("max"), 10) || 0;
+    a > 0 && $(this).is(":checked") && t.find("input:checked").length > a && ($(this).prop("checked", !1), tusi("{lang tom_tongcheng:fabu_step2_only_choose_1}" + a + "{lang tom_tongcheng:fabu_step2_only_choose_2}"))
+});
+</script>
+<!--{if $is_weixin == 1}-->
+{template tom_tongcheng:wx_upload}
+<!--{else}-->
+{template tom_tongcheng:new_upload}
+<!--{/if}-->
+</body>
+</html>
